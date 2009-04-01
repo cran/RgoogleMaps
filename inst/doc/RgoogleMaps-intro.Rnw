@@ -7,7 +7,8 @@
                      
                      {\newcommand{\email}{\text}}
 
-\usepackage[final]{graphics}
+\usepackage{subfigure}
+\usepackage[pdftex]{graphicx}
 %\Keywords{Google map tiles, Google static maps, map coordinates}
 
 %\Abstract{
@@ -35,24 +36,17 @@ The Google Static Maps API (\url{http://code.google.com/apis/maps/documentation/
 \item Use the map as a background image to overlay plots within R. This requires proper coordinate scaling.
 \end{itemize}
 \begin{figure}[ht]
-\begin{minipage}[b]{0.5\linewidth}
-\centering
-   \resizebox{.975 \textwidth}{!}{\includegraphics[0,0][640,640]{MyTile1.jpg}}
-    \caption{Static map with markers}
-\end{minipage}
-\begin{minipage}[b]{0.5\linewidth}
-\centering
-\resizebox{.975 \textwidth}{!}{\includegraphics[0,0][640,640]{MyTile2.jpg}}
-    \caption{Static (mobile) map}
-\end{minipage}
+\subfigure{\includegraphics[width=.5 \textwidth]{MyTile1.jpg}}
+\subfigure{\includegraphics[width=.5 \textwidth]{MyTile2.jpg}}
+    \caption{(a) Static map with markers, (b) Static (mobile) map}
 \end{figure}
 
-\noindent The first step naturally will be to download a static map from the Google server. A simple example (Fig1):
+\noindent The first step naturally will be to download a static map from the Google server. A simple example (Fig 1a):
 \begin{verbatim}
   GetMap(markers = '40.702147,-74.015794,blues%7C40.711614,-74.012318,greeng
                   %7C40.718217,-73.998284,redc', destfile = "MyTile1.png")
 \end{verbatim}
-Of course, one can do without the markers and/or just pass a bounding box (Figs 2 and 3):
+Of course, one can do without the markers and/or just pass a bounding box (Figs 1b and 2a):
 \begin{verbatim}
   GetMap(center=c(40.714728,-73.99867), zoom =14, destfile = "MyTile2.png",
                maptype = "mobile");
@@ -61,20 +55,11 @@ Of course, one can do without the markers and/or just pass a bounding box (Figs 
             TYPE = "all", margin = list(m=rep(5,4), TYPE = c("perc", "abs")[1]));
   MyMap <- GetMap.bbox(bb$lonR, bb$latR,destfile = "MyTile3.png", maptype = "satellite")
 \end{verbatim}
-
-\begin{figure}[thb]
-  \begin{minipage}[b]{0.5\linewidth}
-\centering
-   \resizebox{.975 \textwidth}{!}{\includegraphics[0,0][640,640]{MyTile3.jpg}}
-    \caption{Static (satellite) map}
-  \end{minipage}
-  \begin{minipage}[b]{0.5\linewidth}
-\centering
-\resizebox{.975 \textwidth}{!}{\includegraphics[0,0][640,640]{OverlayTest.jpg}}
-    \caption{Testing point overlay}
-\end{minipage}
+\begin{figure}[ht]
+\subfigure{\includegraphics[width=.5 \textwidth]{MyTile3.jpg}}
+\subfigure{\includegraphics[width=.5 \textwidth]{OverlayTest.jpg}}
+    \caption{(a) Static (satellite) map, (b)Testing point overlay}
 \end{figure}
-
 
 \noindent The function qbbox() basically computes a bounding box for the given lat,lon points with a few additional options such as quantile boxes, additional buffers, etc.
 In order to plot the map we need the package $rgdal$.
@@ -87,7 +72,7 @@ Thanks to Neil Young (see \url{http://groups.google.com/group/Google-Maps-API/br
 \noindent The choice of a proper zoom value is made easy via the function $MaxZoom()$ which finds the maximum zoom level that fits the provided lat/lon ranges obeying the max size limitation of $640 \times 640$ pixels.
 
 \noindent The main function that overlays points (can easily be extended to lines or any other object) is $PlotOnStaticMap()$.
-The following simple sequence of calls serves to test the coincidence of the markers placed by Google and the corresponding points overlaid by $PlotOnStaticMap()$, see Fig. 4. Note that we convert the map to grayscale first to make the colored points more discernible.
+The following simple sequence of calls serves to test the coincidence of the markers placed by Google and the corresponding points overlaid by $PlotOnStaticMap()$, see Fig. 2b. Note that we convert the map to grayscale first to make the colored points more discernible.
 \begin{verbatim}
 #Define the markers:
   mymarkers <- cbind.data.frame(lat = c(38.898648,38.889112, 38.880940), 
@@ -115,7 +100,7 @@ The following simple sequence of calls serves to test the coincidence of the mar
 \noindent Geothermal power has been produced at Coso since 1987 by a private contractor for the U.S. Navy, which acquired the land in 1943 as part of the China Lake Naval Air Weapons Station. The power is sold into the local utility grid.
 
 \noindent The package $geomapdata$ contains a dataframe $cosomap$ which contains location information on the "Coso Geothermal Region Faults and Geology".
-The following commands plot the fault lines on a Google map tile (Fig. 5):
+The following commands plot the fault lines on a Google map tile (Fig. 3):
 \begin{verbatim}
  library(geomapdata);
  bb <- qbbox(lon=cosomap$POINTS$lon-360,lat=cosomap$POINTS$lat)
@@ -126,7 +111,7 @@ The following commands plot the fault lines on a Google map tile (Fig. 5):
 
 \begin{figure}[thb]
 \centering
-   \resizebox{.975 \textwidth}{!}{\includegraphics[0,0][640,640]{Coso.jpg}}
+   \includegraphics[width = .975 \textwidth]{Coso.jpg}
     \caption{Coso Geothermal Region Faults}
 \end{figure}
 
