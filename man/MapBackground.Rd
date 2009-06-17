@@ -30,7 +30,7 @@
  }
 \references{ }
 \author{Markus Loecher, Sense Networks <markus@sensenetworks.com> }
-\note{ }
+\note{ To handle png file formats, you will need the package rgdal installed, for jpeg the package ReadImages.}
 \seealso{ }
 \examples{
 ##---- Should be DIRECTLY executable !! ----

@@ -1,9 +1,10 @@
 Package: RgoogleMaps
 Type: Package
 Title: Overlays on Google map tiles in R
-Version: 1.1.2
-Date: 2009-04-01
-Depends: rgdal
+Version: 1.1.3
+Date: 2009-06-17
+Depends: ReadImages
+Suggests: rgdal
 Author: Markus Loecher, Sense Networks
 Maintainer: Markus Loecher, Sense Networks <markus@sensenetworks.com>
 Description: This package serves two purposes: (i) Provide a
@@ -12,6 +13,6 @@ Description: This package serves two purposes: (i) Provide a
         plots within R. This requires proper coordinate scaling.
 License: GPL
 LazyLoad: yes
-Packaged: Tue May 19 21:02:08 2009; mloecher
 Repository: CRAN
-Date/Publication: 2009-05-20 06:55:43
+Date/Publication: 2009-06-18 07:28:24
+Packaged: Wed Jun 17 12:34:56 2009; mloecher

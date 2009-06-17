@@ -40,6 +40,11 @@ GetMap(key, center, zoom = 12, markers, path, span, frame, hl, sensor = "true",
 \note{ Note: The Google Static Maps API requires a Maps API key. If you haven`t already done so, sign up for a free API key at \url{http://code.google.com/apis/maps/signup.html}. Future versions will include the capability to read png tiles using the rgdal package. In fact,the code is already built in but commented out. }
 \seealso{ \link{GetMap.bbox} }
 \examples{
+	#The first step naturally will be to download a static map from the Google server. A simple example:
+
+  \dontrun{GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
+                 
+  
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

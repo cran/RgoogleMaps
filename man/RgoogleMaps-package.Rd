@@ -12,8 +12,8 @@ This package serves two purposes: (i) Provide a comfortable R interface to query
 \tabular{ll}{
 Package: \tab RgoogleMaps\cr
 Type: \tab Package\cr
-Version: \tab 1.1.2\cr
-Date: \tab 2009-04-01\cr
+Version: \tab 1.1.3\cr
+Date: \tab 2009-06-17\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
@@ -24,6 +24,8 @@ this package. Details on using the functions themselves can be found in
 the documentation for those functions.
 
 NOTE: The Google Static Maps API requires a Maps API key. If you haven`t already done so, sign up for a free API key at \url{http://code.google.com/apis/maps/signup.html}
+
+Also, to handle png file formats, you will need the package rgdal installed, for jpeg the package ReadImages.
 
 }
 \author{

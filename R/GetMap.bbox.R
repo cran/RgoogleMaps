@@ -40,8 +40,8 @@ function(lonR, latR, center, size = c(640,640), destfile = "MyTile.png", MINIMUM
  	  #if (require(rimage) & substring(destfile,nchar(destfile)-2,nchar(destfile)) == "jpg"){
  	  if ( substring(destfile,nchar(destfile)-2,nchar(destfile)) == "jpg"){
  	  #if (@RIMAGE@){
- 	    #require(rimage);
- 	    #myTile <- read.jpeg(destfile);
+ 	    require(ReadImages);
+ 	    myTile <- read.jpeg(destfile);
  	  #} else if (@RIMAGE@){ 
  	   } else if (require(rgdal)  & substring(destfile,nchar(destfile)-2,nchar(destfile)) == "png"){
  	    #require(rgdal)

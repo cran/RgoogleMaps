@@ -21,8 +21,9 @@ function(lat, lon, destfile, NEWMAP=TRUE, myTile, zoom=NULL, size = c(640,640), 
     
      if (missing(myTile) ) {
      	 #if (require(rimage) & substring(destfile,nchar(destfile)-2,nchar(destfile)) == "jpg"){ 
-     	 if (substring(destfile,nchar(destfile)-2,nchar(destfile)) == "jpg"){    
- 	       #myTile <- read.jpeg(destfile);
+     	 if (substring(destfile,nchar(destfile)-2,nchar(destfile)) == "jpg"){ 
+     	   require(ReadImages);   
+ 	       myTile <- read.jpeg(destfile);
  	     } else if (require(rgdal)  & substring(destfile,nchar(destfile)-2,nchar(destfile)) == "png"){
  	       myTile <- readGDAL(destfile);
  	       myTile@data <- myTile@data[,1:3]
@@ -45,7 +46,7 @@ function(lat, lon, destfile, NEWMAP=TRUE, myTile, zoom=NULL, size = c(640,640), 
      	myTile <- RGB2GRAY(myTile);
      par(mar=c(0,0,0,0));#par(pin=c(9,9))
      #if (class(MyMap[[4]]) == 'SpatialGridDataFrame'){
-   	 if (class(MyMap[[4]]) == 'matrix'){
+   	 if (class(MyMap[[4]])[1] == 'matrix'){
 		image(z=MyMap[[4]], col = attr(MyMap[[4]], "COL"))
    	 } else {plot(myTile);}
      

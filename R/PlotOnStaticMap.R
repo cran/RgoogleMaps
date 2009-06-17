@@ -12,7 +12,7 @@ function(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCALE  = F
    	 #require(rimage)
    	 par(mar=c(0,0,0,0));#par(pin=c(9,9))
    	 #if (class(MyMap[[4]]) == 'SpatialGridDataFrame'){
-   	 if (class(MyMap[[4]]) == 'matrix'){
+   	 if (class(MyMap[[4]])[1] == 'matrix'){
 		image(z=MyMap[[4]], col = attr(MyMap[[4]], "COL"))
    	 	#image(MyMap[[4]], "ind", col = attr(MyMap[[4]], "COL"))
    	 } else {plot(MyMap[[4]]);}

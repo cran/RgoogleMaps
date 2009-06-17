@@ -2,12 +2,20 @@
 function(key, center, zoom=12, markers, path, span, frame, hl, sensor = 'true', maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[4], format = c("gif","jpg","jpg-baseline","png8","png32")[5], size = c(640,640), destfile = "MyTile.png", verbose=1){
   
   #Note that size is in order (lon, lat) !
-  stopifnot(all(size <=640));	
+  stopifnot(all(size <=640));
+   if (missing(key)) {
+  	KeyFile <- paste(Sys.getenv("HOME"), "/API.key.txt",sep="");
+  	if (!file.exists(KeyFile)) stop(paste("You need to pass a Google Maps API key or keep it in the file ", KeyFile, ". If you do not already have a Google Maps API key, sign up for a free API key at http://code.google.com/apis/maps/signup.html"));
+  	key <- scan(KeyFile, what = "");
+  }
+  	
   if (length(size) < 2) {s <- paste(size,size,sep='x')} else {s <- paste(size,collapse="x");}
   if (!missing(center)) center <- paste(center,collapse=",")
-   
-  if (missing(key)) key <- scan(paste(Sys.getenv("HOME"), "/API.key.txt",sep=""), what = "");
-	googleurl <- 'http://maps.google.com/staticmap?';
+  if (missing(format)){
+    if ( substring(destfile,nchar(destfile)-2,nchar(destfile)) == "jpg") format <- "jpg";	if ( substring(destfile,nchar(destfile)-2,nchar(destfile)) == "png") format <- "png32"
+  }
+ 
+  googleurl <- 'http://maps.google.com/staticmap?';
 	
 	if (!missing(span)){#Images may specify a viewport (defined by latitude and longitude values expressed as degrees) to display around a provided center point by passing a span parameter. Defining a minimum viewport in this manner obviates the need to specify an exact zoom level. The static map service uses the span parameter in conjunction with the size parameter to construct a map of the proper zoom level which includes at least the given viewport constraints.
 		span <- paste(span,collapse=",")
