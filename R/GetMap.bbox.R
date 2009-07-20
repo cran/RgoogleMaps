@@ -34,7 +34,7 @@ function(lonR, latR, center, size = c(640,640), destfile = "MyTile.png", MINIMUM
     	#size[2] <- ceiling(abs(256* (ur$Tile[,"Y"] - ll$Tile[,"Y"]) + (ur$Coords[,"y"] - ll$Coords[,"y"])));
     	if (verbose) cat("new size: ", size, "\n")
     }
- 	if (NEWMAP) GetMap(center = c(lat.center, lon.center), zoom = zoom, size=size, destfile = destfile, ...);
+ 	if (NEWMAP) GetMap(center = c(lat.center, lon.center), zoom = zoom, size=size, destfile = destfile, verbose = verbose, ...);
  	
  	if (RETURNIMAGE){
  	  #if (require(rimage) & substring(destfile,nchar(destfile)-2,nchar(destfile)) == "jpg"){
@@ -45,17 +45,22 @@ function(lonR, latR, center, size = c(640,640), destfile = "MyTile.png", MINIMUM
  	  #} else if (@RIMAGE@){ 
  	   } else if (require(rgdal)  & substring(destfile,nchar(destfile)-2,nchar(destfile)) == "png"){
  	    #require(rgdal)
- 	    myTile <- readGDAL(destfile);
- 	    myTile@data <- myTile@data[,1:3]
- 	    ## create index for RGB colours
-		col <- SGDF2PCT(myTile) ## myTile is a spatialGridDataFrame with 3 bands
-		myTile$ind <- col$idx ## add the colour index to the data frame
-		myTile <- as.image.SpatialGridDataFrame(myTile["ind"],1,2)$z;
-		attr(myTile, "COL") <- col$ct;
+ 	    myTile <- readGDAL(destfile, silent = TRUE);
+ 	    if (0){
+ 	      myTile@data <- myTile@data[,1:3]
+ 	      ## create index for RGB colours
+		  col <- SGDF2PCT(myTile) ## myTile is a spatialGridDataFrame with 3 bands
+		  myTile$ind <- col$idx ## add the colour index to the data frame
+		  myTile <- as.image.SpatialGridDataFrame(myTile["ind"],1,2)$z;
+		  attr(myTile, "COL") <- col$ct;
+	    } else {
+		   	 myTile <- SPGDF2matrix(myTile);
+		}	
 		attr(myTile, "type") <- "rgb";
 		#image(myTile, "ind", col = col$ct) 
  	  } else stop("either rgdal (ONLY png files) or rimage (ONLY jpg files) library are required");
- 	  if (GRAYSCALE & attr(myTile, "type") == "rgb") 
+ 	  #if (GRAYSCALE & attr(myTile, "type") == "rgb")
+ 	  if (GRAYSCALE) 
      	myTile <- RGB2GRAY(myTile);
  	  invisible(list(lat.center, lon.center, zoom, myTile));
  	}

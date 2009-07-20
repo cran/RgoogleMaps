@@ -39,7 +39,7 @@ PlotOnStaticMap(MyMap, lat, lon, destfile, zoom = NULL, size = c(640, 640),
 
   \dontrun{GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
                  
-   \dontrun{tmp <- PlotOnStaticMap(MyMap,lat = c(40.702147,40.711614,40.718217), lon = c(-74.015794,-74.012318,-73.998284), cex=1.5,pch=20,col=c('red', 'blue', 'green'), add=F)}
+   \dontrun{tmp <- PlotOnStaticMap(lat = c(40.702147,40.711614,40.718217), lon = c(-74.015794,-74.012318,-73.998284), destfile = "MyTile1.png", cex=1.5,pch=20,col=c('red', 'blue', 'green'), add=F)}
    
    
 }

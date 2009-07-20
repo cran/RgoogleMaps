@@ -15,6 +15,8 @@ function(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCALE  = F
    	 if (class(MyMap[[4]])[1] == 'matrix'){
 		image(z=MyMap[[4]], col = attr(MyMap[[4]], "COL"))
    	 	#image(MyMap[[4]], "ind", col = attr(MyMap[[4]], "COL"))
+   	 } else if (class(MyMap[[4]])[1] == 'SpatialGridDataFrame'){
+   	 	image(MyMap[[4]], red=1, green=2, blue=3);
    	 } else {plot(MyMap[[4]]);}
      tmp2 <- par('usr');
      updateusr(tmp2[1:2], x2=c(-size[1], size[1])/2, tmp2[3:4], y2=c(-size[2], size[2])/2 );

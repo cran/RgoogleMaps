@@ -10,7 +10,7 @@ function(lat, lon, destfile, NEWMAP=TRUE, myTile, zoom=NULL, size = c(640,640), 
 
    	  if (missing(destfile)) destfile = paste(round(lat.center,3),round(lon.center,3),"png",sep=".")
    	  #GetMap(center = c(lat.center, lon.center), zoom = zoom, destfile = destfile);
-   	  MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = destfile, ...);
+   	  MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = destfile, verbose = verbose, ...);
    	  myTile <- MyMap[[4]];size <- dim(myTile)[1:2];
    	  if (is.null(zoom)) zoom <- min(MaxZoom(bb$latR, bb$lonR, size));
    	  if (verbose) cat("center, zoom: ", lat.center, lon.center, zoom, "\n");
@@ -25,30 +25,35 @@ function(lat, lon, destfile, NEWMAP=TRUE, myTile, zoom=NULL, size = c(640,640), 
      	   require(ReadImages);   
  	       myTile <- read.jpeg(destfile);
  	     } else if (require(rgdal)  & substring(destfile,nchar(destfile)-2,nchar(destfile)) == "png"){
- 	       myTile <- readGDAL(destfile);
- 	       myTile@data <- myTile@data[,1:3]
- 	       ## create index for RGB colours
-		   col <- SGDF2PCT(myTile) ## myTile is a spatialGridDataFrame with 3 bands
-		   myTile$ind <- col$idx ## add the colour index to the data frame
-		   myTile <- as.image.SpatialGridDataFrame(myTile["ind"],1,2)$z;
-		   attr(myTile, "COL") <- col$ct;
-		   attr(myTile, "type") <- "rgbcol";
-		   #image(myTile, "ind", col = col$ct) 
-		   MyMap <- list(lat.center, lon.center, zoom, myTile);
+ 	       myTile <- readGDAL(destfile, silent = TRUE);
+ 	       if (0){
+ 	         myTile@data <- myTile@data[,1:3]
+ 	         ## create index for RGB colours
+		     col <- SGDF2PCT(myTile) ## myTile is a spatialGridDataFrame with 3 bands
+		     myTile$ind <- col$idx ## add the colour index to the data frame
+		     myTile <- as.image.SpatialGridDataFrame(myTile["ind"],1,2)$z;
+		     attr(myTile, "COL") <- col$ct;   
+		   } else {
+		   	 myTile <- SPGDF2matrix(myTile);
+		   }	
+		   attr(myTile, "type") <- "rgb";   
  	     } else {stop("either rgdal (ONLY png files) or rimage (ONLY jpg files) library are required");}
  	     size <- dim(myTile)[1:2]
         }
-    
+       MyMap <- list(lat.center, lon.center, zoom, myTile);
     }
      
      #Gray scale intensity = 0.30R + 0.59G + 0.11B
-     if (GRAYSCALE & attr(myTile, "type") != "gray") 
+     #if (GRAYSCALE & attr(myTile, "type") != "gray")
+     if (GRAYSCALE ) 
      	myTile <- RGB2GRAY(myTile);
      par(mar=c(0,0,0,0));#par(pin=c(9,9))
      #if (class(MyMap[[4]]) == 'SpatialGridDataFrame'){
    	 if (class(MyMap[[4]])[1] == 'matrix'){
 		image(z=MyMap[[4]], col = attr(MyMap[[4]], "COL"))
-   	 } else {plot(myTile);}
+   	 } else if (class(MyMap[[4]])[1] == 'SpatialGridDataFrame'){
+   	 	image(MyMap[[4]], red=1, green=2, blue=3)
+   	 } else	{plot(myTile);}
      
    }
    tmp2 <- par('usr');

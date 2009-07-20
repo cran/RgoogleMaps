@@ -54,7 +54,7 @@ function(key, center, zoom=12, markers, path, span, frame, hl, sensor = 'true', 
 		url <- paste(url, "&markers=", markers.string, sep="")
 	}
 	if (verbose) print(url);
-	if (verbose < 2) download.file(url, destfile, mode="wb");
+	if (verbose < 2) download.file(url, destfile, mode="wb", quiet = TRUE);
 	invisible(url)
 }
 
