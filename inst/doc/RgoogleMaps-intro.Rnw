@@ -1,6 +1,7 @@
 % -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
 \documentclass{article}
 \usepackage{url}
+\usepackage{amsfonts}
 
 %\IfFileExists{url.sty}{\usepackage{url}}
  %                    {\newcommand{\url}{\text}}
@@ -139,8 +140,42 @@ Future versions will include the ability to handle png files in addition to jpg.
     \item sensor (required) specifies whether the application requesting the static map is using a sensor to determine the user's location. This parameter is now required for all static map requests. For more information, see Specifying Locations below.
 \end{itemize}
 
+\section{Appendix: MapMath Details}
 
-% R is not S-PLUS, hence this chunk will be ignored:
+\noindent
+We measure latitude and longitude in degrees but assume that the trigonometric functions used below expect units to be in radians.
+
+\noindent
+With   $\tilde{lat} = \pi \cdot lat /180$, the transformation from lat/lon to pixels is given by:
+\begin{equation}   
+\label{Eq1}
+  \tilde{Y} = \frac{1}{2 \pi}  \log{\left( \frac{1 + \sin{(\tilde{lat})}}{1 -\sin{(\tilde{lat})} } \right)}
+\end{equation} 
+\begin{equation} 
+\label{Eq2}  
+  Y = 2^{zoom-1} * (1 - \tilde{Y}) ,  X = 2^{zoom-1} * (\tilde{X} + 1) 
+\end{equation} 
+The integer part of $X, Y$ specifies the tile, whereas the fractional part times $256$ is the pixel coordinate within the Tile itself:
+\[
+ x = 256 *(X- \lfloor{X}), y = 256 *(Y- \lfloor{Y})
+\]
+Inverting these relationships is rather straightforward.
+Eq. (\ref{Eq1}) leads to 
+\begin{equation}
+  \tilde{lat} = 2 \pi n \pm  \sin^{-1}{\left( \frac{\exp{ 2 \pi \tilde{Y}} - 1}{\exp{ 2 \pi \tilde{Y}} + 1} \right)} + \pi  , n \in \mathbb{Z}
+\end{equation}
+whereas inverting Eqs. (\ref{Eq2})  gives
+\[
+\tilde{Y} = 1 - Y/2^{zoom-1} , \tilde{X} =  X/2^{zoom-1} - 1
+\]
+For longitude, the inverse mapping is much simpler:
+Since $\tilde{X} = lon / 180 $, we get
+ \[ 
+lon =  180 \cdot \left( X/2^{zoom-1} - 1 \right).
+\]
+As a final remark, note that while latitude increases heading north, Google maps $Y$ coordinates move opposite, i.e. increase southward.
+
+
 
 \end{document}
 
