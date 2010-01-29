@@ -9,7 +9,7 @@
 GetMap(key, center, zoom = 12, markers, path, span, frame, hl, sensor = "true", 
   maptype = c("roadmap", "mobile", "satellite", "terrain", "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[4], 
   format = c("gif", "jpg", "jpg-baseline", "png8", "png32")[5], 
-  size = c(640, 640), destfile = "MyTile.png", verbose = 1)
+  size = c(640, 640), destfile = "MyTile.png", RETURNIMAGE = TRUE, GRAYSCALE =FALSE, verbose = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,9 +23,11 @@ GetMap(key, center, zoom = 12, markers, path, span, frame, hl, sensor = "true",
   \item{hl}{ (optional) defines the language to use for display of labels on map tiles. Note that this paramater is only supported for some country tiles; if the specific language requested is not supported for the tile set, then the default language for that tile set will be used. }
   \item{sensor}{ specifies whether the application requesting the static map is using a sensor to determine the user`s location. This parameter is now required for all static map requests. }
   \item{maptype}{ defines the type of map to construct. There are several possible maptype values, including satellite, terrain, hybrid, and mobile. }
-  \item{format}{ (optional) defines the format of the resulting image. By default, the Static Maps API creates GIF images. There are several possible formats including GIF, JPEG and PNG types. Which format you use depends on how you intend to present the image. JPEG typically provides greater compression, while GIF and PNG provide greater detail. This version supports only JPEG. }
+  \item{format}{ (optional) defines the format of the resulting image. By default, the Static Maps API creates GIF images. There are several possible formats including GIF, JPEG and PNG types. Which format you use depends on how you intend to present the image. JPEG typically provides greater compression, while GIF and PNG provide greater detail. This version supports only JPEG and PNG. }
   \item{size}{ desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels }
   \item{destfile}{ File to save the map image to. }
+  \item{RETURNIMAGE}{ return image yes/no default: TRUE }
+   \item{GRAYSCALE}{ Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY} }
   \item{verbose}{ level of verbosity }
 }
 \details{	The optional markers can be passed either as a string, such as 
@@ -41,10 +43,16 @@ GetMap(key, center, zoom = 12, markers, path, span, frame, hl, sensor = "true",
 \seealso{ \link{GetMap.bbox} }
 \examples{
 	#The first step naturally will be to download a static map from the Google server. A simple example:
-
-  \dontrun{GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
-                 
   
+  \dontrun{MyMap <- GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
+  #In this example we let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers. However, to be of use within R we do need to know the values for zoom and center explicitly, so it is better practice to compute them ourselves and pass them as arguments, in which case meta information on the map tile can be saved as well:
+  lat = c(40.702147,40.718217,40.711614);
+  lon = c(-74.012318,-74.015794,-73.998284);
+  center = c(mean(lat), mean(lon));
+  zoom <- min(MaxZoom(range(lat), range(lon)));
+  #this overhead is taken care of implicitly by GetMap.bbox();              
+  \dontrun{MyMap <- GetMap(center=center, zoom=zoom,markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
+  #Note that in the presence of markers one often needs to add some extra padding to the latitude range to acoomodate the extent of the top most marker
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

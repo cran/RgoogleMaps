@@ -77,15 +77,16 @@ The following simple sequence of calls serves to test the coincidence of the mar
 \begin{verbatim}
 #Define the markers:
   mymarkers <- cbind.data.frame(lat = c(38.898648,38.889112, 38.880940), 
-          lon = c(-77.037692, -77.050273, -77.03660), size =  c('tiny','tiny','tiny'), 
-          col = c('blue', 'green', 'red'), char = c('','',''));
+      lon = c(-77.037692, -77.050273, -77.03660), size =  c('tiny','tiny','tiny'), 
+      col = c('blue', 'green', 'red'), char = c('','',''));
 
 #get the bounding box:
   bb <- qbbox(lat = mymarkers[,"lat"], lon = mymarkers[,"lon"])
 #download the map:
   MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "DC.png", GRAYSCALE =T,
                 markers = mymarkers);
-#determine the max zoom, so that all points fit on the plot (not necessary in this case):  
+#determine the max zoom, so that all points fit on the plot
+# (not necessary in this case):  
    zoom <- min(MaxZoom(latrange=bb$latR,lonrange=bb$lonR));
  #plot:
  png("OverlayTest.png",640,640);
@@ -96,18 +97,34 @@ The following simple sequence of calls serves to test the coincidence of the mar
   dev.off()
 \end{verbatim}
 
+\noindent We have recently added the ability to (i) query the OpenStreetMap \begin{verbatim} (http://www.openstreetmap.org/) \end{verbatim} server for map tiles and (ii) to display axis on the image plot. In both cases, we felt that it was sensible to not transform the coordinates to Google's XY format but to instead leave the lat/lon coords as is. The advantage is that no coordinate transformation is needed to overlay points and lines on the map, so the plain R points() and lines() functions will work just fine. This convenience comes at the cost of the obvious misalignment due to lat/lon distortion which maybe slight or substantial, depending on the scale, so we provide a toggle to turn this on or off.
+For OSM-type maps, the argument {\it TrueProj} is set to FALSE automatically.  
+The following simple example is shown in Figure 3.
+
+\begin{verbatim}
+PrincetonMap <- GetMap.OSM(lonR= c(-74.67102, -74.63943), 
+latR = c(40.33804,40.3556), scale = 7500, destfile = "Princeton.png");
+PlotOnStaticMap(PrincetonMap, axes = TRUE, mar = rep(4,4));
+\end{verbatim}
+\begin{figure}[thb]
+\centering
+   \includegraphics[width = .975 \textwidth]{Princeton.png}
+    \caption{Princeton, NJ as displayed in OpenStreetMap}
+\end{figure}
+
 \noindent And lastly, one more fun example. The Coso geothermal field (e.g. \url{http://geology.about.com/od/mineral_resources/ig/cosogeotherm/}) is America's second-largest producer of geothermal electricity, with a continuous output of 270 megawatts. It relies on superheated groundwater that boils into steam at less than 2 kilometers depth, thus it is classified as a hot-water field. (The Geysers, world's largest geopower site in northern California, produces pure steam.)
 
 \noindent Geothermal power has been produced at Coso since 1987 by a private contractor for the U.S. Navy, which acquired the land in 1943 as part of the China Lake Naval Air Weapons Station. The power is sold into the local utility grid.
 
 \noindent The package $geomapdata$ contains a dataframe $cosomap$ which contains location information on the "Coso Geothermal Region Faults and Geology".
-The following commands plot the fault lines on a Google map tile (Fig. 3):
+The following commands plot the fault lines on a Google map tile (Fig. 4):
 \begin{verbatim}
  library(geomapdata);
  bb <- qbbox(lon=cosomap$POINTS$lon-360,lat=cosomap$POINTS$lat)
- MyMap <- GetMap.bbox(bb$lonR, bb$latR,destfile = "Coso.png", maptype="satellite",zoom=11)
- tmp <- PlotOnStaticMap(MyMap,lon=cosomap$POINTS$lon-360,lat=cosomap$POINTS$lat, 
-     pch=20,cex = .5,col='red',verbose=0);
+ MyMap <- GetMap.bbox(bb$lonR, bb$latR,destfile = "Coso.png", 
+                     maptype="satellite",zoom=11)
+ tmp <- PlotOnStaticMap(MyMap,lon=cosomap$POINTS$lon-360,
+             lat=cosomap$POINTS$lat, pch=20,cex = .5,col='red',verbose=0);
 \end{verbatim}
 
 \begin{figure}[thb]

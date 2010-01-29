@@ -3,7 +3,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ simple wrapper function to plot colored polygons }
 \description{
-  same as \link{polygon}, execept the value for color is taken from the 1st element of he exra column 'col'
+  same as \link{polygon}, execept the value for color is taken from the 1st element of the exra column 'col'
 }
 \usage{
 mypolygon(x, ...)

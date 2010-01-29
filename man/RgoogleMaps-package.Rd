@@ -12,8 +12,8 @@ This package serves two purposes: (i) Provide a comfortable R interface to query
 \tabular{ll}{
 Package: \tab RgoogleMaps\cr
 Type: \tab Package\cr
-Version: \tab 1.1.6\cr
-Date: \tab 2009-10-04\cr
+Version: \tab 1.1.7\cr
+Date: \tab 2010-01-29\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
@@ -38,12 +38,12 @@ Markus Loecher, Sense Networks <markus@sensenetworks.com>
 	
 #The first step naturally will be to download a static map from the Google server. A simple example:
 
-  \dontrun{GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
+  \dontrun{MyMap <- GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
                  
    \dontrun{tmp <- PlotOnStaticMap(MyMap,lat = c(40.702147,40.711614,40.718217), lon = c(-74.015794,-74.012318,-73.998284), cex=1.5,pch=20,col=c('red', 'blue', 'green'), add=F)}
 #Of course, one can do without the markers and/or just pass a bounding box:
 
-  \dontrun{GetMap(center=c(40.714728,-73.99867), zoom =14, destfile = "MyTile2.png",maptype = "mobile");}
+  \dontrun{MyMap <- GetMap(center=c(40.714728,-73.99867), zoom =14, destfile = "MyTile2.png",maptype = "mobile");}
   
 #The function qbbox() basically computes a bounding box for the given lat,lon points with a few additional options such as quantile boxes, additional buffers, etc.  
 

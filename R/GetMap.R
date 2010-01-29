@@ -1,5 +1,5 @@
 `GetMap` <-
-function(key, center, zoom=12, markers, path, span, frame, hl, sensor = 'true', maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[4], format = c("gif","jpg","jpg-baseline","png8","png32")[5], size = c(640,640), destfile = "MyTile.png", verbose=1){
+function(key, center, zoom=12, markers, path, span, frame, hl, sensor = 'true', maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[4], format = c("gif","jpg","jpg-baseline","png8","png32")[5], size = c(640,640), destfile = "MyTile.png", RETURNIMAGE = TRUE, GRAYSCALE =FALSE, verbose=1){
   
   #Note that size is in order (lon, lat) !
   stopifnot(all(size <=640));
@@ -8,11 +8,25 @@ function(key, center, zoom=12, markers, path, span, frame, hl, sensor = 'true', 
   	if (!file.exists(KeyFile)) stop(paste("You need to pass a Google Maps API key or keep it in the file ", KeyFile, ". If you do not already have a Google Maps API key, sign up for a free API key at http://code.google.com/apis/maps/signup.html"));
   	key <- scan(KeyFile, what = "");
   }
-  	
+  fileBase <- substring(destfile,1, nchar(destfile)-4);
+  fileExt <-  substring(destfile,nchar(destfile)-2,nchar(destfile));
+  #save meta information about the image:    
+  if (!missing(center) & !missing(zoom)) {  
+      MyMap <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom);
+      BBOX <- list(ll = XY2LatLon(MyMap, -size[1]/2 + 0.5, -size[2]/2 - 0.5), ur = XY2LatLon(MyMap, size[1]/2 + 0.5, size[2]/2 - 0.5) );
+	  MetaInfo <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, url = "google", BBOX = BBOX);
+	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
+	} else {
+	  print("Note that when center and zoom are not specified, no meta information on the map tile can be stored. This basically means that R cannot compute proper coordinates. You can still download the map tile and view it in R but overlays are not possible. Do you want to proceed ? (y/n)");
+	  ans <- readLines(n=1);
+	  if (ans != "y") return(); 
+	}
+
   if (length(size) < 2) {s <- paste(size,size,sep='x')} else {s <- paste(size,collapse="x");}
   if (!missing(center)) center <- paste(center,collapse=",")
   if (missing(format)){
-    if ( substring(destfile,nchar(destfile)-2,nchar(destfile)) == "jpg") format <- "jpg";	if ( substring(destfile,nchar(destfile)-2,nchar(destfile)) == "png") format <- "png32"
+    if ( fileExt == "jpg") format <- "jpg";	
+    if ( fileExt == "png") format <- "png32"
   }
  
   googleurl <- 'http://maps.google.com/staticmap?';
@@ -55,6 +69,14 @@ function(key, center, zoom=12, markers, path, span, frame, hl, sensor = 'true', 
 	}
 	if (verbose) print(url);
 	if (verbose < 2) download.file(url, destfile, mode="wb", quiet = TRUE);
+	
+	if (RETURNIMAGE){
+ 	  myMap <- ReadMapTile(destfile);
+ 	  if (GRAYSCALE) 
+     	myMap$myTile <- RGB2GRAY(myMap$myTile);
+ 	  invisible(myMap);
+ 	}
+ 	
 	invisible(url)
 }
 

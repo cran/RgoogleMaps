@@ -5,8 +5,9 @@
 \description{
   This function is the workhorse of the package RgoogleMaps. It }
 \usage{
-PlotOnStaticMap(MyMap, lat, lon, destfile, zoom = NULL, size = c(640, 640), 
-                GRAYSCALE = FALSE, add = FALSE, FUN = points, verbose = 1, ...)
+PlotOnStaticMap(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCALE  = FALSE, 
+               add=FALSE, FUN = points, mar=c(0,0,0,0), NEWMAP = TRUE, TrueProj = TRUE, axes= FALSE, verbose = 1,...)
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,6 +20,10 @@ PlotOnStaticMap(MyMap, lat, lon, destfile, zoom = NULL, size = c(640, 640),
   \item{GRAYSCALE}{ Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY} }
   \item{add}{ start a new plot or add to an existing }
   \item{FUN}{ plotting function to use for overlay; typical choices would be \link{points} and \link{lines} }
+  \item{mar}{outer margin in plot; if you want to see axes, change the default}
+  \item{NEWMAP}{load map from file or get it "new" from the static map server}
+  \item{TrueProj}{set to FALSE if you are willing to accept some degree of inaccuracy in the mapping. In that case, the coordinates of the image are in lat/lon and the user can simply overly points/lines/axis without worrying about projections}
+  \item{axes}{ overlay axes ? Note that if the package sp is installed, those axis will show labels in degrees. }
   \item{verbose}{ level of verbosity }
   \item{\dots}{ further arguments to be passed to \code{FUN} }
 }
@@ -37,9 +42,12 @@ PlotOnStaticMap(MyMap, lat, lon, destfile, zoom = NULL, size = c(640, 640),
 \examples{
 #The first step naturally will be to download a static map from the Google server. A simple example:
 
-  \dontrun{GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
+  \dontrun{MyMap <- GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
                  
-   \dontrun{tmp <- PlotOnStaticMap(lat = c(40.702147,40.711614,40.718217), lon = c(-74.015794,-74.012318,-73.998284), destfile = "MyTile1.png", cex=1.5,pch=20,col=c('red', 'blue', 'green'), add=F)}
+   \dontrun{tmp <- PlotOnStaticMap(MyMap, lat = c(40.702147,40.711614,40.718217), lon = c(-74.015794,-74.012318,-73.998284), destfile = "MyTile1.png", cex=1.5,pch=20,col=c('red', 'blue', 'green'), add=F);
+   	#and add lines:
+   	PlotOnStaticMap(MyMap, lat = c(40.702147,40.711614,40.718217), lon = c(-74.015794,-74.012318,-73.998284), lwd=1.5,col=c('red', 'blue', 'green'), FUN = lines, add=T)
+   	}
    
    
 }
