@@ -35,7 +35,7 @@ function(lonR, latR, center, size = c(640,640), destfile = "MyTile.png", MINIMUM
     	if (verbose) cat("new size: ", size, "\n")
     }
  	#if (NEWMAP) 
- 	invisible(GetMap(center = c(lat.center, lon.center), zoom = zoom, size=size, destfile = destfile, RETURNIMAGE = RETURNIMAGE, verbose = verbose, ...));
+ 	return(GetMap(center = c(lat.center, lon.center), zoom = zoom, size=size, destfile = destfile, RETURNIMAGE = RETURNIMAGE, verbose = verbose, ...));
  	
  	
  }
