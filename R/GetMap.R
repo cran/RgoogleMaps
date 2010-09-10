@@ -1,13 +1,9 @@
 `GetMap` <-
-function(key, center, zoom=12, markers, path, span, frame, hl, sensor = 'true', maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[4], format = c("gif","jpg","jpg-baseline","png8","png32")[5], size = c(640,640), destfile = "MyTile.png", RETURNIMAGE = TRUE, GRAYSCALE =FALSE, verbose=1){
-  
+function(center, zoom=12, markers, path, span, frame, hl, sensor = 'true', maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[4], format = c("gif","jpg","jpg-baseline","png8","png32")[5], size = c(640,640), destfile = "MyTile.png", RETURNIMAGE = TRUE, GRAYSCALE =FALSE, verbose=1){
+  #Google does not require an API key any longer !
   #Note that size is in order (lon, lat) !
   stopifnot(all(size <=640));
-   if (missing(key)) {
-  	KeyFile <- paste(Sys.getenv("HOME"), "/API.key.txt",sep="");
-  	if (!file.exists(KeyFile)) stop(paste("You need to pass a Google Maps API key or keep it in the file ", KeyFile, ". If you do not already have a Google Maps API key, sign up for a free API key at http://code.google.com/apis/maps/signup.html"));
-  	key <- scan(KeyFile, what = "");
-  }
+  
   fileBase <- substring(destfile,1, nchar(destfile)-4);
   fileExt <-  substring(destfile,nchar(destfile)-2,nchar(destfile));
   #save meta information about the image:    
@@ -33,14 +29,14 @@ function(key, center, zoom=12, markers, path, span, frame, hl, sensor = 'true', 
 	
 	if (!missing(span)){#Images may specify a viewport (defined by latitude and longitude values expressed as degrees) to display around a provided center point by passing a span parameter. Defining a minimum viewport in this manner obviates the need to specify an exact zoom level. The static map service uses the span parameter in conjunction with the size parameter to construct a map of the proper zoom level which includes at least the given viewport constraints.
 		span <- paste(span,collapse=",")
-		url <- paste(googleurl, "center=", center, "&span=", span,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&key=", key, "&sensor=", sensor, sep="")
+		url <- paste(googleurl, "center=", center, "&span=", span,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
 
 	} else 	if (missing(center) & missing(zoom)) {#let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers:
 		stopifnot(!missing(markers));
-		url <- paste(googleurl,  "size=",  s, "&maptype=", maptype, "&format=", format, "&key=", key, "&sensor=", sensor, sep="")
+		url <- paste(googleurl,  "size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
 	} else {
 		stopifnot(!missing(center), !missing(zoom));
-		url <- paste(googleurl, "center=", center, "&zoom=", zoom,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&key=", key, "&sensor=", sensor, sep="")
+		url <- paste(googleurl, "center=", center, "&zoom=", zoom,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
 	}
 	
 	if (!missing(markers)) {

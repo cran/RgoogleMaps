@@ -4,9 +4,10 @@ function(lat, lon, destfile, NEWMAP=TRUE, myTile, zoom=NULL, size = c(640,640), 
     bb <- qbbox(lat,lon, TYPE = "all", margin = list(m=rep(5,4), TYPE = c("perc", "abs")[1]));
    	lat.center <- mean(bb$latR);
     lon.center <- mean(bb$lonR);
-    if (is.null(zoom)) zoom <- min(MaxZoom(bb$latR, bb$lonR, size));
-          
-  
+    if (is.null(zoom)) 
+      if (diff(bb$latR) <= 0.000001 | diff(bb$lonR) <=  0.000001) zoom <- 12 else zoom <- min(MaxZoom(bb$latR, bb$lonR, size));
+   
+    
    	if (NEWMAP | missing(destfile)){
    	  if (missing(destfile)) destfile = paste(round(lat.center,3),round(lon.center,3),"png",sep=".")
    	  #GetMap(center = c(lat.center, lon.center), zoom = zoom, destfile = destfile);

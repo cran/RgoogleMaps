@@ -6,14 +6,13 @@
   Query the Google server for a static map tile, defined primarily by its center and zoom. Many additional arguments allow the user to customize the map tile.
  }
 \usage{
-GetMap(key, center, zoom = 12, markers, path, span, frame, hl, sensor = "true", 
+GetMap(center, zoom = 12, markers, path, span, frame, hl, sensor = "true", 
   maptype = c("roadmap", "mobile", "satellite", "terrain", "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[4], 
   format = c("gif", "jpg", "jpg-baseline", "png8", "png32")[5], 
   size = c(640, 640), destfile = "MyTile.png", RETURNIMAGE = TRUE, GRAYSCALE =FALSE, verbose = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{key}{ Google maps API key; NOTE: if missing the function trys to read the key from the file 'API.key.txt' in the user`s home directory. }
   \item{center}{ lat/lon center of map }
   \item{zoom}{Google maps (integer) zoom level. Zoom levels between $0$ (the lowest zoom level, in which the entire world can be seen on one map) to $19$ (the highest zoom level, down to individual buildings) are possible within the normal maps view. }
   \item{markers}{ (optional) defines one or more markers to attach to the image at specified locations. This parameter takes a string of marker definitions separated by the pipe character (|) }
@@ -39,7 +38,7 @@ GetMap(key, center, zoom = 12, markers, path, span, frame, hl, sensor = "true",
  }
 \references{ \url{http://code.google.com/apis/maps/documentation/staticmaps/} }
 \author{ Markus Loecher, Sense Networks <markus@sensenetworks.com> }
-\note{ Note: The Google Static Maps API requires a Maps API key. If you haven`t already done so, sign up for a free API key at \url{http://code.google.com/apis/maps/signup.html}. Future versions will include the capability to read png tiles using the rgdal package. In fact,the code is already built in but commented out. }
+\note{ Note: The Google Static Maps API does NOT requires a Maps API key any longer !! You can but do not have to sign up for a free API key at \url{http://code.google.com/apis/maps/signup.html}.}
 \seealso{ \link{GetMap.bbox} }
 \examples{
 	#The first step naturally will be to download a static map from the Google server. A simple example:
