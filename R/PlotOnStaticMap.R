@@ -6,7 +6,7 @@ function(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCALE  = F
    } else if (missing(MyMap)) MyMap <- MapBackground(lat=lat,lon=lon, destfile =destfile, zoom=zoom, size=size, GRAYSCALE =GRAYSCALE, mar=mar, NEWMAP = NEWMAP, verbose=verbose);
    
    if (missing(size)) size <- dim(MyMap[[4]]);
-    browser();
+   if (verbose == -1) browser();
     
    lat.center <- MyMap[[1]];
    lon.center <- MyMap[[2]];
