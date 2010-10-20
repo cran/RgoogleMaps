@@ -25,7 +25,7 @@ function(center, zoom=12, markers, path, span, frame, hl, sensor = 'true', mapty
     if ( fileExt == "png") format <- "png32"
   }
  
-  googleurl <- 'http://maps.google.com/staticmap?';
+  googleurl <- 'http://maps.google.com/maps/api/staticmap?'; # googleurl <- 'http://maps.google.com/staticmap?';
 	
 	if (!missing(span)){#Images may specify a viewport (defined by latitude and longitude values expressed as degrees) to display around a provided center point by passing a span parameter. Defining a minimum viewport in this manner obviates the need to specify an exact zoom level. The static map service uses the span parameter in conjunction with the size parameter to construct a map of the proper zoom level which includes at least the given viewport constraints.
 		span <- paste(span,collapse=",")
