@@ -12,8 +12,8 @@ This package serves two purposes: (i) Provide a comfortable R interface to query
 \tabular{ll}{
 Package: \tab RgoogleMaps\cr
 Type: \tab Package\cr
-Version: \tab 1.1.9.2\cr
-Date: \tab 2010-10-20\cr
+Version: \tab 1.1.9.3\cr
+Date: \tab 2010-12-10\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
@@ -27,7 +27,7 @@ NOTE: To do anything but downloading static map tiles, RgoogleMaps needs EITHER 
 
 }
 \author{
-Markus Loecher, Sense Networks <markus@sensenetworks.com> 
+"Markus Loecher, Sense Networks" <markus@sensenetworks.com> 
 }
 \keyword{ package }
 

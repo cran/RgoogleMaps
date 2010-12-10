@@ -30,7 +30,9 @@ GetMap(center, zoom = 12, markers, path, span, frame, hl, sensor = "true",
   \item{verbose}{ level of verbosity }
 }
 \details{	The optional markers can be passed either as a string, such as 
-	\samp{GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png")} 
+	#\samp{GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png")}
+	\samp{MyMap <- GetMap(markers = 'color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png")} 
+	#http://maps.google.com/maps/api/staticmap?size=320x320&maptype=roadmap&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284&sensor=false
 	or as a dataframe:   
 	\samp{GetMap(markers = cbind.data.frame(lat = c(40.70214, 40.71161), lon = c(-74.01579, -73.9982), size = c('tiny','mid'), col = c('blue', 'red'), char = c('','n')), destfile = "MyTile2.png");} }
 \value{
@@ -43,14 +45,14 @@ GetMap(center, zoom = 12, markers, path, span, frame, hl, sensor = "true",
 \examples{
 	#The first step naturally will be to download a static map from the Google server. A simple example:
   
-  \dontrun{MyMap <- GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
+  \dontrun{MyMap <- GetMap(markers = 'color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png");}
   #In this example we let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers. However, to be of use within R we do need to know the values for zoom and center explicitly, so it is better practice to compute them ourselves and pass them as arguments, in which case meta information on the map tile can be saved as well:
   lat = c(40.702147,40.718217,40.711614);
   lon = c(-74.012318,-74.015794,-73.998284);
   center = c(mean(lat), mean(lon));
   zoom <- min(MaxZoom(range(lat), range(lon)));
   #this overhead is taken care of implicitly by GetMap.bbox();              
-  \dontrun{MyMap <- GetMap(center=center, zoom=zoom,markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png");}
+  \dontrun{MyMap <- GetMap(center=center, zoom=zoom,markers = 'color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png");}
   #Note that in the presence of markers one often needs to add some extra padding to the latitude range to acoomodate the extent of the top most marker
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -9,10 +9,12 @@ function(lonR=c(-74.02132,-73.98622), latR= c(40.69983,40.72595), scale= 20000, 
  	#OR, use zoom level (e.g. z=12 ):
  	# http://tah.openstreetmap.org/MapOf/index.php?long=-74.02132&lat=40.69983&z=12&w=256&h=256&format=png
 
- 	if (verbose) print(url)
+ 	if (verbose) print(url);
  	    
  	if (NEWMAP) ret <- download.file(url, destfile, mode="wb", quiet = FALSE);
-    BBOX <- list(ll = c(lonR[1], latR[1]), ur = c(lonR[2], latR[2]) );
+    #BBOX <- list(ll = c(lonR[1], latR[1]), ur = c(lonR[2], latR[2]) );
+    #thanks to Julien Barnier who corrected this bug:
+    BBOX <- list(ll = c(latR[1], lonR[1]), ur = c(latR[2], lonR[2]))
 	MetaInfo <- list(lat.center = mean(latR), lon.center  = mean(lonR), zoom = NULL, url = "OSM", BBOX = BBOX, scale=scale);
 	save(MetaInfo, file = paste(destfile,"rda",sep="."));
  	
