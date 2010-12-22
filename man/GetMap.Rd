@@ -6,7 +6,7 @@
   Query the Google server for a static map tile, defined primarily by its center and zoom. Many additional arguments allow the user to customize the map tile.
  }
 \usage{
-GetMap(center, zoom = 12, markers, path, span, frame, hl, sensor = "true", 
+GetMap(center, zoom = 12, markers, path = "", span, frame, hl, sensor = "true", 
   maptype = c("roadmap", "mobile", "satellite", "terrain", "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[4], 
   format = c("gif", "jpg", "jpg-baseline", "png8", "png32")[5], 
   size = c(640, 640), destfile = "MyTile.png", RETURNIMAGE = TRUE, GRAYSCALE =FALSE, verbose = 1)
@@ -31,10 +31,10 @@ GetMap(center, zoom = 12, markers, path, span, frame, hl, sensor = "true",
 }
 \details{	The optional markers can be passed either as a string, such as 
 	#\samp{GetMap(markers = '40.702147,-74.015794,blues\%7C40.711614,-74.012318,greeng\%7C40.718217,-73.998284,redc', destfile = "MyTile1.png")}
-	\samp{MyMap <- GetMap(markers = 'color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png")} 
+	\samp{MyMap <- GetMap(markers = '&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png")} 
 	#http://maps.google.com/maps/api/staticmap?size=320x320&maptype=roadmap&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284&sensor=false
 	or as a dataframe:   
-	\samp{GetMap(markers = cbind.data.frame(lat = c(40.70214, 40.71161), lon = c(-74.01579, -73.9982), size = c('tiny','mid'), col = c('blue', 'red'), char = c('','n')), destfile = "MyTile2.png");} }
+	\samp{GetMap(markers = cbind(lat = c(40.70214, 40.71161), lon = c(-74.01579, -73.9982), size = c('tiny','mid'), color = c('blue', 'red'), label = c('S','N')), destfile = "MyTile2.png");} }
 \value{
   URL used to download the tile.
  }
@@ -45,16 +45,29 @@ GetMap(center, zoom = 12, markers, path, span, frame, hl, sensor = "true",
 \examples{
 	#The first step naturally will be to download a static map from the Google server. A simple example:
   
-  \dontrun{MyMap <- GetMap(markers = 'color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png");}
+  \dontrun{MyMap <- GetMap(markers = '&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png");}
   #In this example we let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers. However, to be of use within R we do need to know the values for zoom and center explicitly, so it is better practice to compute them ourselves and pass them as arguments, in which case meta information on the map tile can be saved as well:
   lat = c(40.702147,40.718217,40.711614);
   lon = c(-74.012318,-74.015794,-73.998284);
   center = c(mean(lat), mean(lon));
   zoom <- min(MaxZoom(range(lat), range(lon)));
   #this overhead is taken care of implicitly by GetMap.bbox();              
-  \dontrun{MyMap <- GetMap(center=center, zoom=zoom,markers = 'color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png");}
+  \dontrun{MyMap <- GetMap(center=center, zoom=zoom,markers = '&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png");}
   #Note that in the presence of markers one often needs to add some extra padding to the latitude range to acoomodate the extent of the top most marker
+  
+  #add a path, i.e. polyline:
+   \dontrun{MyMap <- GetMap(path = "&path=color:0x0000ff|weight:5|40.737102,-73.990318|40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397", destfile = "MyTile3.png");}
+   
+   #The example below defines a polygonal area within Manhattan, passed a series of intersections as locations:
+    # \dontrun{MyMap <- GetMap(path = "&path=color:0x00000000|weight:5|fillcolor:0xFFFF0033|8th+Avenue+%26+34th+St,New+York,NY|8th+Avenue+%26+42nd+St,New+York,NY|Park+Ave+%26+42nd+St,New+York,NY,NY|Park+Ave+%26+34th+St,New+York,NY,NY", destfile = "MyTile3a.png");}
+
+  #note that since the path string is just appended to the URL you can "abuse" the path argument to pass anything to the query, e.g. the style parameter:
+  #The following example displays a map of Brooklyn where local roads have been changed to bright green and the residential areas have been changed to black:
+   \dontrun{ GetMap(center='Brooklyn', zoom=12, maptype = "roadmap", path = "&style=feature:road.local|element:geometry|hue:0x00ff00|saturation:100&style=feature:landscape|element:geometry|lightness:-100", sensor='false', destfile = "MyTile4.png",  RETURNIMAGE = FALSE);}
+   
+   #In the last example we set RETURNIMAGE to FALSE which is a useful feature in general if neither rgdal nor ReadImages are installed. In those cases, the images can still be fetched and saved but not read into R.
+
+  
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+
 
