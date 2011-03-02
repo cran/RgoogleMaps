@@ -12,8 +12,8 @@ This package serves two purposes: (i) Provide a comfortable R interface to query
 \tabular{ll}{
 Package: \tab RgoogleMaps\cr
 Type: \tab Package\cr
-Version: \tab 1.1.9.4\cr
-Date: \tab 2010-12-22\cr
+Version: \tab 1.1.9.5\cr
+Date: \tab 2011-03-02\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }

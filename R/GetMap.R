@@ -7,16 +7,16 @@ function(center, zoom=12, markers, path="", span, frame, hl, sensor = 'true', ma
   fileBase <- substring(destfile,1, nchar(destfile)-4);
   fileExt <-  substring(destfile,nchar(destfile)-2,nchar(destfile));
   #save meta information about the image:    
-  if (!missing(center) & is.numeric(center) & !missing(zoom)) {  
+  if (missing(center)) {
+	  print("Note that when center and zoom are not specified, no meta information on the map tile can be stored. This basically means that R cannot compute proper coordinates. You can still download the map tile and view it in R but overlays are not possible. Do you want to proceed ? (y/n)");
+	  ans <- readLines(n=1);
+	  if (ans != "y") return(); 
+  } else if ( is.numeric(center) & !missing(zoom)) {  
       MyMap <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom);
       BBOX <- list(ll = XY2LatLon(MyMap, -size[1]/2 + 0.5, -size[2]/2 - 0.5), ur = XY2LatLon(MyMap, size[1]/2 + 0.5, size[2]/2 - 0.5) );
 	  MetaInfo <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, url = "google", BBOX = BBOX);
 	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
-	} else {
-	  print("Note that when center and zoom are not specified, no meta information on the map tile can be stored. This basically means that R cannot compute proper coordinates. You can still download the map tile and view it in R but overlays are not possible. Do you want to proceed ? (y/n)");
-	  ans <- readLines(n=1);
-	  if (ans != "y") return(); 
-	}
+  } 
 
   if (length(size) < 2) {s <- paste(size,size,sep='x')} else {s <- paste(size,collapse="x");}
   if (!missing(center)) center <- paste(center,collapse=",")
@@ -43,7 +43,8 @@ function(center, zoom=12, markers, path="", span, frame, hl, sensor = 'true', ma
 	
 	if (!missing(markers)) {
 		#assumes markers is a list with names lat, lon, size (optional), color (optional), char (optional)
-		if (is.data.frame(markers) | is.matrix(markers)) {
+		if(is.data.frame(markers)) markers<-as.matrix(markers)
+		if ( is.matrix(markers)) {
 		  latlon = which(colnames(markers) %in% c("lat","lon"))
 		  for (i in 1:nrow(markers)){
 		  	if (any(c("size","color","label") %in% colnames(markers) ) ) {
@@ -55,8 +56,8 @@ function(center, zoom=12, markers, path="", span, frame, hl, sensor = 'true', ma
 		  	#print(m)
 		  	if (i==1){ markers.string <- m;
 			} else { markers.string <- paste(markers.string,m, sep=''); }
-			if (i < nrow(markers))#only put a | if there is more to come:
-			  markers.string <- paste(markers.string,'|', sep='');
+			#if (i < nrow(markers))#only put a | if there is more to come:
+			 # markers.string <- paste(markers.string,'|', sep='');
 			#print(markers.string)
 		  }
 		} else if (is.character(markers)) {#already in the correct string format:

@@ -43,17 +43,14 @@ GetMap(center, zoom = 12, markers, path = "", span, frame, hl, sensor = "true",
 \note{ Note: The Google Static Maps API does NOT requires a Maps API key any longer !! You can but do not have to sign up for a free API key at \url{http://code.google.com/apis/maps/signup.html}.}
 \seealso{ \link{GetMap.bbox} }
 \examples{
-	#The first step naturally will be to download a static map from the Google server. A simple example:
-  
-  \dontrun{MyMap <- GetMap(markers = '&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png");}
-  #In this example we let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers. However, to be of use within R we do need to know the values for zoom and center explicitly, so it is better practice to compute them ourselves and pass them as arguments, in which case meta information on the map tile can be saved as well:
+	
   lat = c(40.702147,40.718217,40.711614);
   lon = c(-74.012318,-74.015794,-73.998284);
   center = c(mean(lat), mean(lon));
   zoom <- min(MaxZoom(range(lat), range(lon)));
   #this overhead is taken care of implicitly by GetMap.bbox();              
   \dontrun{MyMap <- GetMap(center=center, zoom=zoom,markers = '&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png");}
-  #Note that in the presence of markers one often needs to add some extra padding to the latitude range to acoomodate the extent of the top most marker
+  #Note that in the presence of markers one often needs to add some extra padding to the latitude range to accomodate the extent of the top most marker
   
   #add a path, i.e. polyline:
    \dontrun{MyMap <- GetMap(path = "&path=color:0x0000ff|weight:5|40.737102,-73.990318|40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397", destfile = "MyTile3.png");}
@@ -67,6 +64,10 @@ GetMap(center, zoom = 12, markers, path = "", span, frame, hl, sensor = "true",
    
    #In the last example we set RETURNIMAGE to FALSE which is a useful feature in general if neither rgdal nor ReadImages are installed. In those cases, the images can still be fetched and saved but not read into R.
 
+  #In the following example we let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers. However, to be of use within R we do need to know the values for zoom and center explicitly, so it is better practice to compute them ourselves and pass them as arguments, in which case meta information on the map tile can be saved as well.
+  
+  \dontrun{MyMap <- GetMap(markers = '&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png",  RETURNIMAGE = FALSE);}
+  
   
 }
 
