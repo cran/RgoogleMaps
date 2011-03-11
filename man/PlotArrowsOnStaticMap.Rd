@@ -1,22 +1,23 @@
-\name{PlotPolysOnStaticMap}
-\alias{PlotPolysOnStaticMap}
+\name{PlotArrowsOnStaticMap}
+\alias{PlotArrowsOnStaticMap}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{ plots polygons on map}
+\title{ plots arrows or segments on map}
 \description{
-  This function plots/overlays polygons on a map. Typically, the polygons originate from a shapefile.
+  This function plots/overlays arrows or segments on a map.
 }
 \usage{
-PlotPolysOnStaticMap(MyMap, polys, col, border = NULL, lwd = .25, verbose = 0,...)
+PlotArrowsOnStaticMap(MyMap, lat0, lon0, lat1 = lat0, lon1 = lon0, TrueProj = TRUE, FUN = arrows, add = FALSE, verbose = 1,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{MyMap}{ map image returned from e.g. \code{GetMap()} }
-  \item{polys}{ polygons to overlay }
-  \item{col}{ (optional) vector of colors, one for each polygon}
-  \item{border}{the color to draw the border. The default, NULL, means to use \link{par}("fg"). Use border = NA to omit borders, see \link{polygon}}
-  \item{lwd}{line width, see \link{par}}
+  \item{lat0, lon0}{coordinates of points from which to draw.}
+  \item{lat1, lon1}{coordinates of points to which to draw.}
+  \item{TrueProj}{set to FALSE if you are willing to accept some degree of inaccuracy in the mapping. In that case, the coordinates of the image are in lat/lon and the user can simply overly points/lines/axis without worrying about projections}
+  \item{FUN}{ plotting function to use for overlay; typical choices would be \link{arrows} and \link{segments} }
+  \item{add}{ add to existing map ? }
   \item{verbose}{ level of verbosity }
-  \item{\dots}{further arguments passed to \code{PlotOnStaticMap}}
+  \item{\dots}{further arguments passed to \link{arrows} or \link{segments}}
 }
 \details{
   }
