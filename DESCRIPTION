@@ -1,12 +1,12 @@
 Package: RgoogleMaps
 Type: Package
 Title: Overlays on Google map tiles in R
-Version: 1.1.9.6
-Date: 2011-03-11
+Version: 1.1.9.7
+Date: 2011-05-11
 Depends: R (>= 1.4.0), graphics, stats, utils
 Suggests: ReadImages, rgdal, sp
 Author: Markus Loecher, Sense Networks
-Maintainer: "Markus Loecher, Sense Networks" <markus@sensenetworks.com>
+Maintainer: "Markus Loecher, Sense Networks" <markus.loecher@gmail.com>
 Description: This package serves two purposes: (i) Provide a
         comfortable R interface to query the Google server for static
         maps, and (ii) Use the map as a background image to overlay
@@ -20,6 +20,6 @@ Description: This package serves two purposes: (i) Provide a
         libjpeg library installed.
 License: GPL
 LazyLoad: yes
-Packaged: 2011-03-13 11:55:43 UTC; mloecher
+Packaged: 2011-05-12 15:34:45 UTC; mloecher
 Repository: CRAN
-Date/Publication: 2011-03-13 18:43:13
+Date/Publication: 2011-05-13 06:57:52
