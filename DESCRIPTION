@@ -1,8 +1,8 @@
 Package: RgoogleMaps
 Type: Package
 Title: Overlays on Google map tiles in R
-Version: 1.1.9.7
-Date: 2011-05-11
+Version: 1.1.9.8
+Date: 2011-07-11
 Depends: R (>= 1.4.0), graphics, stats, utils
 Suggests: ReadImages, rgdal, sp
 Author: Markus Loecher, Sense Networks
@@ -20,6 +20,6 @@ Description: This package serves two purposes: (i) Provide a
         libjpeg library installed.
 License: GPL
 LazyLoad: yes
-Packaged: 2011-05-12 15:34:45 UTC; mloecher
+Packaged: 2011-06-28 20:28:45 UTC; mloecher
 Repository: CRAN
-Date/Publication: 2011-05-13 06:57:52
+Date/Publication: 2011-06-29 09:41:40
