@@ -34,7 +34,7 @@ GetMap.bbox(lonR, latR, center, size = c(640, 640), destfile = "MyTile.png",
 \references{  }
 \author{ Markus Loecher, Sense Networks <markus@sensenetworks.com> }
 \note{ 
-	To handle png file formats, you will need the package rgdal installed, for jpeg the package ReadImages.
+	To handle png file formats, you will need the package png installed, for jpeg the package ReadImages.
 }
 \seealso{ \link{GetMap} }
 \examples{

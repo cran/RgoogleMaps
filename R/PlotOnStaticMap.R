@@ -22,7 +22,6 @@ function(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCALE  = F
    if (!add) {
    	 #require(rimage)
    	 par(mar=mar);#par(pin=c(9,9))
-   	 #if (class(MyMap[[4]]) == 'SpatialGridDataFrame'){
    	 x= seq(MyMap$BBOX$ll[2], MyMap$BBOX$ur[2], length= size[1]);
    	 y= seq(MyMap$BBOX$ll[1], MyMap$BBOX$ur[1], length= size[2]);
    	 if (class(MyMap[[4]])[1] == 'matrix'){

@@ -62,7 +62,7 @@ GetMap(center, zoom = 12, markers, path = "", span, frame, hl, sensor = "true",
   #The following example displays a map of Brooklyn where local roads have been changed to bright green and the residential areas have been changed to black:
    \dontrun{ GetMap(center='Brooklyn', zoom=12, maptype = "roadmap", path = "&style=feature:road.local|element:geometry|hue:0x00ff00|saturation:100&style=feature:landscape|element:geometry|lightness:-100", sensor='false', destfile = "MyTile4.png",  RETURNIMAGE = FALSE);}
    
-   #In the last example we set RETURNIMAGE to FALSE which is a useful feature in general if neither rgdal nor ReadImages are installed. In those cases, the images can still be fetched and saved but not read into R.
+   #In the last example we set RETURNIMAGE to FALSE which is a useful feature in general if neither png nor ReadImages are installed. In those cases, the images can still be fetched and saved but not read into R.
 
   #In the following example we let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers. However, to be of use within R we do need to know the values for zoom and center explicitly, so it is better practice to compute them ourselves and pass them as arguments, in which case meta information on the map tile can be saved as well.
   

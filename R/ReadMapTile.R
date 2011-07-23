@@ -6,8 +6,10 @@ ReadMapTile <- function(destfile, METADATA = TRUE){
   if (fileExt == "jpg"){ 
      	   require(ReadImages);   
  	       myTile <- read.jpeg(destfile);
- 	     } else if (require(rgdal)  & fileExt == "png"){
- 	       myTile <- readGDAL(destfile, silent = TRUE);
+ 	     #} else if (require(rgdal)  & fileExt == "png"){
+ 	      # myTile <- readGDAL(destfile, silent = TRUE);
+ 	     } else if (require(png)  & fileExt == "png"){
+ 	       myTile <- readPNG(destfile);
  	       if (0){
  	         myTile@data <- myTile@data[,1:3]
  	         ## create index for RGB colours
@@ -19,7 +21,7 @@ ReadMapTile <- function(destfile, METADATA = TRUE){
 		   	 myTile <- SPGDF2matrix(myTile);
 		   }	
 		   attr(myTile, "type") <- "rgb";   
- 	     } else {stop("either rgdal (ONLY png files) or rimage (ONLY jpg files) library are required");
+ 	     } else {stop("either png (ONLY png files) or rimage (ONLY jpg files) library are required");
  	    }
  size <- dim(myTile)[1:2];
  if (METADATA) {

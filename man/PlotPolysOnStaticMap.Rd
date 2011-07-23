@@ -6,7 +6,7 @@
   This function plots/overlays polygons on a map. Typically, the polygons originate from a shapefile.
 }
 \usage{
-PlotPolysOnStaticMap(MyMap, polys, col, border = NULL, lwd = .25, verbose = 0,...)
+PlotPolysOnStaticMap(MyMap, polys, col, border = NULL, lwd = .25, verbose = 0, add=TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,6 +16,7 @@ PlotPolysOnStaticMap(MyMap, polys, col, border = NULL, lwd = .25, verbose = 0,..
   \item{border}{the color to draw the border. The default, NULL, means to use \link{par}("fg"). Use border = NA to omit borders, see \link{polygon}}
   \item{lwd}{line width, see \link{par}}
   \item{verbose}{ level of verbosity }
+  \item{add}{ start a new plot or add to an existing }
   \item{\dots}{further arguments passed to \code{PlotOnStaticMap}}
 }
 \details{

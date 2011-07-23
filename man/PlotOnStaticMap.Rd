@@ -28,7 +28,7 @@ PlotOnStaticMap(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCA
   \item{\dots}{ further arguments to be passed to \code{FUN} }
 }
 \details{
-  NOte: To handle png file formats, you will need the package rgdal installed, for jpeg the package ReadImages.
+  Note: To handle png file formats, you will need the package png installed, for jpeg the package ReadImages.
 }
 \value{
   the map object is returned via \code{invisible(MyMap)}

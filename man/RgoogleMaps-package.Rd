@@ -12,8 +12,8 @@ This package serves two purposes: (i) Provide a comfortable R interface to query
 \tabular{ll}{
 Package: \tab RgoogleMaps\cr
 Type: \tab Package\cr
-Version: \tab 1.1.9.8\cr
-Date: \tab 2011-07-11\cr
+Version: \tab 1.1.9.11\cr
+Date: \tab 2011-07-23\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
@@ -23,7 +23,7 @@ The examples below give a bit of support code for using the functions in
 this package. Details on using the functions themselves can be found in
 the documentation for those functions.
 
-NOTE: To do anything but downloading static map tiles, RgoogleMaps needs EITHER rgdal OR ReadImages installed ! Such an OR dependency is difficult to express in the 'Depends' field, so I moved both packages to suggested. rgdal is your package if you prefer png file format and ReadImages/rimage if you prefer jpg format. In the latter cases, you will also need the libjpeg library installed.
+NOTE: To do anything but downloading static map tiles, RgoogleMaps needs EITHER png OR ReadImages installed ! png is your package if you prefer png file format and ReadImages/rimage if you prefer jpg format. In the latter cases, you will also need the libjpeg library installed.
 
 }
 \author{
