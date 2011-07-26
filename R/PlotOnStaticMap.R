@@ -18,7 +18,7 @@ function(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCALE  = F
    
    if ( !('BBOX' %in% names(MyMap)) ) MyMap$BBOX <- list(ll = XY2LatLon(MyMap, -size[1]/2 + 0.5, -size[2]/2 + 0.5), ur = XY2LatLon(MyMap, size[1]/2 - 0.5, size[2]/2 - 0.5) );
    
-   if (verbose) print(str(MyMap));
+   if (verbose > 0) print(str(MyMap));
    if (!add) {
    	 #require(rimage)
    	 par(mar=mar);#par(pin=c(9,9))
@@ -29,7 +29,14 @@ function(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCALE  = F
    	 	#image(MyMap[[4]], "ind", col = attr(MyMap[[4]], "COL"))
    	 } else if (class(MyMap[[4]])[1] == 'SpatialGridDataFrame'){
    	 	image(MyMap[[4]], red=1, green=2, blue=3, axes = FALSE);
-   	 } else {myplot.imagematrix(x=x, y=y, z=MyMap[[4]], axes = FALSE);}
+   	 } else if (class(MyMap[[4]])[1] == "array"){
+   	   if (exists("rasterImage")) { # can plot only in R 2.11.0 and higher
+        plot(0:1,0:1,type="n", axes=F)
+        if (require(grid)) grid.raster(MyMap[[4]], width=1, height=1, y=0, just="bottom") else rasterImage(MyMap[[4]], 0,0,1,1);
+      } else {
+        myplot.imagematrix(x=x, y=y, z=MyMap[[4]], axes = FALSE);
+      }
+   	 } 
      tmp2 <- par('usr');
      offset = 1;
      if (TrueProj){

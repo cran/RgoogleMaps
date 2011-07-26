@@ -8,27 +8,30 @@ ReadMapTile <- function(destfile, METADATA = TRUE){
  	       myTile <- read.jpeg(destfile);
  	     #} else if (require(rgdal)  & fileExt == "png"){
  	      # myTile <- readGDAL(destfile, silent = TRUE);
- 	     } else if (require(png)  & fileExt == "png"){
+   } else if (require(png)  & fileExt == "png"){
  	       myTile <- readPNG(destfile);
- 	       if (0){
- 	         myTile@data <- myTile@data[,1:3]
+ 	       #if (0){
+ 	       #  myTile@data <- myTile@data[,1:3]
  	         ## create index for RGB colours
-		     col <- SGDF2PCT(myTile) ## myTile is a spatialGridDataFrame with 3 bands
-		     myTile$ind <- col$idx ## add the colour index to the data frame
-		     myTile <- as.image.SpatialGridDataFrame(myTile["ind"],1,2)$z;
-		     attr(myTile, "COL") <- col$ct;   
-		   } else {
+		   #  col <- SGDF2PCT(myTile) ## myTile is a spatialGridDataFrame with 3 bands
+		   #  myTile$ind <- col$idx ## add the colour index to the data frame
+		   #  myTile <- as.image.SpatialGridDataFrame(myTile["ind"],1,2)$z;
+		   #  attr(myTile, "COL") <- col$ct;   
+		   #} 
+		   if (class(myTile) == "SpatialPixelsDataFrame") {
 		   	 myTile <- SPGDF2matrix(myTile);
 		   }	
 		   attr(myTile, "type") <- "rgb";   
- 	     } else {stop("either png (ONLY png files) or rimage (ONLY jpg files) library are required");
- 	    }
+  } else {
+  	stop("either png (ONLY png files) or rimage (ONLY jpg files) library are required");
+ }
  size <- dim(myTile)[1:2];
  if (METADATA) {
     try({
  	#load(paste(fileBase,"rda",sep="."));
- 	load(paste(destfile,"rda",sep="."));
- 	MyMap <- list(lat.center= MetaInfo$lat.center, lon.center=MetaInfo$lon.center, zoom=MetaInfo$zoom, myTile=myTile, BBOX = MetaInfo$BBOX, url = MetaInfo$url);
+ 	VarsLoaded <- load(paste(destfile,"rda",sep="."));
+ 	if (is.element("MetaInfo", VarsLoaded))
+ 	  MyMap <- list(lat.center= MetaInfo$lat.center, lon.center=MetaInfo$lon.center, zoom=MetaInfo$zoom, myTile=myTile, BBOX = MetaInfo$BBOX, url = MetaInfo$url);
  	return(MyMap);
    });
  } 

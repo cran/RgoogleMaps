@@ -45,7 +45,7 @@ The Google Static Maps API (\url{http://code.google.com/apis/maps/documentation/
 
 \noindent The first step naturally will be to download a static map from the Google server. A simple example (Fig 1a):
 \begin{verbatim}
-  MyMap <- GetMap(markers = 'color:blue|label:S|40.702147,-74.015794&markers=color:green|
+  MyMap <- GetMap(markers = '&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|
            label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|
            40.718217,-73.998284', destfile = "MyTile1.png")
 
