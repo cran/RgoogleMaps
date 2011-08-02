@@ -13,3 +13,4 @@ function(MyMap, lat0, lon0, lat1 = lat0, lon1 = lon0, TrueProj = TRUE, FUN = arr
   FUN(x0=Rcoords0$newX, y0=Rcoords0$newY, x1=Rcoords1$newX, y1=Rcoords1$newY, ...);
 }
 
+

@@ -31,7 +31,7 @@ function(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCALE  = F
    	 	image(MyMap[[4]], red=1, green=2, blue=3, axes = FALSE);
    	 } else if (class(MyMap[[4]])[1] == "array"){
    	   if (exists("rasterImage")) { # can plot only in R 2.11.0 and higher
-        plot(0:1,0:1,type="n", axes=F)
+        plot(0:1,0:1,type="n", axes=FALSE)
         if (require(grid)) grid.raster(MyMap[[4]], width=1, height=1, y=0, just="bottom") else rasterImage(MyMap[[4]], 0,0,1,1);
       } else {
         myplot.imagematrix(x=x, y=y, z=MyMap[[4]], axes = FALSE);

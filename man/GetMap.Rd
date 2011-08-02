@@ -39,7 +39,7 @@ GetMap(center, zoom = 12, markers, path = "", span, frame, hl, sensor = "true",
   URL used to download the tile.
  }
 \references{ \url{http://code.google.com/apis/maps/documentation/staticmaps/} }
-\author{ Markus Loecher, Sense Networks <markus@sensenetworks.com> }
+\author{ Markus Loecher <markus.loecher@gmail.com> }
 \note{ Note: The Google Static Maps API does NOT requires a Maps API key any longer !! You can but do not have to sign up for a free API key at \url{http://code.google.com/apis/maps/signup.html}.}
 \seealso{ \link{GetMap.bbox} }
 \examples{

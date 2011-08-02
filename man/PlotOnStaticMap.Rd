@@ -34,7 +34,7 @@ PlotOnStaticMap(MyMap, lat, lon, destfile, zoom=NULL, size = c(640,640), GRAYSCA
   the map object is returned via \code{invisible(MyMap)}
  }
 \references{ }
-\author{ Markus Loecher, Sense Networks <markus@sensenetworks.com> }
+\author{ Markus Loecher <markus.loecher@gmail.com> }
 \note{ Credit for the implementation of the png file reading goes to both Gabor Grothendieck (\url{http://www.mail-archive.com/r-sig-geo@stat.math.ethz.ch/msg04640.html}) and Michael Sumner (\url{http://finzi.psych.upenn.edu/R/Rhelp02a/archive/94605.html}).
 	Credit for the implementation of the jpg file reading goes to Greg Snow: \url{https://stat.ethz.ch/pipermail/r-sig-geo/2009-March/005229.html}
 }

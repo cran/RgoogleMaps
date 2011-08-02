@@ -32,7 +32,7 @@ GetMap.bbox(lonR, latR, center, size = c(640, 640), destfile = "MyTile.png",
  map tile
  }
 \references{  }
-\author{ Markus Loecher, Sense Networks <markus@sensenetworks.com> }
+\author{ Markus Loecher <markus.loecher@gmail.com> }
 \note{ 
 	To handle png file formats, you will need the package png installed, for jpeg the package ReadImages.
 }

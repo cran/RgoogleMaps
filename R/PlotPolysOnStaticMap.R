@@ -14,8 +14,9 @@ function(MyMap, polys, col, border = NULL, lwd = .25, verbose = 0, add=TRUE,...)
   if (verbose>1) browser()
 
 if (require(PBSmapping) & all(c("PID","X","Y","POS") %in% colnames(polys.XY)) ) {
-	attr(polys.XY, "projection") <- NA;
-	addPolys(polys.XY,col=col, border = border, lwd = lwd, ...)
+	attr(polys.XY, "projection") <- NULL;
+	usr <- par('usr')
+	addPolys(polys.XY,col=col, border = border, lwd = lwd, xlim =usr[1:2], ylim = usr[3:4],  ...)
 } else {
   if (!missing(col)) {
   	polys.XY[,"col"] <- col;
