@@ -1,13 +1,20 @@
-`GetMap.bbox` <-
-function(lonR, latR, center, size = c(640,640), destfile = "MyTile.png", MINIMUMSIZE = FALSE, RETURNIMAGE = TRUE, GRAYSCALE =FALSE, NEWMAP = TRUE, zoom, verbose=1,...){
- 	#Example use:
- 	#bb <- qbbox(x[j,"lat"],x[j,"lon"])
- 	#tmp <- GetMap.bbox(bb$lonR, bb$latR,destfile = "MyTile.sm.jpg", MINIMUMSIZE =T, RETURNIMAGE=T)
- 	#or:
- 	#bb <- qbbox(c(40.702147,40.711614,40.718217),c(-74.015794,-74.012318,-73.998284), TYPE = "all", margin = list(m=rep(5,4), TYPE = c("perc", "abs")[1]))
- 	#MyMap <- GetMap.bbox(bb$lonR, bb$latR,destfile = "TestMarkers.sm.jpg", MINIMUMSIZE =T, RETURNIMAGE=T, markers = '40.702147,-74.015794,blues%7C40.711614,-74.012318,greeng%7C40.718217,-73.998284,redc')
- 	
- 	if (missing(zoom)) zoom <- min(MaxZoom(latR, lonR, size));
+`GetMap.bbox` <- structure(function
+### Wrapper function for \link{GetMap}. Query the Google server for a static map tile, defined primarily by its lat/lon range and/or center and/or zoom. 
+### Multiple additional arguments allow the user to customize the map tile.
+( lonR, ##<< longitude range
+  latR, ##<<  latitude range
+  center, ##<< optional center
+  size = c(640,640), ##<< desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels 
+  destfile = "MyTile.png", ##<<  File to load the map image from or save to, depending on \code{NEWMAP}.
+  MINIMUMSIZE = FALSE, ##<< reduce the size of the map to its minimum size that still fits the lat/lon ranges ?
+  RETURNIMAGE = TRUE, ##<< return image yes/no default: TRUE
+  GRAYSCALE =FALSE, ##<< Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}
+  NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile.
+  zoom,  ##<< Google maps zoom level. optional
+  verbose=1, ##<< level of verbosity
+  ... ##<< extra arguments to \link{GetMap} 
+){
+  	if (missing(zoom)) zoom <- min(MaxZoom(latR, lonR, size));
  	if (missing(center)){
  	  lat.center <- mean(latR);#latR[1] + diff(latR)/2;
       lon.center <- mean(lonR);#lonR[1] + diff(lonR)/2;
@@ -36,7 +43,25 @@ function(lonR, latR, center, size = c(640,640), destfile = "MyTile.png", MINIMUM
     }
  	#if (NEWMAP) 
  	return(GetMap(center = c(lat.center, lon.center), zoom = zoom, size=size, destfile = destfile, RETURNIMAGE = RETURNIMAGE, GRAYSCALE = GRAYSCALE, verbose = verbose, ...));
- 	
- 	
- }
+ ### map tile
+
+ }, ex = function(){
+ 	mymarkers <- cbind.data.frame(lat = c(38.898648,38.889112, 38.880940), 
+          lon = c(-77.037692, -77.050273, -77.03660), size =  c('tiny','tiny','tiny'), 
+          col = c('blue', 'green', 'red'), char = c('','',''));
+
+	##get the bounding box:
+  	bb <- qbbox(lat = mymarkers[,"lat"], lon = mymarkers[,"lon"]);
+  
+	##download the map:
+  	MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "DC.png", GRAYSCALE =TRUE,
+                markers = mymarkers);
+ 	##The function qbbox() basically computes a bounding box for the given lat,lon points with a few additional options such as quantile boxes, additional buffers, etc.  
+  	bb <- qbbox(c(40.702147,40.711614,40.718217),c(-74.015794,-74.012318,-73.998284), 
+            TYPE = "all", margin = list(m=rep(5,4), TYPE = c("perc", "abs")[1]));
+ 	##download the map:           
+    	MyMap <- GetMap.bbox(bb$lonR, bb$latR,destfile = "MyTile3.png", maptype = "satellite") 
+
+
+})
 

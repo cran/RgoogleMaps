@@ -1,5 +1,11 @@
-`XY2LatLon` <-
-function(MyMap,X,Y,zoom){
+`XY2LatLon` <-structure(function#computes the centered coordinate transformation from lat/lon to map tile coordinates 
+###The function XY2LatLon(MyMap, X,Y,zoom) computes the coordinate transformation from map tile coordinates to lat/lon given a map object.
+(
+  MyMap, ##<< map object
+  X, ##<< latitude values to transform
+  Y, ##<< longitude values to transform
+  zoom ##<< optional zoom level. If missing, taken from \code{MyMap}
+){
 #X and Y are the centered integer pixel values, i.e. they should be zero in the center of the matrix/image !
 
    lat.center <- MyMap[[1]];
@@ -27,7 +33,31 @@ function(MyMap,X,Y,zoom){
    lat <- sapply(yy, ShiftLat);
    #longitude is easy:
    lon =  180*( x/2^(zoom-1) - 1 );
-   
+##seealso<< \link{LatLon2XY} \link{Tile2R}
+
    return(cbind(lat=lat, lon=lon));
-}
+### properly scaled and centered (with respect to the center of \code{MyMap} ) coordinates  
+###  \item{lon }{longitude}
+###  \item{lat }{latitude}
+}, ex = function(){
+#quick test:
+
+  zoom=12;MyMap <- list(40,-120,zoom);
+  LatLon <- c(lat = 40.0123, lon = -120.0123);
+  Rcoords <- LatLon2XY.centered(MyMap,LatLon["lat"],LatLon["lon"])
+  newLatLon <- XY2LatLon(MyMap, Rcoords$newX, Rcoords$newY)
+  max(abs(newLatLon - LatLon));
+
+#more systematic:
+ for (zoom in 2:10){
+   cat("zoom: ", zoom, "\n");
+   MyMap <- list(40,-120,zoom);
+   LatLon <- c(lat = runif(1,-80,80), lon = runif(1,-170,170));
+   Rcoords <- LatLon2XY.centered(MyMap,LatLon["lat"],LatLon["lon"])
+   newLatLon <- XY2LatLon(MyMap, Rcoords$newX, Rcoords$newY)
+   if(max(abs(newLatLon - LatLon)) > 0.0001) print(rbind(LatLon, newLatLon));
+ }
+
+})
+
 

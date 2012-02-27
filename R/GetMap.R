@@ -1,7 +1,29 @@
-`GetMap` <-
-function(center, zoom=12, markers, path="", span, frame, hl, sensor = 'true', maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[4], format = c("gif","jpg","jpg-baseline","png8","png32")[5], size = c(640,640), destfile = "MyTile.png", RETURNIMAGE = TRUE, GRAYSCALE =FALSE, verbose=1){
-  #Google does not require an API key any longer !
-  #Note that size is in order (lon, lat) !
+`GetMap` <- structure(function# download a static map from the Google server
+### Query the Google server for a static map tile, defined primarily by its 
+### center and zoom. Many additional arguments allow the user to customize 
+### the map tile.
+(
+  center, ##<< optional center
+  size = c(640,640), ##<< desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels 
+  destfile = "MyTile.png", ##<<  File to load the map image from or save to, depending on \code{NEWMAP}.
+  zoom =12, ##<< Google maps zoom level.
+  markers,  ##<< (optional) defines one or more markers to attach to the image at specified locations. This parameter takes a string of marker definitions separated by the pipe character (|) 
+  path="",  ##<< (optional) defines a single path of two or more connected points to overlay on the image at specified locations. This parameter takes a string of point definitions separated by the pipe character (|)
+  span, ##<< (optional) defines a minimum viewport for the map image expressed as a latitude and longitude pair. The static map service takes this value and produces a map of the proper zoom level to include the entire provided span value from the map`s center point. Note that the resulting map may include larger bounds for either latitude or longitude depending on the rectangular dimensions of the map. If zoom is specified, span is ignored 
+  frame, ##<< (optional) specifies that the resulting image should be framed with a colored blue border. The frame consists of a 5 pixel, 55 % opacity blue border. 
+  hl, ##<< (optional) defines the language to use for display of labels on map tiles. Note that this paramater is only supported for some country tiles; if the specific language requested is not supported for the tile set, then the default language for that tile set will be used.
+  sensor = "true",  ##<< specifies whether the application requesting the static map is using a sensor to determine the user`s location. This parameter is now required for all static map requests.
+  maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[4], ##<< defines the type of map to construct. There are several possible maptype values, including satellite, terrain, hybrid, and mobile. 
+  format = c("gif","jpg","jpg-baseline","png8","png32")[5],  ##<< (optional) defines the format of the resulting image. By default, the Static Maps API creates GIF images. There are several possible formats including GIF, JPEG and PNG types. Which format you use depends on how you intend to present the image. JPEG typically provides greater compression, while GIF and PNG provide greater detail. This version supports only PNG.
+  RETURNIMAGE = TRUE, ##<< return image yes/no default: TRUE
+  GRAYSCALE =FALSE, ##<< Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}
+  NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile. 
+  verbose=1 ##<< level of verbosity
+){
+  ##note<<Note that size is in order (lon, lat) !
+
+  ##seealso<< \link{GetMap.bbox}
+
   stopifnot(all(size <=640));
   
   fileBase <- substring(destfile,1, nchar(destfile)-4);
@@ -14,18 +36,18 @@ function(center, zoom=12, markers, path="", span, frame, hl, sensor = 'true', ma
   } else if ( is.numeric(center) & !missing(zoom)) {  
       MyMap <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom);
       BBOX <- list(ll = XY2LatLon(MyMap, -size[1]/2 + 0.5, -size[2]/2 - 0.5), ur = XY2LatLon(MyMap, size[1]/2 + 0.5, size[2]/2 - 0.5) );
-	  MetaInfo <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, url = "google", BBOX = BBOX);
+	  MetaInfo <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, 
+        url = "google", BBOX = BBOX, size=size);
 	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
   } 
 
-  if (length(size) < 2) {s <- paste(size,size,sep='x')} else {s <- paste(size,collapse="x");}
+  if (length(size) < 2) {s <- paste(size,size,sep="x")} else {s <- paste(size,collapse="x");}
   if (!missing(center)) center <- paste(center,collapse=",")
-  if (missing(format)){
-    if ( fileExt == "jpg") format <- "jpg";	
+  if (missing(format)){	
     if ( fileExt == "png") format <- "png32"
   }
  
-  googleurl <- 'http://maps.google.com/maps/api/staticmap?'; # googleurl <- 'http://maps.google.com/staticmap?';
+  googleurl <- "http://maps.google.com/maps/api/staticmap?"; # googleurl <- 'http://maps.google.com/staticmap?';
 	
 	if (!missing(span)){#Images may specify a viewport (defined by latitude and longitude values expressed as degrees) to display around a provided center point by passing a span parameter. Defining a minimum viewport in this manner obviates the need to specify an exact zoom level. The static map service uses the span parameter in conjunction with the size parameter to construct a map of the proper zoom level which includes at least the given viewport constraints.
 		span <- paste(span,collapse=",")
@@ -50,12 +72,12 @@ function(center, zoom=12, markers, path="", span, frame, hl, sensor = 'true', ma
 		  	if (any(c("size","color","label") %in% colnames(markers) ) ) {
 		  	  m1 <- paste(colnames(markers)[-latlon], markers[i,-latlon], collapse="|",sep=":");
 		  	  m1 <- paste("&markers=",m1,sep="")
-		  	} else m1 <- '';
+		  	} else m1 <- "";
 		  	m <- paste(markers[i,c("lat","lon")], collapse=",");
 		  	m <- paste(m1,m,sep="|")
 		  	#print(m)
 		  	if (i==1){ markers.string <- m;
-			} else { markers.string <- paste(markers.string,m, sep=''); }
+			} else { markers.string <- paste(markers.string,m, sep=""); }
 			#if (i < nrow(markers))#only put a | if there is more to come:
 			 # markers.string <- paste(markers.string,'|', sep='');
 			#print(markers.string)
@@ -71,13 +93,44 @@ function(center, zoom=12, markers, path="", span, frame, hl, sensor = 'true', ma
 	if (verbose == -1) browser();
 	if (verbose < 2) download.file(url, destfile, mode="wb", quiet = TRUE);
 	
+	if (GRAYSCALE) {
+		myTile <- readPNG(destfile, native=FALSE);
+		#browser()
+		myTile <- RGB2GRAY(myTile);
+      	writePNG(myTile, destfile)
+	  }
+
 	if (RETURNIMAGE){
- 	  myMap <- ReadMapTile(destfile);
- 	  if (GRAYSCALE) 
-     	myMap$myTile <- RGB2GRAY(myMap$myTile);
- 	  return(myMap);
+ 	  myMap <- ReadMapTile(destfile); 
+  	  return(myMap);
  	}
  	
 	invisible(url)
-}
+### map structure or URL used to download the tile.
+}, ex = function(){
+  lat = c(40.702147,40.718217,40.711614);
+  lon = c(-74.012318,-74.015794,-73.998284);
+  center = c(mean(lat), mean(lon));
+  zoom <- min(MaxZoom(range(lat), range(lon)));
+  #this overhead is taken care of implicitly by GetMap.bbox();              
+  MyMap <- GetMap(center=center, zoom=zoom,markers = "&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284", destfile = "MyTile1.png");
+  #Note that in the presence of markers one often needs to add some extra padding to the latitude range to accomodate the extent of the top most marker
+  
+  #add a path, i.e. polyline:
+   MyMap <- GetMap(path = "&path=color:0x0000ff|weight:5|40.737102,-73.990318|40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397", destfile = "MyTile3.png");
+   
+   #The example below defines a polygonal area within Manhattan, passed a series of intersections as locations:
+    #MyMap <- GetMap(path = "&path=color:0x00000000|weight:5|fillcolor:0xFFFF0033|8th+Avenue+%26+34th+St,New+York,NY|8th+Avenue+%26+42nd+St,New+York,NY|Park+Ave+%26+42nd+St,New+York,NY,NY|Park+Ave+%26+34th+St,New+York,NY,NY", destfile = "MyTile3a.png");
+
+  #note that since the path string is just appended to the URL you can "abuse" the path argument to pass anything to the query, e.g. the style parameter:
+  #The following example displays a map of Brooklyn where local roads have been changed to bright green and the residential areas have been changed to black:
+  # MyMap <- GetMap(center="Brooklyn", zoom=12, maptype = "roadmap", path = "&style=feature:road.local|element:geometry|hue:0x00ff00|saturation:100&style=feature:landscape|element:geometry|lightness:-100", sensor='false', destfile = "MyTile4.png",  RETURNIMAGE = FALSE);
+   
+   #In the last example we set RETURNIMAGE to FALSE which is a useful feature in general if neither png nor ReadImages are installed. In those cases, the images can still be fetched and saved but not read into R.
+
+  #In the following example we let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers. However, to be of use within R we do need to know the values for zoom and center explicitly, so it is better practice to compute them ourselves and pass them as arguments, in which case meta information on the map tile can be saved as well.
+  
+  #MyMap <- GetMap(markers = "&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284", destfile = "MyTile1.png",  RETURNIMAGE = FALSE);
+ 	
+})
 

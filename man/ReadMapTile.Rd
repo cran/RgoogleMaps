@@ -1,18 +1,23 @@
 \name{ReadMapTile}
 \alias{ReadMapTile}
-\title{Reading a map tile object}
-\description{
-  This function reads a map tile and its associated metaInfo file as an image.
-}
+\title{Read a bitmap image stored in the PNG format}
+\description{Reads an image from a PNG file/content into a raster array.}
 \usage{
-  ReadMapTile(destfile, METADATA = TRUE)}
-\arguments{
-  \item{destfile}{image file to read from}
-  \item{METADATA}{read MetaInfo as well ?}
+ReadMapTile(destfile,
+METADATA = TRUE,
+native = TRUE)
 }
-\examples{
- }
-\seealso{}
+\arguments{
+  \item{destfile}{png file to read}
+  \item{METADATA}{read MetaInfo as well ?}
+  \item{native}{determines the image representation - if FALSE then the result is an array, if TRUE then the result is a native raster representation, see \link{readPNG} in package png.}
+}
+
+\value{map or tile object}
+
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+
+
 
 
 

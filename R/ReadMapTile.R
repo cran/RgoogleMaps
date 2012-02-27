@@ -1,41 +1,31 @@
-ReadMapTile <- function(destfile, METADATA = TRUE){
+ReadMapTile <- structure(function#Read a bitmap image stored in the PNG format
+###Reads an image from a PNG file/content into a raster array.
+(
+  destfile,  ##<< png file to read
+  METADATA = TRUE,  ##<< read MetaInfo as well ?
+  native=TRUE ##<< determines the image representation - if FALSE then the result is an array, if TRUE then the result is a native raster representation, see \link{readPNG} in package png.
+){
   fileBase <- substring(destfile,1, nchar(destfile)-4);
   fileExt <-  substring(destfile,nchar(destfile)-2,nchar(destfile));
   
-  
-  if (fileExt == "jpg"){ 
-     	   require(ReadImages);   
- 	       myTile <- read.jpeg(destfile);
- 	     #} else if (require(rgdal)  & fileExt == "png"){
- 	      # myTile <- readGDAL(destfile, silent = TRUE);
-   } else if (require(png)  & fileExt == "png"){
- 	       myTile <- readPNG(destfile);
- 	       #if (0){
- 	       #  myTile@data <- myTile@data[,1:3]
- 	         ## create index for RGB colours
-		   #  col <- SGDF2PCT(myTile) ## myTile is a spatialGridDataFrame with 3 bands
-		   #  myTile$ind <- col$idx ## add the colour index to the data frame
-		   #  myTile <- as.image.SpatialGridDataFrame(myTile["ind"],1,2)$z;
-		   #  attr(myTile, "COL") <- col$ct;   
-		   #} 
-		   if (class(myTile) == "SpatialPixelsDataFrame") {
-		   	 myTile <- SPGDF2matrix(myTile);
-		   }	
-		   attr(myTile, "type") <- "rgb";   
-  } else {
-  	stop("either png (ONLY png files) or rimage (ONLY jpg files) library are required");
- }
- size <- dim(myTile)[1:2];
- if (METADATA) {
+ 
+  myTile <- readPNG(destfile, native=native);
+ #if (exists("rasterImage")) myTile <- as.raster(myTile)
+
+  #attr(myTile, "type") <- "rgb"; 
+  size <- dim(myTile)[2:1];
+  if (METADATA) {
     try({
  	#load(paste(fileBase,"rda",sep="."));
  	VarsLoaded <- load(paste(destfile,"rda",sep="."));
  	if (is.element("MetaInfo", VarsLoaded))
- 	  MyMap <- list(lat.center= MetaInfo$lat.center, lon.center=MetaInfo$lon.center, zoom=MetaInfo$zoom, myTile=myTile, BBOX = MetaInfo$BBOX, url = MetaInfo$url);
+ 	  MyMap <- list(lat.center= MetaInfo$lat.center, lon.center=MetaInfo$lon.center, zoom=MetaInfo$zoom, 
+                      myTile=myTile, BBOX = MetaInfo$BBOX, url = MetaInfo$url, size=size);
  	return(MyMap);
    });
  } 
  return(myTile);
- 
-}	
+### map or tile object
+})
+
 	

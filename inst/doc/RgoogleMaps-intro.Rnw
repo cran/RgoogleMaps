@@ -23,7 +23,7 @@
 %\VignettePackage{RgoogleMaps}
 
 \title{Plotting on Google Static Maps in R}
-\author{Markus Loecher\\  Sense Networks \\  \it{markus@sensenetworks.com}}
+\author{Markus Loecher\\ Berlin School of Economics and Law (BSEL)  \\  \it{markus.loecher@gmail.com}}
 
 \maketitle
 \noindent

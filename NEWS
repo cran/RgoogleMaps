@@ -1,0 +1,3 @@
+As of version: 1.2.0, RgoogleMaps will only offer support for png files, no more jpeg.
+The maintenance of the jpg ReadImages library has become too tedious, so I
+removed all dependencies.

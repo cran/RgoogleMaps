@@ -1,33 +1,29 @@
 \name{XY2LatLon}
 \alias{XY2LatLon}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{ computes the centered coordinate transformation from lat/lon to map tile coordinates }
-\description{
-  The function XY2LatLon(MyMap, X,Y,zoom) computes the coordinate transformation from map tile coordinates to lat/lon given a map object.
-}
+\title{computes the centered coordinate transformation from lat/lon to map tile coordinates }
+\description{The function XY2LatLon(MyMap, X,Y,zoom) computes the coordinate transformation from map tile coordinates to lat/lon given a map object.}
 \usage{
-XY2LatLon(MyMap, X, Y, zoom)
+XY2LatLon(MyMap,
+X,
+Y,
+zoom)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{MyMap}{ map object }
-  \item{X}{latitude values to transform }
-  \item{Y}{ longitude values to transform }
-  \item{zoom}{ optional zoom level. If missing, taken from \code{MyMap} }
+  \item{MyMap}{map object}
+  \item{X}{latitude values to transform}
+  \item{Y}{longitude values to transform}
+  \item{zoom}{optional zoom level. If missing, taken from \code{MyMap}}
 }
-\details{
- }
-\value{
-  properly scaled and centered (with respect to the center of \code{MyMap} ) coordinates  
-  \item{lon }{longitude}
-  \item{lat }{latitude}
 
-}
-\references{ }
-\author{ Markus Loecher, Sense Networks <markus@sensenetworks.com> }
-\note{
-}
-\seealso{ \link{LatLon2XY} \link{Tile2R} }
+\value{properly scaled and centered (with respect to the center of \code{MyMap} ) coordinates  
+\item{lon }{longitude}
+\item{lat }{latitude}}
+
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+
+
+
+\seealso{\link{LatLon2XY} \link{Tile2R}}
 \examples{
 #quick test:
 
@@ -47,8 +43,4 @@ XY2LatLon(MyMap, X, Y, zoom)
    if(max(abs(newLatLon - LatLon)) > 0.0001) print(rbind(LatLon, newLatLon));
  }
 
-
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-
