@@ -12,7 +12,7 @@
    MaxZoom.lon <- floor(1 + log2(abs(size[1]/256/diff(normX))));
    MaxZoom.lat <- floor(1 + log2(abs(size[2]/256/diff(normY))));
    
-   return(c(MaxZoom.lat=MaxZoom.lat,MaxZoom.lon=MaxZoom.lon))
+   return(min(c(MaxZoom.lat=MaxZoom.lat,MaxZoom.lon=MaxZoom.lon)))
 ### zoom level
  })
 

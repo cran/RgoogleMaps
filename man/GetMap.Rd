@@ -34,7 +34,7 @@ NEWMAP = TRUE,
 verbose = 1)
 }
 \arguments{
-  \item{center}{optional center}
+  \item{center}{optional center (lat first,lon second  )}
   \item{size}{desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels}
   \item{destfile}{File to load the map image from or save to, depending on \code{NEWMAP}.}
   \item{zoom}{Google maps zoom level.}
@@ -62,7 +62,7 @@ verbose = 1)
 \examples{
 lat = c(40.702147,40.718217,40.711614);
 lon = c(-74.012318,-74.015794,-73.998284);
-center = c(mean(lat), mean(lon));
+center = c(lat=mean(lat), lon=mean(lon));
 zoom <- min(MaxZoom(range(lat), range(lon)));
 #this overhead is taken care of implicitly by GetMap.bbox();              
 MyMap <- GetMap(center=center, zoom=zoom,markers = "&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284", destfile = "MyTile1.png");
@@ -78,7 +78,7 @@ MyMap <- GetMap(center=center, zoom=zoom,markers = "&markers=color:blue|label:S|
 #The following example displays a map of Brooklyn where local roads have been changed to bright green and the residential areas have been changed to black:
 # MyMap <- GetMap(center="Brooklyn", zoom=12, maptype = "roadmap", path = "&style=feature:road.local|element:geometry|hue:0x00ff00|saturation:100&style=feature:landscape|element:geometry|lightness:-100", sensor='false', destfile = "MyTile4.png",  RETURNIMAGE = FALSE);
  
- #In the last example we set RETURNIMAGE to FALSE which is a useful feature in general if neither png nor ReadImages are installed. In those cases, the images can still be fetched and saved but not read into R.
+ #In the last example we set RETURNIMAGE to FALSE which is a useful feature in general if png is not installed. In that cases, the images can still be fetched and saved but not read into R.
 
 #In the following example we let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers. However, to be of use within R we do need to know the values for zoom and center explicitly, so it is better practice to compute them ourselves and pass them as arguments, in which case meta information on the map tile can be saved as well.
 

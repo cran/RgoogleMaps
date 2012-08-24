@@ -32,14 +32,17 @@
     BBOX <- list(ll = c(latR[1], lonR[1]), ur = c(latR[2], lonR[2]))
 	MetaInfo <- list(lat.center = mean(latR), lon.center  = mean(lonR), zoom = NULL, url = "OSM", BBOX = BBOX, scale=scale);
 	save(MetaInfo, file = paste(destfile,"rda",sep="."));
- 	
+ 	if (verbose == -1) browser();
+
  	if (RETURNIMAGE){
  	  myMap <- ReadMapTile(destfile);
- 	  if (GRAYSCALE) 
-     	myMap$myTile <- RGB2GRAY(myMap$myTile);
-     invisible(myMap);	    
- 	}
-	invisible(url)
+ 	  if (GRAYSCALE) {
+     	     myMap$myTile <- RGB2GRAY(myMap$myTile);
+        }
+	  return(myMap);	    
+ 	} else {
+	  invisible(url)
+	}
 ### map structure or URL used to download the tile.
  }, ex = function(){
   if (0) {
