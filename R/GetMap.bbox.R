@@ -12,6 +12,7 @@
   NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile.
   zoom,  ##<< Google maps zoom level. optional
   verbose=1, ##<< level of verbosity
+  SCALE = 1, ##<< use the API's scale parameter to return higher-resolution map images. The scale value is multiplied with the size to determine the actual output size of the image in pixels, without changing the coverage area of the map
   ... ##<< extra arguments to \link{GetMap} 
 ){
   	if (missing(zoom)) zoom <- min(MaxZoom(latR, lonR, size));
@@ -42,7 +43,7 @@
     	if (verbose) cat("new size: ", size, "\n")
     }
  	#if (NEWMAP) 
- 	return(GetMap(center = c(lat.center, lon.center), zoom = zoom, size=size, destfile = destfile, RETURNIMAGE = RETURNIMAGE, GRAYSCALE = GRAYSCALE, verbose = verbose, ...));
+ 	return(GetMap(center = c(lat.center, lon.center), zoom = zoom, size=size, destfile = destfile, RETURNIMAGE = RETURNIMAGE, GRAYSCALE = GRAYSCALE, SCALE=SCALE, verbose = verbose, ...));
  ### map tile
 
  }, ex = function(){

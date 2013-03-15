@@ -42,7 +42,7 @@
 }, ex = function(){
 #quick test:
 
-  zoom=12;MyMap <- list(40,-120,zoom);
+  zoom=12;MyMap <- list(40,-120,zoom, url="google");
   LatLon <- c(lat = 40.0123, lon = -120.0123);
   Rcoords <- LatLon2XY.centered(MyMap,LatLon["lat"],LatLon["lon"])
   newLatLon <- XY2LatLon(MyMap, Rcoords$newX, Rcoords$newY)
@@ -51,7 +51,7 @@
 #more systematic:
  for (zoom in 2:10){
    cat("zoom: ", zoom, "\n");
-   MyMap <- list(40,-120,zoom);
+   MyMap <- list(40,-120,zoom, url="google");
    LatLon <- c(lat = runif(1,-80,80), lon = runif(1,-170,170));
    Rcoords <- LatLon2XY.centered(MyMap,LatLon["lat"],LatLon["lon"])
    newLatLon <- XY2LatLon(MyMap, Rcoords$newX, Rcoords$newY)

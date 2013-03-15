@@ -3,7 +3,7 @@
 ### center and zoom. Many additional arguments allow the user to customize 
 ### the map tile.
 (
-  center, ##<< optional center (lat first,lon second  )
+  center=c(lat=42, lon=-76), ##<< optional center (lat first,lon second  )
   size = c(640,640), ##<< desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels 
   destfile = "MyTile.png", ##<<  File to load the map image from or save to, depending on \code{NEWMAP}.
   zoom =12, ##<< Google maps zoom level.
@@ -13,16 +13,21 @@
   frame, ##<< (optional) specifies that the resulting image should be framed with a colored blue border. The frame consists of a 5 pixel, 55 % opacity blue border. 
   hl, ##<< (optional) defines the language to use for display of labels on map tiles. Note that this paramater is only supported for some country tiles; if the specific language requested is not supported for the tile set, then the default language for that tile set will be used.
   sensor = "true",  ##<< specifies whether the application requesting the static map is using a sensor to determine the user`s location. This parameter is now required for all static map requests.
-  maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[4], ##<< defines the type of map to construct. There are several possible maptype values, including satellite, terrain, hybrid, and mobile. 
+  maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[2], ##<< defines the type of map to construct. There are several possible maptype values, including satellite, terrain, hybrid, and mobile. 
   format = c("gif","jpg","jpg-baseline","png8","png32")[5],  ##<< (optional) defines the format of the resulting image. By default, the Static Maps API creates GIF images. There are several possible formats including GIF, JPEG and PNG types. Which format you use depends on how you intend to present the image. JPEG typically provides greater compression, while GIF and PNG provide greater detail. This version supports only PNG.
   RETURNIMAGE = TRUE, ##<< return image yes/no default: TRUE
   GRAYSCALE =FALSE, ##<< Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}
   NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile. 
+  SCALE = 1, ##<< use the API's scale parameter to return higher-resolution map images. The scale value is multiplied with the size to determine the actual output size of the image in pixels, without changing the coverage area of the map
   verbose=1 ##<< level of verbosity
 ){
   ##note<<Note that size is in order (lon, lat) !
 
   ##seealso<< \link{GetMap.bbox}
+
+  if (is.null(names(center))) {
+    names(center) = c("lat", "lon");
+  } else stopifnot( all(names(center) %in% c("lat", "lon")) )
   
   stopifnot(all(size <=640));
   
@@ -34,14 +39,11 @@
 	  ans <- readLines(n=1);
 	  if (ans != "y") return(); 
   } else if ( is.numeric(center) & !missing(zoom)) {  
-     if (is.null(names(center))) {
-      names(center) = c("lat", "lon");
-     } else stopifnot( all(names(center) %in% c("lat", "lon")) )
-     center=center[c("lat", "lon")]
-      MyMap <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom);
+      MyMap <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, SCALE = SCALE);
       BBOX <- list(ll = XY2LatLon(MyMap, -size[1]/2 + 0.5, -size[2]/2 - 0.5), ur = XY2LatLon(MyMap, size[1]/2 + 0.5, size[2]/2 - 0.5) );
 	  MetaInfo <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, 
-        url = "google", BBOX = BBOX, size=size);
+        url = "google", BBOX = BBOX, size=size, SCALE = SCALE);
+     # browser()
 	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
   } 
 
@@ -66,6 +68,7 @@
 	}
 	
 	url <- paste(url, path, sep="");
+  if (SCALE == 2) url <- paste(url, "&scale=", SCALE, sep="");
 	
 	if (!missing(markers)) {
 		#assumes markers is a list with names lat, lon, size (optional), color (optional), char (optional)
@@ -120,7 +123,7 @@
 }, ex = function(){
   lat = c(40.702147,40.718217,40.711614);
   lon = c(-74.012318,-74.015794,-73.998284);
-  center = c(lat=mean(lat), lon=mean(lon));
+  center = c(mean(lat), mean(lon));
   zoom <- min(MaxZoom(range(lat), range(lon)));
   #this overhead is taken care of implicitly by GetMap.bbox();              
   MyMap <- GetMap(center=center, zoom=zoom,markers = "&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284", destfile = "MyTile1.png");

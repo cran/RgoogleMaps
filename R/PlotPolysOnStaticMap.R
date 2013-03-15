@@ -60,14 +60,19 @@ if (require(PBSmapping) & all(c("PID","X","Y","POS") %in% colnames(polys.XY)) ) 
   
   shp=importShapefile(shpFile,projection="LL");
   bb <- qbbox(lat = shp[,"Y"], lon = shp[,"X"]);
-  MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "DC.jpg");
+  MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "DC.png");
   PlotPolysOnStaticMap(MyMap, shp, lwd=.5, col = rgb(0.25,0.25,0.25,0.025), add = F);
+  
+  #Try an open street map:
+
+  mapOSM <- GetMap.OSM(lonR=bb$lonR, latR=bb$latR, scale = 150000, destfile = "DC.png");
+  PlotPolysOnStaticMap(mapOSM, shp, lwd=.5, col = rgb(0.75,0.25,0.25,0.15), add = F);
 
   #North Carolina SIDS data set:
   shpFile <- system.file("shapes/sids.shp", package="maptools");
   shp=importShapefile(shpFile,projection="LL");
   bb <- qbbox(lat = shp[,"Y"], lon = shp[,"X"]);
-  MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "SIDS.jpg");
+  MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "SIDS.png");
   #compute regularized SID rate
   sid <- 100*attr(shp, "PolyData")$SID74/(attr(shp, "PolyData")$BIR74+500)
   b <- as.integer(cut(sid, quantile(sid, seq(0,1,length=8)) ));
@@ -93,7 +98,7 @@ if (require(PBSmapping) & all(c("PID","X","Y","POS") %in% colnames(polys.XY)) ) 
   #This kml file can now be inspected in Google Earth or Google Maps
   
   #or choose an aspect ratio that corresponds better to North Carolina's elongated shape:
-  MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "SIDS.jpg", size = c(640, 320), zoom = 7);
+  MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "SIDS.png", size = c(640, 320), zoom = 7);
   PlotPolysOnStaticMap(MyMap, shp, lwd=.5, col = shp[,"col"], add = F);
  }
 })

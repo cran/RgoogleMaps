@@ -30,7 +30,7 @@
     #BBOX <- list(ll = c(lonR[1], latR[1]), ur = c(lonR[2], latR[2]) );
     #thanks to Julien Barnier who corrected this bug:
     BBOX <- list(ll = c(latR[1], lonR[1]), ur = c(latR[2], lonR[2]))
-	MetaInfo <- list(lat.center = mean(latR), lon.center  = mean(lonR), zoom = NULL, url = "OSM", BBOX = BBOX, scale=scale);
+	MetaInfo <- list(lat.center = mean(latR), lon.center  = mean(lonR), zoom = NULL, url = "OSM", BBOX = BBOX, scale=scale, SCALE = 1);
 	save(MetaInfo, file = paste(destfile,"rda",sep="."));
  	if (verbose == -1) browser();
 

@@ -29,7 +29,7 @@
    lon.center <- MyMap[[2]];
    zoom <- MyMap[[3]];
    if (TrueProj & MyMap$url == "OSM") {
-   	  print("map type is OpenStreetMap. Until we find the correct projection algorithm, we treat lat/lon like planar coordinates and set TrueProj = FALSE.")
+   	  print("Caution: map type is OpenStreetMap. Until we find the correct projection algorithm, we treat lat/lon like planar coordinates and set TrueProj = FALSE.")
    	  TrueProj = FALSE;
    	}
    
@@ -69,7 +69,8 @@
      tmp2 <- par("usr");
      offset = 1;
      if (TrueProj){
-       updateusr(tmp2[1:2], x2=c(-size[1]+offset, size[1]-offset)/2, tmp2[3:4], y2=c(-size[2]+offset, size[2]-offset)/2 );
+       SCALE = 2*MyMap$SCALE
+       updateusr(tmp2[1:2], x2=c(-size[1]+offset, size[1]-offset)/SCALE, tmp2[3:4], y2=c(-size[2]+offset, size[2]-offset)/SCALE );
      } 
      if (axes){
      	degAxis(1, MyMap=MyMap); degAxis(2, MyMap=MyMap);
@@ -77,21 +78,27 @@
      #browser();
    }
    
+   
    if (!missing(lat) & !missing(lon)){
-   	if (TrueProj){
-   	 Rcoords <- LatLon2XY.centered(MyMap,lat,lon);
+     #if (TrueProj){
+     Rcoords <- LatLon2XY.centered(MyMap,lat,lon);
      newX <- Rcoords$newX;
      newY <- Rcoords$newY;
+     #browser()
      if (verbose) {
-		print(range(newX, na.rm=TRUE));
-		print(range(newY, na.rm=TRUE));
-		#print(list(newX,newY));
+       print(range(newX, na.rm=TRUE));
+       print(range(newY, na.rm=TRUE));
+       #print(list(newX,newY));
      }
-    } else {
-       newX <- lon;
-       newY <- lat;
-    }    
-	FUN(newX, newY, ...)
+     #     } else {
+     #        Rcoords<-transfXY(MyMap, lon, lat)
+     #        newX <- Rcoords$newX;
+     #        newY <- Rcoords$newY;
+     #        #newX <- lon;
+     #        #newY <- lat;
+     #     }    
+     
+     FUN(newX, newY, ...)
    }
    
    #invisible(list(newX,newY)); 
