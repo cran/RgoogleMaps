@@ -29,7 +29,8 @@ system.  The 2 points cannot have the same x values or y values in
 either system.}
 \value{An invisible list with the previous 'usr' coordinates from \code{par}.}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
+<markus.loecher@gmail.com>}
 \note{Currently you need to give coordinates for exactly 2 points without
 missing values.  Future versions of the function will allow missing
 values or multiple points.

@@ -24,7 +24,8 @@ points with a few additional options such as quantile boxes, additional margins,
 \value{\item{latR }{latitude range}
 \item{lonR }{longitude range}}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
+<markus.loecher@gmail.com>}
 
 
 

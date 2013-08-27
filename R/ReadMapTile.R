@@ -14,6 +14,7 @@ ReadMapTile <- structure(function#Read a bitmap image stored in the PNG format
 
   #attr(myTile, "type") <- "rgb"; 
   size <- dim(myTile)[2:1];
+  MetaInfo=NULL;
   if (METADATA) {
     try({
  	#load(paste(fileBase,"rda",sep="."));

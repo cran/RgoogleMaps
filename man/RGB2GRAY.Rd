@@ -9,7 +9,8 @@
 \details{Gray scale intensity defined as  0.30R + 0.59G + 0.11B}
 \value{image tile}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
+<markus.loecher@gmail.com>}
 
 
 

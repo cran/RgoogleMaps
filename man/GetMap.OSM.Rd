@@ -23,17 +23,20 @@ The scale determines the image size.}
 
 \value{map structure or URL used to download the tile.}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
+<markus.loecher@gmail.com>}
 \note{The OSM maptile server is frequently too busy to accomodate every request, so patience is warranted.}
 
 
 
 \examples{
   if (0) {
- CologneMap <- GetMap.OSM(lonR= c(6.89, 7.09), latR = c(50.87, 51), scale = 150000, destfile = "Cologne.png");
+ CologneMap <- GetMap.OSM(lonR= c(6.89, 7.09), latR = c(50.87, 51), scale = 150000, 
+                            destfile = "Cologne.png");
 PlotOnStaticMap(CologneMap, mar=rep(4,4), NEWMAP = FALSE, TrueProj = FALSE, axes= TRUE);
 	
-PrincetonMap <- GetMap.OSM(lonR= c(-74.67102, -74.63943), latR = c(40.33804,40.3556), scale = 12500, destfile = "Princeton.png");
+PrincetonMap <- GetMap.OSM(lonR= c(-74.67102, -74.63943), latR = c(40.33804,40.3556), 
+                             scale = 12500, destfile = "Princeton.png");
 png("PrincetonWithAxes.png", 1004, 732)
       PlotOnStaticMap(PrincetonMap, axes = TRUE, mar = rep(4,4));
       dev.off()

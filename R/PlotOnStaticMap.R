@@ -39,12 +39,8 @@
    if (!add) {
    	 #require(rimage)
        if ( all(is.na(charmatch(c("png","pdf","postscript", "jpeg"), names(dev.cur())))) ) {
-         if ( is.na(charmatch("null", names(dev.cur())) ) )  dev.off();
-         if (exists("windows")) windows(7*size[1]/640, 7*size[2]/640)
-         else if (exists("quartz")) quartz(width=7*size[1]/640, height=7*size[2]/640)
-         else if (exists("X11")) X11(width=7*size[1]/640, height=7*size[2]/640)
-         #if(length(grep("windows",R.Version()$os))) windows(7*size[1]/640, 7*size[2]/640)
-         #if(length(grep("linux",R.Version()$os))) windows(7*size[1]/640, 7*size[2]/640)
+         #if ( is.na(charmatch("null", names(dev.cur())) ) )  dev.off();
+         dev.new(width=7*size[1]/640, height=7*size[2]/640)
        }
    	 par(mar=mar);#par(pin=c(9,9))
    	 
@@ -112,11 +108,18 @@
   center = c(mean(lat), mean(lon));
   zoom <- min(MaxZoom(range(lat), range(lon)));
   #this overhead is taken care of implicitly by GetMap.bbox();              
-  MyMap <- GetMap(center=center, zoom=zoom,markers = '&markers=color:blue|label:S|40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=color:red|color:red|label:C|40.718217,-73.998284', destfile = "MyTile1.png");
+  MyMap <- GetMap(center=center, zoom=zoom,markers = paste0("&markers=color:blue|label:S|",
+           "40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=",
+           "color:red|color:red|label:C|40.718217,-73.998284"), destfile = "MyTile1.png");
                  
-   tmp <- PlotOnStaticMap(MyMap, lat = c(40.702147,40.711614,40.718217), lon = c(-74.015794,-74.012318,-73.998284), destfile = "MyTile1.png", cex=1.5,pch=20,col=c('red', 'blue', 'green'), add=FALSE);
+   tmp <- PlotOnStaticMap(MyMap, lat = c(40.702147,40.711614,40.718217), 
+                          lon = c(-74.015794,-74.012318,-73.998284), 
+                          destfile = "MyTile1.png", cex=1.5,pch=20,
+                          col=c('red', 'blue', 'green'), add=FALSE);
    #and add lines:
-   PlotOnStaticMap(MyMap, lat = c(40.702147,40.711614,40.718217), lon = c(-74.015794,-74.012318,-73.998284), lwd=1.5,col=c('red', 'blue', 'green'), FUN = lines, add=TRUE)
+   PlotOnStaticMap(MyMap, lat = c(40.702147,40.711614,40.718217), 
+                   lon = c(-74.015794,-74.012318,-73.998284), 
+                   lwd=1.5,col=c('red', 'blue', 'green'), FUN = lines, add=TRUE)
    	
 
 })

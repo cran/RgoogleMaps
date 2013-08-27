@@ -57,11 +57,12 @@
 	##download the map:
   	MyMap <- GetMap.bbox(bb$lonR, bb$latR, destfile = "DC.png", GRAYSCALE =TRUE,
                 markers = mymarkers);
- 	##The function qbbox() basically computes a bounding box for the given lat,lon points with a few additional options such as quantile boxes, additional buffers, etc.  
+ 	##The function qbbox() basically computes a bounding box for the given lat,lon 
+   #points with a few additional options such as quantile boxes, additional buffers, etc.  
   	bb <- qbbox(c(40.702147,40.711614,40.718217),c(-74.015794,-74.012318,-73.998284), 
             TYPE = "all", margin = list(m=rep(5,4), TYPE = c("perc", "abs")[1]));
  	##download the map:           
-    	MyMap <- GetMap.bbox(bb$lonR, bb$latR,destfile = "MyTile3.png", maptype = "satellite") 
+	MyMap <- GetMap.bbox(bb$lonR, bb$latR,destfile = "MyTile3.png", maptype = "satellite") 
 
 
 })

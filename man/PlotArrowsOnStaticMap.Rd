@@ -20,7 +20,8 @@
 
 \value{return value of \code{FUN}}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
+<markus.loecher@gmail.com>}
 
 
 

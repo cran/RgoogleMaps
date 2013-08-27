@@ -10,7 +10,8 @@
 \details{mainly used for shrinking the size of a tile to the minimum size.}
 \value{list with X and Y pixel values}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
+<markus.loecher@gmail.com>}
 
 
 

@@ -14,7 +14,8 @@
 \item{lon }{longitude}
 \item{lat }{latitude}}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
+<markus.loecher@gmail.com>}
 
 
 

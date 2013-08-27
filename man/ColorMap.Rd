@@ -26,18 +26,21 @@
 
 
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)" <markus.loecher@gmail.com>}
+\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
+<markus.loecher@gmail.com>}
 
 
 
 
 \examples{
 if (0){
-  data(NYleukemia)
+  data("NYleukemia", envir = environment())
   population <- NYleukemia$data$population
   cases <- NYleukemia$data$cases
-  mapNY <- GetMap(center=c(lat=42.67456,lon=-76.00365), destfile = "NYstate.png", maptype = "mobile", zoom=9)
-  ColorMap(100*cases/population, mapNY, NYleukemia$spatial.polygon, add = FALSE,alpha = 0.35, log = TRUE, location = "topleft")
+  mapNY <- GetMap(center=c(lat=42.67456,lon=-76.00365), destfile = "NYstate.png", 
+                  maptype = "mobile", zoom=9)
+  ColorMap(100*cases/population, mapNY, NYleukemia$spatial.polygon, add = FALSE,
+           alpha = 0.35, log = TRUE, location = "topleft")
 }
   #ColorMap(100*cases/population, map=NULL, NYleukemia$spatial.polygon)
   
