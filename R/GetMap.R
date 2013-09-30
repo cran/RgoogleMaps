@@ -24,11 +24,14 @@
   ##note<<Note that size is in order (lon, lat) !
 
   ##seealso<< \link{GetMap.bbox}
-
-  if (is.null(names(center))) {
-    names(center) = c("lat", "lon");
-  } else stopifnot( all(names(center) %in% c("lat", "lon")) )
-  
+  if (is.character(center)) {
+    if (verbose) cat("geocoding ", center, "\n")
+    center = getGeoCode(center,verbose)
+  }
+#   if (is.null(names(center))) {
+#     names(center) = c("lat", "lon");
+#   } else stopifnot( all(names(center) %in% c("lat", "lon")) )
+#   
   stopifnot(all(size <=640));
   
   fileBase <- substring(destfile,1, nchar(destfile)-4);
@@ -68,6 +71,7 @@
 	}
 	
 	url <- paste(url, path, sep="");
+  if (!missing(hl)) url <- paste0(url, "&language=",hl);
   if (SCALE == 2) url <- paste(url, "&scale=", SCALE, sep="");
 	
 	if (!missing(markers)) {
@@ -137,7 +141,14 @@
    MyMap <- GetMap(path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
                    "40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"), 
                    destfile = "MyTile3.png");
-   
+  #use implicit geo coding 
+  BrooklynMap <- GetMap(center="Brooklyn", zoom=13)
+  PlotOnStaticMap(BrooklynMap)
+  
+  #use implicit geo coding and display labels in Korean:
+  BrooklynMap <- GetMap(center="Brooklyn", zoom=13, hl="ko")
+  PlotOnStaticMap(BrooklynMap)
+  
    #The example below defines a polygonal area within Manhattan, passed a series of 
   #intersections as locations:
 #MyMap <- GetMap(path = paste0("&path=color:0x00000000|weight:5|fillcolor:0xFFFF0033|",

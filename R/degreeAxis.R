@@ -1,4 +1,4 @@
-degAxis = structure(function#axis with degrees
+degreeAxis = structure(function#axis with degrees
 ### add an axis with degree labels
 (
   side, ##<< integer; see \link{axis}
@@ -47,6 +47,6 @@ degAxis = structure(function#axis with degrees
 }, ex = function(){
   xy = cbind(x = 2 * runif(100) - 1, y = 2 * runif(100) - 1)
   plot(xy,xlim=c(-1,1),ylim=c(-1,1))
-  degAxis(1)
-  degAxis(2, at = c(-1,-0.5,0,0.5,1))
+  degreeAxis(1)
+  degreeAxis(2, at = c(-1,-0.5,0,0.5,1))
 })

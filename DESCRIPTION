@@ -1,10 +1,10 @@
 Package: RgoogleMaps
 Type: Package
 Title: Overlays on Google map tiles in R
-Version: 1.2.0.4
-Date: 2013-08-27
-Depends: R (>= 2.10), graphics, stats, utils, png
-Suggests: PBSmapping, maptools, RColorBrewer, sp
+Version: 1.2.0.5
+Date: 2013-09-30
+Depends: R (>= 2.10), graphics, stats, utils, png, RJSONIO
+Suggests: PBSmapping, maptools, RColorBrewer, sp, rgdal
 Author: "Markus Loecher, Berlin School of Economics and Law (BSEL)"
         <markus.loecher@gmail.com>
 Maintainer: "Markus Loecher" <markus.loecher@gmail.com>
@@ -14,7 +14,7 @@ Description: This package serves two purposes: (i) Provide a
         plots within R. This requires proper coordinate scaling.
 License: GPL
 LazyLoad: yes
-Packaged: 2013-09-03 11:32:56 UTC; user
+Packaged: 2013-09-28 07:54:55 UTC; user
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2013-09-04 16:47:28
+Date/Publication: 2013-09-28 11:50:31

@@ -1,8 +1,8 @@
-\name{degAxis}
-\alias{degAxis}
+\name{degreeAxis}
+\alias{degreeAxis}
 \title{axis with degrees}
 \description{add an axis with degree labels}
-\usage{degAxis(side, at, labels, MyMap, ...)}
+\usage{degreeAxis(side, at, labels, MyMap, ...)}
 \arguments{
   \item{side}{integer; see \link{axis}}
   \item{at}{numeric; if missing, \link{axTicks} is called for nice values; see \link{axis}}
@@ -22,6 +22,6 @@
 \examples{
 xy = cbind(x = 2 * runif(100) - 1, y = 2 * runif(100) - 1)
 plot(xy,xlim=c(-1,1),ylim=c(-1,1))
-degAxis(1)
-degAxis(2, at = c(-1,-0.5,0,0.5,1))
+degreeAxis(1)
+degreeAxis(2, at = c(-1,-0.5,0,0.5,1))
 }

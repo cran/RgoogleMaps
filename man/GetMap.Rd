@@ -56,7 +56,14 @@ the map tile.}
    MyMap <- GetMap(path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
                    "40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"), 
                    destfile = "MyTile3.png");
-   
+  #use implicit geo coding 
+  BrooklynMap <- GetMap(center="Brooklyn", zoom=13)
+  PlotOnStaticMap(BrooklynMap)
+  
+  #use implicit geo coding and display labels in Korean:
+  BrooklynMap <- GetMap(center="Brooklyn", zoom=13, hl="ko")
+  PlotOnStaticMap(BrooklynMap)
+  
    #The example below defines a polygonal area within Manhattan, passed a series of 
   #intersections as locations:
 #MyMap <- GetMap(path = paste0("&path=color:0x00000000|weight:5|fillcolor:0xFFFF0033|",

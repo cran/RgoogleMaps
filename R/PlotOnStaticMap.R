@@ -69,7 +69,7 @@
        updateusr(tmp2[1:2], x2=c(-size[1]+offset, size[1]-offset)/SCALE, tmp2[3:4], y2=c(-size[2]+offset, size[2]-offset)/SCALE );
      } 
      if (axes){
-     	degAxis(1, MyMap=MyMap); degAxis(2, MyMap=MyMap);
+       degreeAxis(1, MyMap=MyMap); degreeAxis(2, MyMap=MyMap);
      }
      #browser();
    }

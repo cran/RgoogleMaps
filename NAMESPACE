@@ -9,5 +9,6 @@ import(
   graphics,
   stats,
   utils,
-  png
+  png,
+  RJSONIO
 )
