@@ -4,13 +4,13 @@
 \description{Query the Google server for a static map tile, defined primarily by its 
 center and zoom. Many additional arguments allow the user to customize 
 the map tile.}
-\usage{GetMap(center = c(lat = 42, lon = -76), size = c(640, 640), destfile = "MyTile.png", 
+\usage{GetMap(center = c(lat = 42, lon = -76), size = c(640, 640), destfile, 
     zoom = 12, markers, path = "", span, frame, hl, sensor = "true", 
     maptype = c("roadmap", "mobile", "satellite", "terrain", 
         "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[2], 
     format = c("gif", "jpg", "jpg-baseline", "png8", "png32")[5], 
     RETURNIMAGE = TRUE, GRAYSCALE = FALSE, NEWMAP = TRUE, SCALE = 1, 
-    verbose = 1)}
+    verbose = 0)}
 \arguments{
   \item{center}{optional center (lat first,lon second  )}
   \item{size}{desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels}
@@ -33,9 +33,8 @@ the map tile.}
 
 \value{map structure or URL used to download the tile.}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
-<markus.loecher@gmail.com>}
-\note{Note that size is in order (lon, lat) !}
+\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\note{Note that size is in order (lon, lat)}
 
 
 \seealso{\link{GetMap.bbox}}
@@ -53,9 +52,9 @@ the map tile.}
   #latitude range to accomodate the extent of the top most marker
   
   #add a path, i.e. polyline:
-   MyMap <- GetMap(path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
-                   "40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"), 
-                   destfile = "MyTile3.png");
+MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
+  path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
+  "40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"));
   #use implicit geo coding 
   BrooklynMap <- GetMap(center="Brooklyn", zoom=13)
   PlotOnStaticMap(BrooklynMap)

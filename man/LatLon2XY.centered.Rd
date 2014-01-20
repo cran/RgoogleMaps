@@ -14,8 +14,7 @@
 \item{newX }{ transformed longitude}
 \item{newY }{transformed latitude}}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
-<markus.loecher@gmail.com>}
+\author{"Markus Loecher"   <markus.loecher@gmail.com>}
 
 
 

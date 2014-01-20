@@ -2,8 +2,10 @@ bubbleMap <- structure(function#Create a bubble plot of spatial data on Google M
 ### This function creates a bubble plot of spatial
 ### data, with options for bicolour residual plots.
 (
-  SP, ##<< object of \link[sp]{SpatialPointsDataFrame-class} with associated coordinate reference systems
-  map, ##<< map object
+  SP, ##<< object of class data.frame or \link[sp]{SpatialPointsDataFrame-class} with associated coordinate reference systems
+  coords=c("x", "y"), ##<< names of coordinate columns
+  crs=CRS("+proj=longlat +datum=WGS84") , ##<< coordinate reference systems
+  map, ##<< map object; if missing map is downloaded from server
   filename = "", ##<< filename to save the map under, IF map object not given
   zcol = 1, ##<< variable column name, or column number after removing spatial coordinates from x@data: 1 refers to the first non-coordinate column
   max.radius = 100, ##<< value for largest circle (the plotting symbols) in metre, circumcircle of triange or quadrangle (square)
@@ -16,6 +18,7 @@ bubbleMap <- structure(function#Create a bubble plot of spatial data on Google M
   alpha = 0.7, ##<< the fill opacity between 0.0 and 1.0
   strokeWeight = 1, ##<< the stroke width in pixels
   LEGEND = TRUE, ##<< logical; if TRUE add bubbleLegend
+  legendLoc = "topleft", ##<< the x and y co-ordinates to be used to position the legend. They can be specified by keyword or in any way which is accepted by \code{legend}
   verbose =0 ##<< level of verbosity
 ){
   ####################################################################
@@ -64,19 +67,47 @@ bubbleMap <- structure(function#Create a bubble plot of spatial data on Google M
     
     ###The function provide list of colors (cols), unique colors (col.uniq), levels of attribute (att),attribute breaks (brks).   
   }
-    require(rgdal)
-    if (class(SP) == "data.frame") {
-      SP = DF2SpatialPointsDataFrame(SP, coords=c("x", "y"))
-    } 
+    #require(rgdal)
+  if (class(SP) == "data.frame") {
+    #SP = DF2SpatialPointsDataFrame(SP, coords=c("x", "y"))
+    nameOfSP = deparse(substitute(SP))
+    z = SP[, zcol]
+    ll = SP[, coords]
+  } else {
     stopifnot(class(SP) == "SpatialPointsDataFrame")
     obj = as(SP, "SpatialPointsDataFrame")
     data = obj@data
     if (NCOL(data) == 1) {
-        z = data
+      z = data
     }
     else {
-        z = data[, zcol]
+      z = data[, zcol]
     }
+    SP.ll <- spTransform(SP, crs)
+    Centar = c(mean(SP.ll@bbox[1, ]), mean(SP.ll@bbox[2, ]))
+    sw <- c(SP.ll@bbox[2, 1], SP.ll@bbox[1, 1])
+    ne <- c(SP.ll@bbox[2, 2], SP.ll@bbox[1, 2])
+    nameOfSP <- sapply(as.list(substitute({
+      SP
+    })[-1]), deparse)
+    nameOfSP <- gsub("[!,\",#,$,%,&,(,),*,+,-,.,/,:,;,<,=,>,?,@,^,`,|,~]", 
+                     "_", nameOfSP)
+    nameOfSP <- gsub("[[]", "_", nameOfSP)
+    nameOfSP <- gsub("[]]", "_", nameOfSP)
+    
+    attribute = SP@data[, zcol]
+    for (i in 1:length(SP.ll@data)) {
+      if (identical(attribute, SP.ll@data[, i])) {
+        attributeName <- names(SP.ll@data)[i]
+      }
+    }
+    ll = SP.ll@coords
+  }
+  att <- rep(NA, length(ll[, 1]))
+  att1 = ""
+  if (filename == "") {
+    filename <- paste(nameOfSP, ".png", sep = "")
+  }
     if (min(key.entries) < 0) {
         ke <- abs(min(key.entries)) + key.entries + mean(key.entries)
     }
@@ -101,21 +132,7 @@ bubbleMap <- structure(function#Create a bubble plot of spatial data on Google M
             labels = radius.level)
         radius.vector <- floor(as.numeric(as.vector((zz))))
     }
-    SP.ll <- spTransform(SP, CRS("+proj=longlat +datum=WGS84"))
-    Centar = c(mean(SP.ll@bbox[1, ]), mean(SP.ll@bbox[2, ]))
-    sw <- c(SP.ll@bbox[2, 1], SP.ll@bbox[1, 1])
-    ne <- c(SP.ll@bbox[2, 2], SP.ll@bbox[1, 2])
-    nameOfSP <- sapply(as.list(substitute({
-        SP
-    })[-1]), deparse)
-    nameOfSP <- gsub("[!,\",#,$,%,&,(,),*,+,-,.,/,:,;,<,=,>,?,@,^,`,|,~]", 
-        "_", nameOfSP)
-    nameOfSP <- gsub("[[]", "_", nameOfSP)
-    nameOfSP <- gsub("[]]", "_", nameOfSP)
-    if (filename == "") {
-        filename <- paste(nameOfSP, ".png", sep = "")
-    }
-    attribute = SP@data[, zcol]
+
 #     polyName <- paste("poly", nameOfSP, sep = "")
 #     boxname <- paste(nameOfSP, "box", sep = "")
 #     textname <- paste(nameOfSP, "text", sep = "")
@@ -134,39 +151,39 @@ bubbleMap <- structure(function#Create a bubble plot of spatial data on Google M
         colPalette <- apply(rgbc, 2, function(x) rgb(x[1], x[2], 
             x[3], maxColorValue = 255))
     }
-    for (i in 1:length(SP.ll@data)) {
-        if (identical(attribute, SP.ll@data[, i])) {
-            attributeName <- names(SP.ll@data)[i]
-        }
-    }
-    att <- rep(NA, length(SP.ll@coords[, 1]))
-    att1 = ""
     
-
     cxx <- PolyCol(factor(zz, labels = key.entries), colPalette)
     plotclr <- cxx$cols
     plotclr = AddAlpha(plotclr,alpha)
     
-    bb <- qbbox(lat = SP.ll@coords[, 2], lon = SP.ll@coords[, 1]);
+    bb <- qbbox(lat = ll[, 2], lon = ll[, 1]);
     if (verbose>1) browser()
     ##download the map:
     if (missing(map))
       map <- GetMap.bbox(bb$lonR, bb$latR, destfile = filename, maptype="mobile", SCALE = 2);
-    PlotOnStaticMap(map, lat = SP.ll@coords[, 2], lon = SP.ll@coords[, 1], 
+    PlotOnStaticMap(map, lat = ll[, 2], lon = ll[, 1], 
                     col = plotclr, cex = 3*radius.vector/max(radius.vector, na.rm=TRUE), pch = 20)
     if (LEGEND) {
       CEX = sqrt(as.numeric(key.entries))
       CEX = 4*CEX/max(CEX)
       cxx2 <- PolyCol(factor(CEX, labels = key.entries), colPalette)
-      legend("topright", pt.cex=CEX, col=cxx2$cols, pch=20, legend=as.character(key.entries))
+      LEGEND = paste0("<",as.character(key.entries))
+      legend(legendLoc, pt.cex=CEX,col=cxx2$cols, pch=20, legend=LEGEND)
     }
 invisible(map)
 #####################################################################
 ### map structure or URL used to download the tile.
 }, ex = function(){
-  library(sp)
-  data("meuse", package = "sp", envir = environment())
-  m<-bubbleMap(meuse,zcol='zinc');
+  data(lat.lon.meuse, package="loa", envir = environment())
+  #map <- GetMap.bbox(bb$lonR, bb$latR, destfile = filename, maptype="mobile", SCALE = 2);
+  map <- GetMap(center=c(lat=50.97494,lon=5.743606), zoom=13,
+                size=c(480,480),destfile = file.path(tempdir(),"meuse.png"),
+                maptype="mobile", SCALE = 1);
+
+  par(cex=1.5)
+  bubbleMap(lat.lon.meuse, coords = c("longitude","latitude"), map=map,
+            zcol='zinc', key.entries = 100+ 100 * 2^(0:4));
+  
 })
 
 

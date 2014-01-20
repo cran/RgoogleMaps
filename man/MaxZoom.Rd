@@ -11,8 +11,7 @@
 
 \value{zoom level}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
-<markus.loecher@gmail.com>}
+\author{"Markus Loecher"   <markus.loecher@gmail.com>}
 
 
 

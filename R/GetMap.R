@@ -5,7 +5,7 @@
 (
   center=c(lat=42, lon=-76), ##<< optional center (lat first,lon second  )
   size = c(640,640), ##<< desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels 
-  destfile = "MyTile.png", ##<<  File to load the map image from or save to, depending on \code{NEWMAP}.
+  destfile, ##<<  File to load the map image from or save to, depending on \code{NEWMAP}.
   zoom =12, ##<< Google maps zoom level.
   markers,  ##<< (optional) defines one or more markers to attach to the image at specified locations. This parameter takes a string of marker definitions separated by the pipe character (|) 
   path="",  ##<< (optional) defines a single path of two or more connected points to overlay on the image at specified locations. This parameter takes a string of point definitions separated by the pipe character (|)
@@ -19,15 +19,17 @@
   GRAYSCALE =FALSE, ##<< Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}
   NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile. 
   SCALE = 1, ##<< use the API's scale parameter to return higher-resolution map images. The scale value is multiplied with the size to determine the actual output size of the image in pixels, without changing the coverage area of the map
-  verbose=1 ##<< level of verbosity
+  verbose=0 ##<< level of verbosity
 ){
-  ##note<<Note that size is in order (lon, lat) !
-
-  ##seealso<< \link{GetMap.bbox}
+  ##note<<Note that size is in order (lon, lat)
+  if (missing(destfile)) destfile=file.path(tempdir(),"mapTile.png")
   if (is.character(center)) {
     if (verbose) cat("geocoding ", center, "\n")
     center = getGeoCode(center,verbose)
   }
+  if (all(c("lat","lon") %in% names(center))) center = center[c("lat","lon")]
+  ##seealso<< \link{GetMap.bbox}
+  
 #   if (is.null(names(center))) {
 #     names(center) = c("lat", "lon");
 #   } else stopifnot( all(names(center) %in% c("lat", "lon")) )
@@ -37,36 +39,38 @@
   fileBase <- substring(destfile,1, nchar(destfile)-4);
   fileExt <-  substring(destfile,nchar(destfile)-2,nchar(destfile));
   #save meta information about the image:    
-  if (missing(center)) {
-	  print("Note that when center and zoom are not specified, no meta information on the map tile can be stored. This basically means that R cannot compute proper coordinates. You can still download the map tile and view it in R but overlays are not possible. Do you want to proceed ? (y/n)");
-	  ans <- readLines(n=1);
-	  if (ans != "y") return(); 
+  if (is.null(center)) {
+    if (verbose) print("Note that when center and zoom are not specified, no meta information on the map tile can be stored. This basically means that R cannot compute proper coordinates. You can still download the map tile and view it in R but overlays are not possible.");
+	  #ans <- readLines(n=1);
+	  #if (ans != "y") return(); 
+	  MetaInfo <- list(lat.center = NULL, lon.center  = NULL, zoom = zoom, 
+	                   url = "google", BBOX = NULL, size=size, SCALE = SCALE);
+	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
   } else if ( is.numeric(center) & !missing(zoom)) {  
       MyMap <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, SCALE = SCALE);
       BBOX <- list(ll = XY2LatLon(MyMap, -size[1]/2 + 0.5, -size[2]/2 - 0.5), ur = XY2LatLon(MyMap, size[1]/2 + 0.5, size[2]/2 - 0.5) );
 	  MetaInfo <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, 
         url = "google", BBOX = BBOX, size=size, SCALE = SCALE);
-     # browser()
 	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
   } 
 
   if (length(size) < 2) {s <- paste(size,size,sep="x")} else {s <- paste(size,collapse="x");}
-  if (!missing(center)) center <- paste(center,collapse=",")
+  if (!is.null(center)) center <- paste(center,collapse=",")
   if (missing(format)){	
     if ( fileExt == "png") format <- "png32"
   }
  
   googleurl <- "http://maps.google.com/maps/api/staticmap?"; # googleurl <- 'http://maps.google.com/staticmap?';
-	
+	if (verbose>1)  browser()
 	if (!missing(span)){#Images may specify a viewport (defined by latitude and longitude values expressed as degrees) to display around a provided center point by passing a span parameter. Defining a minimum viewport in this manner obviates the need to specify an exact zoom level. The static map service uses the span parameter in conjunction with the size parameter to construct a map of the proper zoom level which includes at least the given viewport constraints.
 		span <- paste(span,collapse=",")
 		url <- paste(googleurl, "center=", center, "&span=", span,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
 
-	} else 	if (missing(center) & missing(zoom)) {#let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers:
+	} else 	if (is.null(center) & missing(zoom)) {#let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers:
 		stopifnot(!missing(markers) | path != "");
 		url <- paste(googleurl,  "size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
 	} else {
-		stopifnot(!missing(center), !missing(zoom));
+		stopifnot(!is.null(center), !missing(zoom));
 		url <- paste(googleurl, "center=", center, "&zoom=", zoom,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
 	}
 	
@@ -138,9 +142,9 @@
   #latitude range to accomodate the extent of the top most marker
   
   #add a path, i.e. polyline:
-   MyMap <- GetMap(path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
-                   "40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"), 
-                   destfile = "MyTile3.png");
+MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
+  path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
+  "40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"));
   #use implicit geo coding 
   BrooklynMap <- GetMap(center="Brooklyn", zoom=13)
   PlotOnStaticMap(BrooklynMap)

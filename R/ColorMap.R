@@ -15,17 +15,18 @@ ColorMap <- structure(function#Plot Levels of a Variable in a Colour-Coded Map
   alpha = 0.5, ##<< alpha value of colors
   GRAY = FALSE, ##<< boolean: if TRUE, use gray scale instead
   palette = c("YlOrRd", "RdYlGn","Spectral")[1],##<< palette to choose from RColorBrewer
+  textInPolys = NULL, ##<< text to be displayed inside polygons. This can be a column names for values
   ... ##<< extra args to pass to \code{PlotPolysOnStaticMap}
   ){
-    if (GRAY | !require(RColorBrewer) ) {
+    if (length(palette) == nclr) {
+      plotclr <- palette
+    } else if (GRAY | !require(RColorBrewer) ) {
       plotclr <- grey(1 - seq(0, 1, by = 1/(nclr - 1)))
-      if (rev) {
-        plotclr <- rev(plotclr)
-      }
     } else {
       plotclr <-brewer.pal(nclr,palette)
       #display.brewer.all()
     }
+   
     plotclr = AddAlpha(plotclr,alpha)
     
     nclr <- nclr + 1
@@ -40,6 +41,7 @@ ColorMap <- structure(function#Plot Levels of a Variable in a Colour-Coded Map
         }
     }
     nclr <- nclr - 1
+    print(brks)
     if (rev) {
         plotclr <- rev(plotclr)
     }
@@ -70,17 +72,18 @@ ColorMap <- structure(function#Plot Levels of a Variable in a Colour-Coded Map
       return(list(colcode=colcode, legend = legend, fill = plotclr))
     } else {
       if (is.null(map)) {
-        plot(polys, col = colcode )#hoping, this is well defined by the class somehow !
+        plotPolys(polys, col = colcode )#hoping, this is well defined by the class somehow !
       } else {
         if (inherits(polys, 'Spatial')) polys = SpatialToPBS(polys)$xy
-        PlotPolysOnStaticMap(map, polys, col = colcode, ...)
+        #if (!is.null(textInPolys)) textInPolys = as.character(values[,textInPolys])
+        PlotPolysOnStaticMap(map, polys, col = colcode, textInPolys=textInPolys,...)
       }
     
     if (include.legend[[1]]) 
         legend(location, legend = legend, fill = plotclr, bty = "n")
     }
 }, ex = function(){
-if (0){
+  if (interactive()){
   data("NYleukemia", envir = environment())
   population <- NYleukemia$data$population
   cases <- NYleukemia$data$cases

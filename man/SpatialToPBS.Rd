@@ -11,18 +11,18 @@ PBSmapping type data.frames. This function converts sp objects into such.       
 
 \value{list with elements xy = converted object, bb = bounding box, fun = plot function}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
-<markus.loecher@gmail.com>}
+\author{"Markus Loecher"   <markus.loecher@gmail.com>}
 
 
 
 
 \examples{
-if (0) {
+  if (interactive()) {
   data("NYleukemia", envir = environment())
   population <- NYleukemia$data$population
   cases <- NYleukemia$data$cases
-  mapNY <- GetMap(center=c(lat=42.67456,lon=-76.00365), destfile = "NYstate.png", 
+  mapNY <- GetMap(center=c(lat=42.67456,lon=-76.00365), 
+                  destfile = file.path(tempdir(),"NYstate.png"), 
                   maptype = "mobile", zoom=9)
   #mapNY=ReadMapTile("NYstate.png")
   clrStuff=ColorMap(100*cases/population, alpha = 0.35, log = TRUE)

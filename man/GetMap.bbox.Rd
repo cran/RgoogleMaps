@@ -5,7 +5,7 @@
 Multiple additional arguments allow the user to customize the map tile.}
 \usage{GetMap.bbox(lonR, latR, center, size = c(640, 640), destfile = "MyTile.png", 
     MINIMUMSIZE = FALSE, RETURNIMAGE = TRUE, GRAYSCALE = FALSE, 
-    NEWMAP = TRUE, zoom, verbose = 1, SCALE = 1, ...)}
+    NEWMAP = TRUE, zoom, verbose = 0, SCALE = 1, ...)}
 \arguments{
   \item{lonR}{longitude range}
   \item{latR}{latitude range}
@@ -24,8 +24,7 @@ Multiple additional arguments allow the user to customize the map tile.}
 
 \value{map tile}
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
-<markus.loecher@gmail.com>}
+\author{"Markus Loecher"   <markus.loecher@gmail.com>}
 
 
 

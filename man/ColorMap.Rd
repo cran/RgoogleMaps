@@ -5,7 +5,8 @@
 \usage{ColorMap(values, map = NULL, polys = NULL, log = FALSE, nclr = 7, 
     include.legend = list(TRUE), round = 3, brks = NULL, legend = NULL, 
     location = "topright", rev = FALSE, alpha = 0.5, GRAY = FALSE, 
-    palette = c("YlOrRd", "RdYlGn", "Spectral")[1], ...)}
+    palette = c("YlOrRd", "RdYlGn", "Spectral")[1], textInPolys = NULL, 
+    ...)}
 \arguments{
   \item{values}{variable to plot}
   \item{map}{map object}
@@ -21,19 +22,19 @@
   \item{alpha}{alpha value of colors}
   \item{GRAY}{boolean: if TRUE, use gray scale instead}
   \item{palette}{palette to choose from RColorBrewer}
+  \item{textInPolys}{text to be displayed inside polygons. This can be a column names for values}
   \item{\dots}{extra args to pass to \code{PlotPolysOnStaticMap}}
 }
 
 
 
-\author{"Markus Loecher, Berlin School of Economics and Law (BSEL)"
-<markus.loecher@gmail.com>}
+\author{"Markus Loecher"   <markus.loecher@gmail.com>}
 
 
 
 
 \examples{
-if (0){
+  if (interactive()){
   data("NYleukemia", envir = environment())
   population <- NYleukemia$data$population
   cases <- NYleukemia$data$cases

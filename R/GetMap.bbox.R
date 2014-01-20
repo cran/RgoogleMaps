@@ -11,7 +11,7 @@
   GRAYSCALE =FALSE, ##<< Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}
   NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile.
   zoom,  ##<< Google maps zoom level. optional
-  verbose=1, ##<< level of verbosity
+  verbose=0, ##<< level of verbosity
   SCALE = 1, ##<< use the API's scale parameter to return higher-resolution map images. The scale value is multiplied with the size to determine the actual output size of the image in pixels, without changing the coverage area of the map
   ... ##<< extra arguments to \link{GetMap} 
 ){

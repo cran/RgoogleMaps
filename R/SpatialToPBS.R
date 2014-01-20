@@ -11,7 +11,7 @@ SpatialToPBS <- structure(function#converts spatial objects as defined in packag
     b = bbox(xy)
     if (inherits(xy, 'SpatialPoints')) {
       xy = coordinates(xy)
-    } else {
+    } else if (inherits(xy, 'SpatialPolygons')) {
       x = unlist(lapply(xy@polygons, function(i)slot(i, 'Polygons')))
       x = lapply(x, function(x)slot(x, 'coords'))
       xy = matrix(ncol=4, nrow=0, dimnames=list(NULL, c("PID","POS","X", "Y")))
@@ -30,11 +30,12 @@ SpatialToPBS <- structure(function#converts spatial objects as defined in packag
   return(list(xy=xy, bb=b, fun=fun))
 ### list with elements xy = converted object, bb = bounding box, fun = plot function
 }, ex = function(){
-if (0) {
+  if (interactive()) {
   data("NYleukemia", envir = environment())
   population <- NYleukemia$data$population
   cases <- NYleukemia$data$cases
-  mapNY <- GetMap(center=c(lat=42.67456,lon=-76.00365), destfile = "NYstate.png", 
+  mapNY <- GetMap(center=c(lat=42.67456,lon=-76.00365), 
+                  destfile = file.path(tempdir(),"NYstate.png"), 
                   maptype = "mobile", zoom=9)
   #mapNY=ReadMapTile("NYstate.png")
   clrStuff=ColorMap(100*cases/population, alpha = 0.35, log = TRUE)
