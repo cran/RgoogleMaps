@@ -5,12 +5,11 @@ SpatialToPBS <- structure(function#converts spatial objects as defined in packag
   xy, ##<< spatial object, such as SpatialPoints, SpatialPolygons, etc..
   verbose=0 ##<< level of verbosity
   ) {
-  require(sp)
   fun = points
   if (inherits(xy, 'Spatial')) {
-    b = bbox(xy)
+    b = sp::bbox(xy)
     if (inherits(xy, 'SpatialPoints')) {
-      xy = coordinates(xy)
+      xy = sp::coordinates(xy)
     } else if (inherits(xy, 'SpatialPolygons')) {
       x = unlist(lapply(xy@polygons, function(i)slot(i, 'Polygons')))
       x = lapply(x, function(x)slot(x, 'coords'))

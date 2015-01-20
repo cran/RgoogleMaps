@@ -14,6 +14,8 @@
   NEWMAP = TRUE, ##<< load map from file or get it "new" from the static map server
   TrueProj = TRUE, ##<< set to FALSE if you are willing to accept some degree of inaccuracy in the mapping. In that case, the coordinates of the image are in lat/lon and the user can simply overly points/lines/axis without worrying about projections
   axes= FALSE, ##<< overlay axes ?
+  atX = NULL, ##<< numeric; position of ticks on x-axis; if missing, \link{axTicks} is called for nice values; see \link{axis}
+  atY = NULL, ##<< numeric; position of ticks on y-axis; if missing, \link{axTicks} is called for nice values; see \link{axis}
   verbose = 0, ##<< level of verbosity 
   ... ##<< further arguments to be passed to \code{FUN}
 ){
@@ -69,7 +71,7 @@
       updateusr(tmp2[1:2], x2=c(-size[1]+offset, size[1]-offset)/SCALE, tmp2[3:4], y2=c(-size[2]+offset, size[2]-offset)/SCALE );
     } 
     if (axes){
-      degreeAxis(1, MyMap=MyMap); degreeAxis(2, MyMap=MyMap);
+      degreeAxis(1, MyMap=MyMap, at=atX); degreeAxis(2, MyMap=MyMap, at=atY);
     }
     #browser();
   }

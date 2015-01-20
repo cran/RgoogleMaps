@@ -19,6 +19,7 @@
   GRAYSCALE =FALSE, ##<< Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}
   NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile. 
   SCALE = 1, ##<< use the API's scale parameter to return higher-resolution map images. The scale value is multiplied with the size to determine the actual output size of the image in pixels, without changing the coverage area of the map
+  API_console_key = NULL, ##<< optional API key (allows for higher rate of downloads)
   verbose=0 ##<< level of verbosity
 ){
   ##note<<Note that size is in order (lon, lat)
@@ -61,7 +62,7 @@
   }
  
   googleurl <- "http://maps.google.com/maps/api/staticmap?"; # googleurl <- 'http://maps.google.com/staticmap?';
-	if (verbose>1)  browser()
+	
 	if (!missing(span)){#Images may specify a viewport (defined by latitude and longitude values expressed as degrees) to display around a provided center point by passing a span parameter. Defining a minimum viewport in this manner obviates the need to specify an exact zoom level. The static map service uses the span parameter in conjunction with the size parameter to construct a map of the proper zoom level which includes at least the given viewport constraints.
 		span <- paste(span,collapse=",")
 		url <- paste(googleurl, "center=", center, "&span=", span,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
@@ -108,8 +109,10 @@
 		} 
 		
 		url <- paste(url, markers.string, sep="");
-
+    
 	}
+  if (!is.null(API_console_key))  url <- paste0(url,"&key=", API_console_key);
+
 	if (verbose) print(url);
 	if (verbose == -1) browser();
 	if (verbose < 2) download.file(url, destfile, mode="wb", quiet = TRUE);

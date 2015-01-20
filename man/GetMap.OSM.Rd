@@ -23,7 +23,7 @@ The scale determines the image size.}
 
 \value{map structure or URL used to download the tile.}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 \note{The OSM maptile server is frequently too busy to accomodate every request, so patience is warranted.}
 
 

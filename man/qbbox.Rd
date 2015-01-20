@@ -24,7 +24,7 @@ points with a few additional options such as quantile boxes, additional margins,
 \value{\item{latR }{latitude range}
 \item{lonR }{longitude range}}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 
 
 

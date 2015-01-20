@@ -13,7 +13,7 @@
 
 \value{axis is plotted on current graph}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 \note{decimal degrees are used if variation is small, instead of minutes and seconds}
 
 

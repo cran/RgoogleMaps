@@ -11,7 +11,7 @@
 
 \value{the lat/lon coordinates of the chosen points are returned }
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 
 
 

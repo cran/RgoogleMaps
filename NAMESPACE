@@ -12,3 +12,7 @@ import(
   png,
   RJSONIO
 )
+
+#importFrom(RColorBrewer, brewer.pal)
+#importFrom(PBSmapping,plotPolys,calcCentroid,addPolys)
+#importFrom(sp,CRS, proj4string, coordinates,bbox,spTransform)

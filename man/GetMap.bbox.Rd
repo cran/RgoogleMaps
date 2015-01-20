@@ -24,7 +24,7 @@ Multiple additional arguments allow the user to customize the map tile.}
 
 \value{map tile}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 
 
 

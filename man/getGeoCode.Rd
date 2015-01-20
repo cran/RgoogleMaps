@@ -12,7 +12,7 @@ and }
 
 \value{returns lat/lon for address}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 
 
 

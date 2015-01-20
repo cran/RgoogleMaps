@@ -11,7 +11,7 @@ PBSmapping type data.frames. This function converts sp objects into such.       
 
 \value{list with elements xy = converted object, bb = bounding box, fun = plot function}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 
 
 

@@ -3,9 +3,9 @@
 \title{Create a bubble plot of spatial data on Google Maps}
 \description{This function creates a bubble plot of spatial
 data, with options for bicolour residual plots.}
-\usage{bubbleMap(SP, coords = c("x", "y"), crs = CRS("+proj=longlat +datum=WGS84"), 
-    map, filename = "", zcol = 1, max.radius = 100, key.entries = quantile(SP@data[, 
-        zcol], (1:5)/5), do.sqrt = TRUE, colPalette = NULL, strokeColor = "#FFAA00", 
+\usage{bubbleMap(SP, coords = c("x", "y"), crs = sp::CRS("+proj=longlat +datum=WGS84"), 
+    map, filename = "", zcol = 1, max.radius = 100, key.entries, 
+    do.sqrt = TRUE, colPalette = NULL, strokeColor = "#FFAA00", 
     alpha = 0.7, strokeWeight = 1, LEGEND = TRUE, legendLoc = "topleft", 
     verbose = 0)}
 \arguments{
@@ -32,20 +32,20 @@ colours to be used to fill features depending on attribute}
 \value{##################################################################
 map structure or URL used to download the tile.}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 
 
 
 
 \examples{
 data(lat.lon.meuse, package="loa", envir = environment())
-#map <- GetMap.bbox(bb$lonR, bb$latR, destfile = filename, maptype="mobile", SCALE = 2);
+
 map <- GetMap(center=c(lat=50.97494,lon=5.743606), zoom=13,
-              size=c(480,480),destfile = file.path(tempdir(),"meuse.png"),
-              maptype="mobile", SCALE = 1);
+       size=c(480,480),destfile = file.path(tempdir(),"meuse.png"),
+        maptype="mobile", SCALE = 1);
 
 par(cex=1.5)
 bubbleMap(lat.lon.meuse, coords = c("longitude","latitude"), map=map,
-          zcol='zinc', key.entries = 100+ 100 * 2^(0:4));
+      zcol='zinc', key.entries = 100+ 100 * 2^(0:4));
 
 }

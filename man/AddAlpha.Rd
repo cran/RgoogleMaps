@@ -11,7 +11,7 @@
 
 \value{modified color with alpha value}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 
 
 
@@ -19,7 +19,12 @@
 \examples{
 
 #example: 
-require(RColorBrewer)
-plotclr <-brewer.pal(8,"YlOrRd")
-plotclr = AddAlpha(plotclr,0.5)
+#require(RColorBrewer)
+if (requireNamespace("RColorBrewer", quietly = TRUE)) {
+  plotclr <- RColorBrewer::brewer.pal(8,"YlOrRd")
+  plotclr = AddAlpha(plotclr,0.5)
+} else {
+  print("package RColorBrewer must be installed for this example")
+}
+
 }

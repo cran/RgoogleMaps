@@ -15,7 +15,7 @@ Thanks to Neil Young (see \url{http://groups.google.com/group/Google-Maps-API/br
 \item{Tile}{integer numbers specifying the tile}
 \item{Coords}{pixel coordinate within the Tile}}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 \note{The fractional part times 256 is the pixel coordinate within the Tile itself. }
 
 

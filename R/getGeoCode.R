@@ -7,7 +7,7 @@ getGeoCode <- structure(function#geocoding utility
   verbose=0 ##<< level of verbosity
 ){
   #library("RJSONIO") #Load Library
-  gcStr <- gsub(' ','%20',gcStr) #Encode URL Parameters
+  gcStr <- enc2utf8(gsub(' ','%20',gcStr)) #Encode URL Parameters
   #Open Connection
   connectStr <- paste('http://maps.google.com/maps/api/geocode/json?sensor=false&address=',gcStr, sep="") 
   if (verbose) cat("fetching ", connectStr, "\n")

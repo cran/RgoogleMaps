@@ -10,7 +10,7 @@ the map tile.}
         "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[2], 
     format = c("gif", "jpg", "jpg-baseline", "png8", "png32")[5], 
     RETURNIMAGE = TRUE, GRAYSCALE = FALSE, NEWMAP = TRUE, SCALE = 1, 
-    verbose = 0)}
+    API_console_key = NULL, verbose = 0)}
 \arguments{
   \item{center}{optional center (lat first,lon second  )}
   \item{size}{desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels}
@@ -28,12 +28,13 @@ the map tile.}
   \item{GRAYSCALE}{Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}}
   \item{NEWMAP}{if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile.}
   \item{SCALE}{use the API's scale parameter to return higher-resolution map images. The scale value is multiplied with the size to determine the actual output size of the image in pixels, without changing the coverage area of the map}
+  \item{API_console_key}{optional API key (allows for higher rate of downloads)}
   \item{verbose}{level of verbosity}
 }
 
 \value{map structure or URL used to download the tile.}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 \note{Note that size is in order (lon, lat)}
 
 

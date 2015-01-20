@@ -19,7 +19,7 @@ polygons to overlay; these can be either of class \link[PBSmapping]{PolySet} fro
 
 
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 
 
 
@@ -58,15 +58,15 @@ if (interactive()){
   #compare the accuracy of this plot to a Google Map overlay:
   library(maptools);
   qk <- SpatialPointsDataFrame(as.data.frame(shp[, c("X","Y")]), as.data.frame(shp[, c("X","Y")]))
-  proj4string(qk) <- CRS("+proj=longlat");
+  sp::proj4string(qk) <- CRS("+proj=longlat");
   tf <- "NC.counties";
   SGqk <- GE_SpatialGrid(qk)
   png(file=paste(tf, ".png", sep=""), width=SGqk$width, height=SGqk$height,
   bg="transparent")
   par(mar=c(0,0,0,0), xaxs="i", yaxs="i");par(mai = rep(0,4))
-  plotPolys(shp, plt=NULL)
+  PBSmapping::plotPolys(shp, plt=NULL)
   dev.off()
-  kmlOverlay(SGqk, paste(tf, ".kml", sep=""), paste(tf, ".png", sep=""));
+  maptools::kmlOverlay(SGqk, paste(tf, ".kml", sep=""), paste(tf, ".png", sep=""));
   #This kml file can now be inspected in Google Earth or Google Maps
   
   #or choose an aspect ratio that corresponds better to North Carolina's elongated shape:

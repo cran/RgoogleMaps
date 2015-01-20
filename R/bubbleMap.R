@@ -4,12 +4,12 @@ bubbleMap <- structure(function#Create a bubble plot of spatial data on Google M
 (
   SP, ##<< object of class data.frame or \link[sp]{SpatialPointsDataFrame-class} with associated coordinate reference systems
   coords=c("x", "y"), ##<< names of coordinate columns
-  crs=CRS("+proj=longlat +datum=WGS84") , ##<< coordinate reference systems
+  crs=sp::CRS("+proj=longlat +datum=WGS84") , ##<< coordinate reference systems
   map, ##<< map object; if missing map is downloaded from server
   filename = "", ##<< filename to save the map under, IF map object not given
   zcol = 1, ##<< variable column name, or column number after removing spatial coordinates from x@data: 1 refers to the first non-coordinate column
   max.radius = 100, ##<< value for largest circle (the plotting symbols) in metre, circumcircle of triange or quadrangle (square)
-  key.entries = quantile(SP@data[,zcol], (1:5)/5), ##<< value for largest circle (the plotting symbols) in metre, circumcircle of triange or quadrangle (square)
+  key.entries, ##<< value for largest circle (the plotting symbols) in metre, circumcircle of triange or quadrangle (square)
   do.sqrt = TRUE,##<< logical; if TRUE the plotting symbol area (sqrt(diameter)) is proportional to the value of the z-variable; if FALSE, the symbol size (diameter) is proportional to the z-variable
 #  add = FALSE, ##<< logical; if TRUE the result of the function will be a list stored as variable  in  R. It is possible to combine more layers in the one plot, previously saved output from plotGoogleMaps should be given in the previousMap attribute.
 #  previousMap = NULL,##<<  
@@ -22,6 +22,7 @@ bubbleMap <- structure(function#Create a bubble plot of spatial data on Google M
   verbose =0 ##<< level of verbosity
 ){
   ####################################################################
+  if (missing(key.entries)) key.entries = round(quantile(SP@data[,zcol], (1:5)/5),1)
   PolyCol <-   function#Create list of colors depending on attribute data. (for bubbleMap)
   (attribute, ##<< vector of attribute data
    colPalette=NULL, ##<< colours to be used to fill features depending on attribute
@@ -83,7 +84,7 @@ bubbleMap <- structure(function#Create a bubble plot of spatial data on Google M
     else {
       z = data[, zcol]
     }
-    SP.ll <- spTransform(SP, crs)
+    SP.ll <- sp::spTransform(SP, crs)
     Centar = c(mean(SP.ll@bbox[1, ]), mean(SP.ll@bbox[2, ]))
     sw <- c(SP.ll@bbox[2, 1], SP.ll@bbox[1, 1])
     ne <- c(SP.ll@bbox[2, 2], SP.ll@bbox[1, 2])
@@ -175,14 +176,14 @@ invisible(map)
 ### map structure or URL used to download the tile.
 }, ex = function(){
   data(lat.lon.meuse, package="loa", envir = environment())
-  #map <- GetMap.bbox(bb$lonR, bb$latR, destfile = filename, maptype="mobile", SCALE = 2);
+  
   map <- GetMap(center=c(lat=50.97494,lon=5.743606), zoom=13,
-                size=c(480,480),destfile = file.path(tempdir(),"meuse.png"),
-                maptype="mobile", SCALE = 1);
+         size=c(480,480),destfile = file.path(tempdir(),"meuse.png"),
+          maptype="mobile", SCALE = 1);
 
   par(cex=1.5)
   bubbleMap(lat.lon.meuse, coords = c("longitude","latitude"), map=map,
-            zcol='zinc', key.entries = 100+ 100 * 2^(0:4));
+        zcol='zinc', key.entries = 100+ 100 * 2^(0:4));
   
 })
 

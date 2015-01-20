@@ -20,10 +20,10 @@ ColorMap <- structure(function#Plot Levels of a Variable in a Colour-Coded Map
   ){
     if (length(palette) == nclr) {
       plotclr <- palette
-    } else if (GRAY | !require(RColorBrewer) ) {
+    } else if (GRAY | !requireNamespace("RColorBrewer", quietly = TRUE) ) {
       plotclr <- grey(1 - seq(0, 1, by = 1/(nclr - 1)))
     } else {
-      plotclr <-brewer.pal(nclr,palette)
+      plotclr <- RColorBrewer::brewer.pal(nclr,palette)
       #display.brewer.all()
     }
    
@@ -72,7 +72,7 @@ ColorMap <- structure(function#Plot Levels of a Variable in a Colour-Coded Map
       return(list(colcode=colcode, legend = legend, fill = plotclr))
     } else {
       if (is.null(map)) {
-        plotPolys(polys, col = colcode )#hoping, this is well defined by the class somehow !
+        PBSmapping::plotPolys(polys, col = colcode )#hoping, this is well defined by the class somehow !
       } else {
         if (inherits(polys, 'Spatial')) polys = SpatialToPBS(polys)$xy
         #if (!is.null(textInPolys)) textInPolys = as.character(values[,textInPolys])

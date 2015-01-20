@@ -5,7 +5,7 @@
 \usage{PlotOnStaticMap(MyMap, lat, lon, destfile, zoom = NULL, size, 
     GRAYSCALE = FALSE, add = FALSE, FUN = points, mar = c(0, 
         0, 0, 0), NEWMAP = TRUE, TrueProj = TRUE, axes = FALSE, 
-    verbose = 0, ...)}
+    atX = NULL, atY = NULL, verbose = 0, ...)}
 \arguments{
   \item{MyMap}{optional map object}
   \item{lat}{latitude values to be overlaid}
@@ -20,13 +20,15 @@
   \item{NEWMAP}{load map from file or get it "new" from the static map server}
   \item{TrueProj}{set to FALSE if you are willing to accept some degree of inaccuracy in the mapping. In that case, the coordinates of the image are in lat/lon and the user can simply overly points/lines/axis without worrying about projections}
   \item{axes}{overlay axes ?}
+  \item{atX}{numeric; position of ticks on x-axis; if missing, \link{axTicks} is called for nice values; see \link{axis}}
+  \item{atY}{numeric; position of ticks on y-axis; if missing, \link{axTicks} is called for nice values; see \link{axis}}
   \item{verbose}{level of verbosity}
   \item{\dots}{further arguments to be passed to \code{FUN}}
 }
 
 \value{the map object is returned via \code{invisible(MyMap)}}
 
-\author{"Markus Loecher"   <markus.loecher@gmail.com>}
+\author{Markus Loecher}
 
 
 

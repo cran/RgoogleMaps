@@ -15,7 +15,12 @@ AddAlpha <- structure(function#add alpha level to color that lacks one
 }, ex = function(){
 
   #example: 
-  require(RColorBrewer)
-  plotclr <-brewer.pal(8,"YlOrRd")
-  plotclr = AddAlpha(plotclr,0.5)
+  #require(RColorBrewer)
+  if (requireNamespace("RColorBrewer", quietly = TRUE)) {
+    plotclr <- RColorBrewer::brewer.pal(8,"YlOrRd")
+    plotclr = AddAlpha(plotclr,0.5)
+  } else {
+    print("package RColorBrewer must be installed for this example")
+  }
+  
 })

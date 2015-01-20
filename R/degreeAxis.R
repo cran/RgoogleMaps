@@ -41,6 +41,7 @@ degreeAxis = structure(function#axis with degrees
             labels = parse(text = degreeLabelsNS(as.numeric(formatC(atLat, digits=5))))
 		}
     }
+  browser()
     ##note<< decimal degrees are used if variation is small, instead of minutes and seconds
     axis(side, at = at, labels = labels, ...)
 ### axis is plotted on current graph
