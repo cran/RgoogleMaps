@@ -60,6 +60,7 @@
       }
    }   
    #browser();
+    class(MyMap) =  "staticMap"
    invisible(MyMap); 
 ### list containing the map tile
 

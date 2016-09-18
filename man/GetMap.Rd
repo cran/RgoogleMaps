@@ -3,14 +3,15 @@
 \title{download a static map from the Google server}
 \description{Query the Google server for a static map tile, defined primarily by its 
 center and zoom. Many additional arguments allow the user to customize 
-the map tile.}
+the map tile.
+documentation at https://developers.google.com/maps/documentation/staticmaps/}
 \usage{GetMap(center = c(lat = 42, lon = -76), size = c(640, 640), destfile, 
     zoom = 12, markers, path = "", span, frame, hl, sensor = "true", 
     maptype = c("roadmap", "mobile", "satellite", "terrain", 
         "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[2], 
     format = c("gif", "jpg", "jpg-baseline", "png8", "png32")[5], 
-    RETURNIMAGE = TRUE, GRAYSCALE = FALSE, NEWMAP = TRUE, SCALE = 1, 
-    API_console_key = NULL, verbose = 0)}
+    extraURL = "", RETURNIMAGE = TRUE, GRAYSCALE = FALSE, NEWMAP = TRUE, 
+    SCALE = 1, API_console_key = NULL, verbose = 0)}
 \arguments{
   \item{center}{optional center (lat first,lon second  )}
   \item{size}{desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels}
@@ -24,6 +25,7 @@ the map tile.}
   \item{sensor}{specifies whether the application requesting the static map is using a sensor to determine the user`s location. This parameter is now required for all static map requests.}
   \item{maptype}{defines the type of map to construct. There are several possible maptype values, including satellite, terrain, hybrid, and mobile.}
   \item{format}{(optional) defines the format of the resulting image. By default, the Static Maps API creates GIF images. There are several possible formats including GIF, JPEG and PNG types. Which format you use depends on how you intend to present the image. JPEG typically provides greater compression, while GIF and PNG provide greater detail. This version supports only PNG.}
+  \item{extraURL}{custom URL suffix}
   \item{RETURNIMAGE}{return image yes/no default: TRUE}
   \item{GRAYSCALE}{Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}}
   \item{NEWMAP}{if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile.}
@@ -48,12 +50,12 @@ the map tile.}
   markers = paste0("&markers=color:blue|label:S|40.702147,-74.015794&markers=color:",
                    "green|label:G|40.711614,-74.012318&markers=color:red|color:red|",
                    "label:C|40.718217,-73.998284")
-  MyMap <- GetMap(center=center, zoom=zoom,markers=markers,destfile = "MyTile1.png");
+  MyMap <- GetMap(center=center, zoom=zoom,markers=markers);
   #Note that in the presence of markers one often needs to add some extra padding to the 
   #latitude range to accomodate the extent of the top most marker
-  
+  if (0){#takes too long to run for CRAN check
   #add a path, i.e. polyline:
-MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
+MyMap <- GetMap(center=center, zoom=zoom,
   path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
   "40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"));
   #use implicit geo coding 
@@ -63,6 +65,11 @@ MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
   #use implicit geo coding and display labels in Korean:
   BrooklynMap <- GetMap(center="Brooklyn", zoom=13, hl="ko")
   PlotOnStaticMap(BrooklynMap)
+  
+  #no highways
+  ManHatMap <- GetMap(center="Lower Manhattan", zoom=14, 
+                      extraURL="&style=feature:road.highway|visibility:off")
+  PlotOnStaticMap(ManHatMap)
   
    #The example below defines a polygonal area within Manhattan, passed a series of 
   #intersections as locations:
@@ -94,5 +101,5 @@ MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
   #          "markers=color:green|label:G|40.711614,-74.012318&markers=color:red|",
   #          "color:red|label:C|40.718217,-73.998284"), 
   #           destfile = "MyTile1.png",  RETURNIMAGE = FALSE);
- 	
+  }
 }

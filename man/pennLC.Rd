@@ -21,7 +21,7 @@ List of 3 items:
 }
 \source{
 Population data was obtained from the 2000 decennial census, lung cancer 
-and smoking data were obtained from the Pennsylvania Department of Health website:  \url{http://www.dsf.health.state.pa.us/}
+and smoking data were obtained from the Pennsylvania Department of Health website:  http://www.dsf.health.state.pa.us/
 }
 %\references{}
 \examples{

@@ -1,7 +1,6 @@
 `LatLon2XY` <- structure(function#computes the coordinate transformation from lat/lon to map tile coordinates 
 ### The function LatLon2XY(lat,lon,zoom) computes the coordinate transformation from lat/lon to map tile coordinates given a zoom level. 
 ### It returns the tile coordinates as well as the pixel coordinates within the Tile itself. 
-### Thanks to Neil Young (see \url{http://groups.google.com/group/Google-Maps-API/browse_thread/thread/d2103ac29e95696f?hl=en}) for providing the formulae used.
 (
   lat, ##<< latitude values to transform
   lon, ##<< longitude values to transform

@@ -2,7 +2,7 @@
 \alias{degreeAxis}
 \title{axis with degrees}
 \description{add an axis with degree labels}
-\usage{degreeAxis(side, at, labels, MyMap, ...)}
+\usage{degreeAxis(side, at = NULL, labels, MyMap, ...)}
 \arguments{
   \item{side}{integer; see \link{axis}}
   \item{at}{numeric; if missing, \link{axTicks} is called for nice values; see \link{axis}}

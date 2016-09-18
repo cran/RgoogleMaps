@@ -9,8 +9,9 @@ import(
   graphics,
   stats,
   utils,
-  png,
-  RJSONIO
+  grDevices, 
+  methods,
+  png
 )
 
 #importFrom(RColorBrewer, brewer.pal)

@@ -22,6 +22,7 @@ ReadMapTile <- structure(function#Read a bitmap image stored in the PNG format
  	if (is.element("MetaInfo", VarsLoaded))
  	  MyMap <- list(lat.center= MetaInfo$lat.center, lon.center=MetaInfo$lon.center, zoom=MetaInfo$zoom, 
                       myTile=myTile, BBOX = MetaInfo$BBOX, url = MetaInfo$url, size=size, SCALE=MetaInfo$SCALE);
+ 	class(MyMap) =  "staticMap"
  	return(MyMap);
    });
  } 

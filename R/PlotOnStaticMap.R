@@ -16,6 +16,7 @@
   axes= FALSE, ##<< overlay axes ?
   atX = NULL, ##<< numeric; position of ticks on x-axis; if missing, \link{axTicks} is called for nice values; see \link{axis}
   atY = NULL, ##<< numeric; position of ticks on y-axis; if missing, \link{axTicks} is called for nice values; see \link{axis}
+#  alpha = 0.75, ##<< opacity
   verbose = 0, ##<< level of verbosity 
   ... ##<< further arguments to be passed to \code{FUN}
 ){
@@ -105,8 +106,8 @@
 }, ex = function(){
 #The first step naturally will be to download a static map from the Google server. A simple example:
 
-  lat = c(40.702147,40.718217,40.711614);
-  lon = c(-74.012318,-74.015794,-73.998284);
+  lat = c(40.702147,40.711614,40.718217);
+  lon = c(-74.015794,-74.012318,-73.998284);
   center = c(mean(lat), mean(lon));
   zoom <- min(MaxZoom(range(lat), range(lon)));
   #this overhead is taken care of implicitly by GetMap.bbox();              
@@ -114,8 +115,8 @@
            "40.702147,-74.015794&markers=color:green|label:G|40.711614,-74.012318&markers=",
            "color:red|color:red|label:C|40.718217,-73.998284"), destfile = "MyTile1.png");
                  
-   tmp <- PlotOnStaticMap(MyMap, lat = c(40.702147,40.711614,40.718217), 
-                          lon = c(-74.015794,-74.012318,-73.998284), 
+   tmp <- PlotOnStaticMap(MyMap, lat = lat, 
+                          lon = lon, 
                           destfile = "MyTile1.png", cex=1.5,pch=20,
                           col=c('red', 'blue', 'green'), add=FALSE);
    #and add lines:

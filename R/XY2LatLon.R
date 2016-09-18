@@ -7,17 +7,20 @@
   zoom ##<< optional zoom level. If missing, taken from \code{MyMap}
 ){
 #X and Y are the centered integer pixel values, i.e. they should be zero in the center of the matrix/image !
-
-   lat.center <- MyMap[[1]];
-   lon.center <- MyMap[[2]];
-   if (missing(zoom)) zoom <- MyMap[[3]];
-      
-   mycenter <- LatLon2XY(lat.center,lon.center,zoom);
-   
-   #first transform to original x,y coordinates
-   x <- mycenter$Tile[,"X"] + (X+mycenter$Coords[,"x"])/256;
-   y <- mycenter$Tile[,"Y"] - (Y-mycenter$Coords[,"y"])/256;
-   
+  if (!missing(MyMap)){
+     lat.center <- MyMap[[1]];
+     lon.center <- MyMap[[2]];
+     if (missing(zoom)) zoom <- MyMap[[3]];
+        
+     mycenter <- LatLon2XY(lat.center,lon.center,zoom);
+     
+     #first transform to original x,y coordinates
+     x <- mycenter$Tile[,"X"] + (X+mycenter$Coords[,"x"])/256;
+     y <- mycenter$Tile[,"Y"] - (Y-mycenter$Coords[,"y"])/256;
+   } else {
+     x = X
+     y = Y
+   }
    ytilde <- 1 - y/2^(zoom-1);
    yy = (exp(2*pi* ytilde) - 1)/(exp(2*pi* ytilde) + 1);
    ShiftLat <- function(yy){
@@ -42,7 +45,7 @@
 }, ex = function(){
 #quick test:
 
-  zoom=12;MyMap <- list(40,-120,zoom, url="google");
+  zoom=12;MyMap <- list(40,-120,zoom, url="google", BBOX = list(ll=c(35,-125), ur=c(45,-115)));
   LatLon <- c(lat = 40.0123, lon = -120.0123);
   Rcoords <- LatLon2XY.centered(MyMap,LatLon["lat"],LatLon["lon"])
   newLatLon <- XY2LatLon(MyMap, Rcoords$newX, Rcoords$newY)
@@ -51,7 +54,7 @@
 #more systematic:
  for (zoom in 2:10){
    cat("zoom: ", zoom, "\n");
-   MyMap <- list(40,-120,zoom, url="google");
+   MyMap <- list(40,-120,zoom, url="google", BBOX = list(ll=c(35,-125), ur=c(45,-115)));
    LatLon <- c(lat = runif(1,-80,80), lon = runif(1,-170,170));
    Rcoords <- LatLon2XY.centered(MyMap,LatLon["lat"],LatLon["lon"])
    newLatLon <- XY2LatLon(MyMap, Rcoords$newX, Rcoords$newY)

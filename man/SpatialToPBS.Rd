@@ -2,7 +2,8 @@
 \alias{SpatialToPBS}
 \title{converts spatial objects as defined in package sp to simpler PBSmapping type dataframes }
 \description{The PlotPolysOnStaticMap() function currently does not take sp objects directly but instead needs
-PBSmapping type data.frames. This function converts sp objects into such.                         }
+PBSmapping type data.frames. This function converts sp objects into such.                         
+THANKS TO Fabio Priuli for a major bug fix w.r.t. holes in spatial polygons!}
 \usage{SpatialToPBS(xy, verbose = 0)}
 \arguments{
   \item{xy}{spatial object, such as SpatialPoints, SpatialPolygons, etc..}

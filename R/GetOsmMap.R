@@ -1,4 +1,4 @@
-`GetMap.OSM` <- structure(function#Query the Open Street Map server for map tiles instead of Google Maps
+`GetOsmMap` <- structure(function#Query the Open Street Map server for map tiles instead of Google Maps
 ### The querying parameters for Open Street Maps are somewhat different in this version. 
 ### Instead of a zoom, center and size, the user supplies a scale parameter and a lat/lon bounding box. 
 ### The scale determines the image size.
@@ -46,11 +46,11 @@
 ### map structure or URL used to download the tile.
  }, ex = function(){
 if (interactive()) {
- 	CologneMap <- GetMap.OSM(lonR= c(6.89, 7.09), latR = c(50.87, 51), scale = 150000, 
+ 	CologneMap <- GetOsmMap(lonR= c(6.89, 7.09), latR = c(50.87, 51), scale = 150000, 
                             destfile = "Cologne.png");
 	PlotOnStaticMap(CologneMap, mar=rep(4,4), NEWMAP = FALSE, TrueProj = FALSE, axes= TRUE);
 		
-	PrincetonMap <- GetMap.OSM(lonR= c(-74.67102, -74.63943), latR = c(40.33804,40.3556), 
+	PrincetonMap <- GetOsmMap(lonR= c(-74.67102, -74.63943), latR = c(40.33804,40.3556), 
                              scale = 12500, destfile = "Princeton.png");
 	png("PrincetonWithAxes.png", 1004, 732)
       PlotOnStaticMap(PrincetonMap, axes = TRUE, mar = rep(4,4));
