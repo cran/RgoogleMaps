@@ -6,6 +6,7 @@ PlotOnMapTiles = structure(function#plots on map tiles by "stitching" them toget
   lon, ##<< longitude values to be overlaid, if any
   center, ##<< optional center
   size = c(768,768), ##<< size (in pixels) of "stitched" map 
+  add=FALSE, ##<< start a new plot or add to an existing
   FUN = points, ##<< plotting function to use for overlay; typical choices would be \link{points} and \link{lines} 
   mar=c(0,0,0,0), ##<< outer margin in plot; if you want to see axes, change the default
   verbose=0, ##<< level of verbosity
@@ -30,26 +31,28 @@ PlotOnMapTiles = structure(function#plots on map tiles by "stitching" them toget
       
     }
   }
-  plot(rX+c(0,tw),rY+c(0,tw),type="n", axes=FALSE, xlab="", ylab="", asp = 1);
-  tmp2 <- par('usr');
-  updateusr(tmp2[1:2], x2=rX+c(0,tw), tmp2[3:4], y2=rY+c(0,tw) );
-  if (verbose) cat("user coords:",par("usr"), "\n")
-  
-  k=1
-  for (x in X){
-    for (y in Y){
-      if (length(mt$tiles)==0){
-        mapFile = file.path(mt$tileDir, paste(mt$zoom, x, y, sep="_"))
-        tile=readPNG(paste0(mapFile,mt$tileExt), native=TRUE);
-      } else {
-        tile = mt$tiles[[k]]
-        k=k+1
-      }
-      if (exists("rasterImage")) { # can plot only in R 2.11.0 and higher      
-        #if (require(grid)) grid.raster(MyMap[[4]], width=1, height=1, y=0, just="bottom") else 
-        yr = sum(rY)-y
-        rasterImage(tile, x,yr,x+tw,yr+tw);
-        if (verbose) cat("placing tile at coords:",x,yr,x+tw,yr+tw, "\n")
+  if (!add){
+    plot(rX+c(0,tw),rY+c(0,tw),type="n", axes=FALSE, xlab="", ylab="", asp = 1);
+    tmp2 <- par('usr');
+    updateusr(tmp2[1:2], x2=rX+c(0,tw), tmp2[3:4], y2=rY+c(0,tw) );
+    if (verbose) cat("user coords:",par("usr"), "\n")
+    
+    k=1
+    for (x in X){
+      for (y in Y){
+        if (length(mt$tiles)==0){
+          mapFile = file.path(mt$tileDir, paste(mt$zoom, x, y, sep="_"))
+          tile=readPNG(paste0(mapFile,mt$tileExt), native=TRUE);
+        } else {
+          tile = mt$tiles[[k]]
+          k=k+1
+        }
+        if (exists("rasterImage")) { # can plot only in R 2.11.0 and higher      
+          #if (require(grid)) grid.raster(MyMap[[4]], width=1, height=1, y=0, just="bottom") else 
+          yr = sum(rY)-y
+          rasterImage(tile, x,yr,x+tw,yr+tw);
+          if (verbose) cat("placing tile at coords:",x,yr,x+tw,yr+tw, "\n")
+        }
       }
     }
   }

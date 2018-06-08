@@ -11,8 +11,7 @@ SpatialToPBS <- structure(function#converts spatial objects as defined in packag
       b = sp::bbox(xy)
       if (inherits(xy, "SpatialPoints")) {
         xy = sp::coordinates(xy)
-      }
-      else if (inherits(xy, "SpatialPolygons")) {
+      } else if (inherits(xy, "SpatialPolygons")) {
         res = matrix(ncol = 5, nrow = 0, dimnames = list(NULL, c("PID", "SID", "POS", "X", "Y")))
         for (i in 1:length(xy@polygons)) {
           x = slot(xy@polygons[[i]], "Polygons")
@@ -29,9 +28,16 @@ SpatialToPBS <- structure(function#converts spatial objects as defined in packag
         xy = res
         fun = lines
         attr(xy, "projection") <- "LL"
-      }
-    }
-    else {
+      } else if (inherits(xy, "SpatialLines")) {
+        res = list()
+        for (j in 1:length(xy)){
+          res[[j]] = xy@lines[[j]]@Lines[[1]]@coords
+        }
+        xy = res
+        fun = lines
+        attr(xy, "projection") <- "LL"
+      }  
+    } else {
       b = rbind(range(xy[, 1], na.rm = TRUE), range(xy[, 2], na.rm = TRUE))
     }
     return(list(xy = xy, bb = b, fun = fun))

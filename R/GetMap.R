@@ -26,6 +26,12 @@
 ){
   ##note<<Note that size is in order (lon, lat)
   
+  if (!NEWMAP) {
+    #no new map download
+    myMap <- ReadMapTile(destfile); 
+    return(myMap);
+  }
+  
   if (is.character(center)) {
     if (verbose) cat("geocoding ", center, "\n")
     center = getGeoCode(center,verbose)
@@ -127,7 +133,7 @@
   	  #save meta information about the image:    
   	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
 	    download.file(urlStr, destfile, mode="wb", quiet = TRUE);
-	    myTile <- readPNG(destfile, native=FALSE);
+	    myTile <- readPNG(destfile, native=TRUE);
 	  } else { #do not save to file, read direcly from connection
 	    #o new dependency on curl package: static maps are not saved to file by default any longer, instead read directly from connection
   	  #connectStr=enc2utf8(gsub(' ','%20',"http://maps.google.com/maps/api/staticmap?center=42,-76&zoom=16&size=640x640&maptype=mobile&format=png32&sensor=true")) #Encode URL Parameters
@@ -186,9 +192,13 @@ myMap <- GetMap(center=center, zoom=zoom,
   
   #no highways
   ManHatMap <- GetMap(center="Lower Manhattan", zoom=14, 
-                      extraURL="&style=feature:road.highway|visibility:off")
+                      extraURL="&style=feature:road.highway|visibility:off",
+                      destfile = "LowerManhattan.png")
   PlotOnStaticMap(ManHatMap)
   
+  #reload the map without a new download:
+  ManHatMap <- GetMap(destfile = "LowerManhattan.png",NEWMAP=FALSE)
+  PlotOnStaticMap(ManHatMap)
    #The example below defines a polygonal area within Manhattan, passed a series of 
   #intersections as locations:
 #myMap <- GetMap(path = paste0("&path=color:0x00000000|weight:5|fillcolor:0xFFFF0033|",

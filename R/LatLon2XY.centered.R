@@ -29,7 +29,7 @@
    lonLeft = as.numeric(MyMap$BBOX$ll)[2] #["lon"]
    lonRight = as.numeric(MyMap$BBOX$ur)[2] #["lon"]
    
-   if (lonRight*lonLeft < 0){#sign change !
+   if (lonRight*lonLeft < 0 & FALSE){#sign change !
      #print("fixing the jump at the boundaries")
      if (MyMap$lon.center < 0){#subtract 360 from all positive longitude values:
        lon[lon>0] = lon[lon>0]-360

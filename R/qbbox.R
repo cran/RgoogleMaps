@@ -15,8 +15,8 @@
  	  latR <- range(lat,na.rm=TRUE);
    	  lonR <- range(lon,na.rm=TRUE)
  	} else if (TYPE == "quantile"){
- 	  latR <- quantile(lat, q.lat);
-      lonR <- quantile(lon, q.lon);
+ 	  latR <- quantile(lat, q.lat, na.rm=TRUE);
+      lonR <- quantile(lon, q.lon, na.rm=TRUE);
  	}
  	if (!is.null(margin)){
  	  m <- margin$m;

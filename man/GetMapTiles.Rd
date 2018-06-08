@@ -5,7 +5,8 @@
 X and Y ID and zoom. For offline usage, these map tiles are stored in a local directory}
 \usage{GetMapTiles(center = c(lat = 52.431635, lon = 13.194773), lonR, 
     latR, nTiles = c(3, 3), zoom = 13, urlBase = c("http://a.tile.openstreetmap.org/", 
-        "http://mt1.google.com/vt/lyrs=m")[1], CheckExistingFiles = TRUE, 
+        "http://mt1.google.com/vt/lyrs=m", "http://tile.stamen.com/toner", 
+        "http://tile.stamen.com/watercolor")[1], CheckExistingFiles = TRUE, 
     TotalSleep = NULL, tileExt = ".png", tileDir = "~/mapTiles/OSM/", 
     returnTiles = FALSE, verbose = 0)}
 \arguments{
@@ -47,6 +48,18 @@ PlotOnMapTiles(tmp2)
 tmp2=GetMapTiles("Werderscher Markt 15, 10117 Berlin", zoom=15,nTiles = c(20,20), verbose=0,
                  urlBase = "http://mt1.google.com/vt/lyrs=m", 
                  tileDir= "~/mapTiles/Google/")
+
+tmp2=GetMapTiles("World Trade Center, NY", zoom=15,nTiles = c(10,10), verbose=1,
+                 urlBase = "http://tile.stamen.com/toner/", 
+                 tileDir= "~/mapTiles/stamenToner/")
+
+GetMapTiles("World Trade Center, NY", zoom=16,nTiles = c(10,10), verbose=1,
+                 urlBase = "http://tile.stamen.com/toner/", 
+                 tileDir= "~/mapTiles/stamenToner/")
+
+PlotOnMapTiles(tmp2)
+
+
 ###combine with leaflet:
 #From:http://stackoverflow.com/questions/5050851/
 #     best-lightweight-web-server-only-static-content-for-windows
