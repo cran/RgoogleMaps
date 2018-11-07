@@ -25,7 +25,7 @@ polygons to overlay; these can be either of class \link[PBSmapping]{PolySet} fro
 
 \seealso{\link{PlotOnStaticMap} \link{mypolygon}}
 \examples{
-if (interactive()){
+if (0){
   #require(PBSmapping);
   shpFile <- paste(system.file(package = "RgoogleMaps"), "/shapes/bg11_d00.shp", sep = "")
   #shpFile <- system.file('bg11_d00.shp', package = "RgoogleMaps");

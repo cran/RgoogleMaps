@@ -36,7 +36,7 @@
    return(myTile);	
    ### image tile
 }, ex=function(){
-  if (interactive()){
+  if (0){
     BrooklynLatLon = getGeoCode("Brooklyn")
     mapBrooklyn <- GetMap(center=BrooklynLatLon, destfile = file.path(tempdir(), "Brooklyn.png"), 
                    zoom=11, size = c(240,240))

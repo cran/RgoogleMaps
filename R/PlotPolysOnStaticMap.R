@@ -69,7 +69,7 @@ if (requireNamespace("PBSmapping", quietly = TRUE) & all(c("PID","X","Y","POS") 
   #}
   }
 }, ex = function(){
-if (interactive()){
+if (0){
   #require(PBSmapping);
   shpFile <- paste(system.file(package = "RgoogleMaps"), "/shapes/bg11_d00.shp", sep = "")
   #shpFile <- system.file('bg11_d00.shp', package = "RgoogleMaps");

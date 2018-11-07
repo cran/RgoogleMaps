@@ -29,7 +29,7 @@ The scale determines the image size.}
 
 
 \examples{
-if (interactive()) {
+if (0) {
  	CologneMap <- GetOsmMap(lonR= c(6.89, 7.09), latR = c(50.87, 51), scale = 150000, 
                             destfile = "Cologne.png");
 	PlotOnStaticMap(CologneMap, mar=rep(4,4), NEWMAP = FALSE, TrueProj = FALSE, axes= TRUE);

@@ -23,6 +23,7 @@ Turnbull, B. W. et al (1990)
 Monitoring for clusters of disease: application to leukemia incidence in upstate New York \emph{American Journal of Epidemiology}, \bold{132}, 136--143
 }
 \examples{
+if (0) {
 data(NYleukemia)
   population <- NYleukemia$data$population
   cases <- NYleukemia$data$cases
@@ -30,6 +31,6 @@ data(NYleukemia)
   maptype = "mobile", zoom=9)
   ColorMap(100*cases/population, mapNY, NYleukemia$spatial.polygon, add = FALSE,
   alpha = 0.35, log = TRUE, location = "topleft")
- 
+ }
 }
 \keyword{datasets}
