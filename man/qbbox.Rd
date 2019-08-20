@@ -4,19 +4,16 @@
 \description{The function qbbox computes a bounding box for the given lat,lon 
 points with a few additional options such as quantile boxes, additional margins, etc.}
 \usage{qbbox(lat, lon, TYPE = c("all", "quantile")[1], margin = list(m = c(1, 
-    1, 1, 1), TYPE = c("perc", "abs")[1]), q.lat = c(0.1, 0.9), 
-    q.lon = c(0.1, 0.9), verbose = 0)}
+    1, 1, 1), TYPE = c("perc", "abs")[1]), q.lat = c(0.1, 
+    0.9), q.lon = c(0.1, 0.9), verbose = 0)}
 \arguments{
   \item{lat}{latitude values}
   \item{lon}{longitude values}
   \item{TYPE}{
 }
-  \item{margin}{
-}
-  \item{q.lat}{
-}
-  \item{q.lon}{
-}
+  \item{margin}{relative or absolute margin around the data. Set to NULL if no margin desired.}
+  \item{q.lat}{latitude quantile trimming, the tails will be trimmed from the bounding box}
+  \item{q.lon}{longitude quantile trimming,}
   \item{verbose}{
 }
 }

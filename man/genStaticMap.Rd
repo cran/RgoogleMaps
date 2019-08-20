@@ -1,24 +1,23 @@
-\name{PlotOnMapTiles}
-\alias{PlotOnMapTiles}
-\title{plots on map tiles by "stitching" them together}
-\description{Counterpart to \code{PlotOnStaticMap} for map tiles}
-\usage{PlotOnMapTiles(mt, lat, lon, center, size = c(768, 
-    768), add = FALSE, FUN = points, mar = c(0, 0, 
-    0, 0), verbose = 0, ...)}
+\name{genStaticMap}
+\alias{genStaticMap}
+\title{generates a "static map" from map tiles by "stitching" them together}
+\description{necssary because the Google static maps API requires a key now}
+\usage{genStaticMap(center, zoom = 15, size = c(640, 640), 
+    destfile = tempfile("staticMap", fileext = ".png"), 
+    urlBase = "http://a.tile.openstreetmap.org/", tileDir = "~/mapTiles/OSM/", 
+    verbose = 0, ...)}
 \arguments{
-  \item{mt}{list returned by \code{GetMapTiles}}
-  \item{lat}{latitude values to be overlaid, if any}
-  \item{lon}{longitude values to be overlaid, if any}
   \item{center}{optional center}
+  \item{zoom}{zoom}
   \item{size}{size (in pixels) of "stitched" map}
-  \item{add}{start a new plot or add to an existing}
-  \item{FUN}{plotting function to use for overlay; typical choices would be \link{points} and \link{lines}}
-  \item{mar}{outer margin in plot; if you want to see axes, change the default}
+  \item{destfile}{File to load the map image from or save to, depending on \code{NEWMAP}.}
+  \item{urlBase}{tileserver URL, alternatives: , "http://mt1.google.com/vt/lyrs=m", "http://tile.stamen.com/toner","http://tile.stamen.com/watercolor"}
+  \item{tileDir}{map tiles are stored in a local directory, e.g. "~/mapTiles/Google/"}
   \item{verbose}{level of verbosity}
   \item{\dots}{further arguments to be passed to \code{FUN}}
 }
 
-\value{nothing returned}
+\value{list with tiles}
 
 \author{Markus Loecher}
 

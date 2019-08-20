@@ -5,10 +5,9 @@
   lat, ##<<  latitude values
   lon, ##<<  longitude values
   TYPE = c("all", "quantile")[1], ##<< 
-  margin = list(m=c(1,1,1,1), ##<< 
-  TYPE = c("perc", "abs")[1]), ##<<  
-  q.lat = c(0.1,0.9), ##<< 
-  q.lon = c(0.1,0.9), ##<< 
+  margin = list(m=c(1,1,1,1), TYPE = c("perc", "abs")[1]), ##<< relative or absolute margin around the data. Set to NULL if no margin desired.
+  q.lat = c(0.1,0.9), ##<< latitude quantile trimming, the tails will be trimmed from the bounding box
+  q.lon = c(0.1,0.9), ##<< longitude quantile trimming,
   verbose=0 ##<<
 ){
  	if (TYPE == "all"){

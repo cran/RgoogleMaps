@@ -16,7 +16,7 @@
  # taskfile = "Zehlendorf", ##<<  File to save the meta information to.
   zoom =13, ##<< Google maps zoom level.
  # maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[1], ##<< defines the type of map to construct. There are several possible maptype values, including satellite, terrain, hybrid, and mobile. 
-  urlBase = c("http://a.tile.openstreetmap.org/", "http://mt1.google.com/vt/lyrs=m", "http://tile.stamen.com/toner","http://tile.stamen.com/watercolor")[1], ##<< tileserver URL
+  urlBase = "http://a.tile.openstreetmap.org/", ##<< tileserver URL, alternatives would be "http://mt1.google.com/vt/lyrs=m", "http://tile.stamen.com/toner/","http://tile.stamen.com/watercolor/"
   CheckExistingFiles = TRUE, ##<< logical, if TRUE check if files already exist and only download if not!
   TotalSleep = NULL, ##<< overall time (in seconds) that one is willing to add in between downloads. This is intended to lower the risk of a server denial. If NULL no call to \link{Sys.sleep} is executed
   #format = c("gif","jpg","jpg-baseline","png8","png32")[5],  ##<< (optional) defines the format of the resulting image. By default, the Static Maps API creates GIF images. There are several possible formats including GIF, JPEG and PNG types. Which format you use depends on how you intend to present the image. JPEG typically provides greater compression, while GIF and PNG provide greater detail. This version supports only PNG.
@@ -25,7 +25,7 @@
   #NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile. 
   #SCALE = 1, ##<< use the API's scale parameter to return higher-resolution map images. The scale value is multiplied with the size to determine the actual output size of the image in pixels, without changing the coverage area of the map
   tileExt = ".png", ##<< image type of tile
-  tileDir= "~/mapTiles/OSM/", ##<< map tiles are stored in a local directory
+  tileDir= "~/mapTiles/OSM/", ##<< map tiles are stored in a local directory, e.g. "~/mapTiles/Google/"
   returnTiles = FALSE, ##<< return tiles in a list?
   verbose=0 ##<< level of verbosity
 ){
@@ -51,7 +51,7 @@
     nTiles[2] = abs(XYmax$Tile[1,2]-XYmin$Tile[1,2])+1
     #browser()
     #if (missing(center) | is.null(center)) 
-      center = c(lat=mean(latR),lon=mean(lonR))
+    center = c(lat=mean(latR),lon=mean(lonR))  
     if (verbose){
       cat("nTiles=",nTiles,", center=", round(center,3), "\n")
     }
@@ -81,12 +81,18 @@
   if (verbose) cat (NumTiles, "tiles to download \n")
     
   #http://a.tile.openstreetmap.org/15/9647/12321.png
-  DOWNLOAD=TRUE
+  DOWNLOAD=TRUE;sleptTotal=0
+  
   k=1;tiles=list()
   for (x in X){
     for (y in Y){
       if (grepl("openstreetmap",urlBase) | grepl("stamen",urlBase)){
-        url <- paste0(urlBase, zoom, "/",x , "/", y, ".png")
+        if (grepl("watercolor",urlBase) | grepl("terrain",urlBase)){
+          url <- paste0(urlBase, zoom, "/",x , "/", y, ".jpg")#not necessary as the stamenWeb server automatically converts the png request to jpg
+        } else {
+          url <- paste0(urlBase, zoom, "/",x , "/", y, ".png")
+        }
+        
       } else if (grepl("google",urlBase)){
         url <- paste0(urlBase, "&x=", x, "&y=", y, "&z=", zoom)
       } 
@@ -107,9 +113,11 @@
       mapFile=paste0(destfile,tileExt)
       if (DOWNLOAD){
   		  if (!is.null(TotalSleep)){
-  		    Sys.sleep(round(runif(1,max=2*TotalSleep/NumTiles),1))
+  		    sleep_a_bit = round(runif(1,max=2*TotalSleep/NumTiles),1)
+  		    Sys.sleep(sleep_a_bit)
+  		    sleptTotal= sleptTotal+sleep_a_bit
   		  }
-  		  download.file(url, mapFile, mode="wb", quiet = TRUE);
+        try(download.file(url, mapFile, mode="wb", quiet = TRUE));
       }
       if (returnTiles){
         res=try(readPNG(mapFile, native=TRUE))
@@ -122,12 +130,19 @@
 		  k=k+1
     }
   }
+  cat("sleptTotal=",sleptTotal, "\n")
   mt = list(X=X,Y=Y,zoom=zoom,tileDir=tileDir,tileExt=tileExt,tiles=tiles)
   class(mt) =  "mapTiles"
   invisible(mt)	
 ### list with important information
 }, ex = function(){
   if (0){
+    zoom=5
+    nTiles = prod(NumTiles(lonR=c(-135,-66), latR=c(25,54) , zoom=zoom))
+    GetMapTiles(lonR=c(-135,-66), latR=c(25,54) , zoom=zoom, TotalSleep = 2*nTiles,
+                urlBase = "http://mt1.google.com/vt/lyrs=m", tileDir= "~/mapTiles/Google/")
+    
+    
   tmp=GetMapTiles("World Trade Center, NY", zoom=15,nTiles = c(5,5), verbose=1)
   PlotOnMapTiles(tmp)
   tmp=GetMapTiles("World Trade Center, NY", zoom=16,nTiles = c(20,20), verbose=1)
