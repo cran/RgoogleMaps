@@ -13,7 +13,25 @@ PlotOnMapTiles = structure(function#plots on map tiles by "stitching" them toget
   ... ##<< further arguments to be passed to \code{FUN}
 ){
   #library(png)
+  if (mt$tileExt == ".jpg") {
+    readImg = jpeg::readJPEG
+  } else if (mt$tileExt == ".png")  {
+    readImg = png::readPNG
+  }
   par(mar=mar)
+  
+  if (grepl("osm|stamen", mt$type)) {
+    plotOSM(mt)
+    
+    if (!missing(lat) & !missing(lon)){
+      stopifnot(length(lat)==length(lon))
+      XY=geosphere_mercator(cbind(lon,lat))
+      
+      FUN(XY[,"x"],XY[,"y"],...)
+    }
+  } else {
+    
+  
   tw = 257/256#257/256 #tile width and height
   X=mt$X;Y=mt$Y
   rX = range(X);rY = range(Y);
@@ -42,7 +60,7 @@ PlotOnMapTiles = structure(function#plots on map tiles by "stitching" them toget
       for (y in Y){
         if (length(mt$tiles)==0){
           mapFile = file.path(mt$tileDir, paste(mt$zoom, x, y, sep="_"))
-          tile=readPNG(paste0(mapFile,mt$tileExt), native=TRUE);
+          tile=readImg(paste0(mapFile,mt$tileExt), native=TRUE);
         } else {
           tile = mt$tiles[[k]]
           k=k+1
@@ -51,7 +69,10 @@ PlotOnMapTiles = structure(function#plots on map tiles by "stitching" them toget
           #if (require(grid)) grid.raster(MyMap[[4]], width=1, height=1, y=0, just="bottom") else 
           yr = sum(rY)-y
           rasterImage(tile, x,yr,x+tw,yr+tw);
-          if (verbose) cat("placing tile at coords:",x,yr,x+tw,yr+tw, "\n")
+          if (verbose) {
+            cat("placing tile at coords:",x,yr,x+tw,yr+tw, "\n")
+            rect(x,yr,x+tw,yr+tw)
+          }
         }
       }
     }
@@ -69,6 +90,7 @@ PlotOnMapTiles = structure(function#plots on map tiles by "stitching" them toget
     }
     FUN(XY2[,"X"],XY2[,"Y2"]+1,...)
   }
+  }
 ### nothing returned
 }, ex = function(){
 
@@ -79,12 +101,12 @@ PlotOnMapTiles = structure(function#plots on map tiles by "stitching" them toget
     zoom <- min(MaxZoom(range(lat), range(lon)));
     bb=qbbox(lat,lon)
     
-    mt = GetMapTiles(latR =bb$latR , lonR=bb$lonR,zoom=zoom,verbose=1)
-    PlotOnMapTiles(mt,lat=lat,lon=lon,pch=20,col=c('red', 'blue', 'green'),cex=2)
+    manhattan_osm = GetMapTiles(latR =bb$latR , lonR=bb$lonR,zoom=zoom,verbose=1)
+    PlotOnMapTiles(manhattan_osm,lat=lat,lon=lon,pch=20,col=c('red', 'blue', 'green'),cex=2)
     
-    mt = GetMapTiles(latR =bb$latR , lonR=bb$lonR,zoom=zoom,
-                     tileDir= "~/mapTiles/Google/")
-    PlotOnMapTiles(mt,lat=lat,lon=lon,pch=20,col=c('red', 'blue', 'green'),cex=2)
+    manhattan_goo = GetMapTiles(latR =bb$latR , lonR=bb$lonR,zoom=zoom,
+                     tileDir= TRUE, type="google" )
+    PlotOnMapTiles(manhattan_goo,lat=lat,lon=lon,pch=20,col=c('red', 'blue', 'green'),cex=2)
     
   }
 })
