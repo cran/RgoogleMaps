@@ -3,7 +3,7 @@
 ###This function is the workhorse of the package RgoogleMaps. It overlays plot on background image of map tile.
 
 (
-  lat, ##<< latitude values to be overlaid OR string to be geocoded!
+  lat, ##<< latitude values to be overlaid OR string to be geocoded OR named vector (lat,lon)!
   lon, ##<< longitude values to be overlaid
   map, ##<< optional map object 
   zoom = NULL, ##<< Google maps zoom level
@@ -56,7 +56,16 @@
     invisible(map)
     return(map)
   }    
-  
+  if ((is.numeric(lat) | is.list(lat)) & length(lat) == 2 ){
+    if (all(names(lat) %in% c("lat", "lon"))) {
+      lon = as.numeric(lat["lon"])
+      lat = as.numeric(lat["lat"])
+    } else {#assume correct order
+      print("NOTE: Assuming lat/lon order in lat vector!")
+      lon = as.numeric(lat[2])
+      lat = as.numeric(lat[1])
+    }
+  }
   if (is.numeric(lat) & is.numeric(lon) ){
     bb=qbbox(lat,lon)
     if (missing(map)){

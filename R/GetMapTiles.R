@@ -176,7 +176,7 @@
 		  k=k+1
     }
   }
-  cat("sleptTotal=",sleptTotal, "\n")
+  if (verbose) cat("sleptTotal=",sleptTotal, "\n")
   mt = list(X=X,Y=Y,zoom=zoom,tileDir=tileDir,tileExt=tileExt,type=type, tiles=tiles)
   class(mt) =  "mapTiles"
   invisible(mt)	
