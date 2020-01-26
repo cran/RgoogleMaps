@@ -1,8 +1,8 @@
 Package: RgoogleMaps
 Type: Package
 Title: Overlays on Static Maps
-Version: 1.4.5.1
-Date: 2020-01-02
+Version: 1.4.5.2
+Date: 2020-01-25
 Depends: R (>= 2.10)
 Imports: graphics, stats, utils, grDevices, methods, png
 Suggests: PBSmapping, maptools, sp, loa, RColorBrewer, leaflet,jpeg,
@@ -19,5 +19,5 @@ License: GPL
 LazyLoad: yes
 Repository: CRAN
 NeedsCompilation: no
-Packaged: 2020-01-07 15:30:12 UTC; loecherm
-Date/Publication: 2020-01-08 23:02:14 UTC
+Packaged: 2020-01-26 12:27:50 UTC; loecherm
+Date/Publication: 2020-01-26 12:50:02 UTC

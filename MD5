@@ -1,4 +1,4 @@
-089478c3399aaf17c87228d89e5e5291 *DESCRIPTION
+1c0c83c1089d672e85dff46d2e6773e4 *DESCRIPTION
 1640a3da3826e393c1cea5e9dc770f93 *NAMESPACE
 0c76532730d5eba1019e37ead4682ae0 *NEWS
 89631468828312caf7657e01c20b4afa *R/AddAlpha.R
@@ -38,6 +38,10 @@ d1e1139b42060b20198eb66688f533f6 *R/updateusr.R
 5f2362f39e9822f14dc3a7752ec5d44a *data/columbus.rda
 0de6431245ce91bb131c07fa52d7e943 *data/incidents.rda
 f1d5296339b7d6ccfcdea3e4525ad7eb *data/pennLC.rda
+304c9493f1b00020fdbfcd3e2065be57 *inst/CITATION
+33327f2934f801ca2410bd38249cba43 *inst/shapes/bg11_d00.dbf
+916ea4e6590eb10198eb2971c70c3cdf *inst/shapes/bg11_d00.shp
+07ba4f7c7984bd3d9254566f931672b3 *inst/shapes/bg11_d00.shx
 8cbfa63fc98947dabdd53e2444824b48 *man/AddAlpha.Rd
 a01bc610ee6aed13f9d07506a1a11293 *man/ColorMap.Rd
 022d079512e49baca9658651bf00c696 *man/DF2SpatialPointsDataFrame.Rd
