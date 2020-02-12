@@ -1,5 +1,5 @@
-1c0c83c1089d672e85dff46d2e6773e4 *DESCRIPTION
-1640a3da3826e393c1cea5e9dc770f93 *NAMESPACE
+14534dd8b445e09cb2e482f4d838397f *DESCRIPTION
+f7ac21aec4b830623c342e65a2979ff6 *NAMESPACE
 0c76532730d5eba1019e37ead4682ae0 *NEWS
 89631468828312caf7657e01c20b4afa *R/AddAlpha.R
 42ba5f758927c3744bbb2aa4deae3e06 *R/ColorMap.R
@@ -17,8 +17,8 @@ ca736be33c43b543d1a0114406426f17 *R/MaxZoom.R
 b4c1736c35021cc841d9ac3f72a23915 *R/NumTiles.R
 7526fa19d48c51eb8b6f6f1e3061ceb2 *R/PlotArrowsOnStaticMap.R
 02433dedcdc78ee9e5828a52856f1183 *R/PlotOnMapTiles.R
-534aae52375419eda8cc737771f0d767 *R/PlotOnStaticMap.R
-35424431aaa6a303b5c7d914fb3b2844 *R/PlotPolysOnStaticMap.R
+968f697aa7f3d2c9f68ba584ca187018 *R/PlotOnStaticMap.R
+7de6da23a8513365e86bb60afa88b4db *R/PlotPolysOnStaticMap.R
 dd21f4525460d90b8ebb32e7da3be5ba *R/RGB2GRAY.R
 516a44b4573aa55278458c470aacad50 *R/ReadMapTile.R
 fa2d188bf971e7b54d90ea7af4030c42 *R/SpatialToPBS.R
@@ -48,7 +48,7 @@ a01bc610ee6aed13f9d07506a1a11293 *man/ColorMap.Rd
 52c08c49a130ec965c7c5950907602b7 *man/GetBingMap.Rd
 bb7afe11e05bd2d16235f0968d02a36d *man/GetMap.Rd
 dc17886cdf02c6edf6a904d8805017bb *man/GetMap.bbox.Rd
-ac1ed73b3d2dfe380d2538b9f67d9cb4 *man/GetMapTiles.Rd
+41f5ff35af3027a6744bd6333c553bfb *man/GetMapTiles.Rd
 d04617a805cf2d05c747534c07043715 *man/GetOsmMap.Rd
 39605e8b3336414ea60760169b691750 *man/IdentifyPoints.Rd
 fe87004611a0caf7c92eb84bb25b7e0e *man/LatLon2XY.Rd
@@ -60,7 +60,7 @@ a2264194111dca64296cf699c2ab769f *man/NumTiles.Rd
 57959c211a8e8e6fbe747e07cd34b1b6 *man/PlotArrowsOnStaticMap.Rd
 f7b5bf8dc48d5679ed810569ced5b9dd *man/PlotOnMapTiles.Rd
 49f3fd264073830a6dc0afefc1d3417f *man/PlotOnStaticMap.Rd
-c219d246ec323e9770faeb3396845206 *man/PlotPolysOnStaticMap.Rd
+590d35df8c984a26a5e84c090a778e93 *man/PlotPolysOnStaticMap.Rd
 81ca16589ea7c227d37583f4db7d3c99 *man/RGB2GRAY.Rd
 8df83e01a622f91e71e869e4d584d473 *man/ReadMapTile.Rd
 d86b245da4b6c30e215d8fef451b42bd *man/SpatialToPBS.Rd
@@ -79,6 +79,6 @@ a566ebf39da78a8bfd9403e0f8eee0e9 *man/incidents.Rd
 baa8fdefb48757ca4dd46668c37a587c *man/pennLC.Rd
 437ac5dde6c04d17ed9c3db9ae6e08bb *man/plotOSM.Rd
 747a5b42cab00fd335238d8f99782438 *man/plotOSMtile.Rd
-6e76487a775dfd87b2195175aca3e4c8 *man/plotmap.Rd
+257e1b40f14b17c0a5dadf0785cfc49d *man/plotmap.Rd
 25895a1a6d5c54ee90978cb6224a3dbd *man/qbbox.Rd
 00c07c942af684530bf133682d3ce01d *man/updateusr.Rd

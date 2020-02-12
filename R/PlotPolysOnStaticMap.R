@@ -81,7 +81,7 @@ if (0){
   
   #Try an open street map:
 
-  mapOSM <- GetMap.OSM(lonR=bb$lonR, latR=bb$latR, scale = 150000, destfile = "DC.png");
+  mapOSM <- GetMap.bbox(bb$lonR, bb$latR, destfile = "DC.png", type="osm");
   PlotPolysOnStaticMap(mapOSM, shp, lwd=.5, col = rgb(0.75,0.25,0.25,0.15), add = F);
 
   #North Carolina SIDS data set:
