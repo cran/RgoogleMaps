@@ -113,7 +113,7 @@
     if (verbose>1) browser()
     plotclr = col
     if (alpha < 1 & !all(is.na(as.numeric(col)))) plotclr = AddAlpha(as.numeric(col), alpha = alpha, verbose = 0)
-    if (class(map) ==  "mapTiles") {
+    if (inherits(map,"mapTiles")) {
       PlotOnMapTiles(map,lat=lat,lon=lon,col=plotclr, ...)
     } else {#if (class(map) ==  "staticMap") {
       PlotOnStaticMap(MyMap=map, lat=lat,lon=lon, col=plotclr, ...)

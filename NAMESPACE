@@ -11,8 +11,7 @@ import(
   utils,
   grDevices, 
   methods,
-  png,
-  sp
+  png
 )
 
 #importFrom(RColorBrewer, brewer.pal)

@@ -154,7 +154,7 @@
   		    sleptTotal= sleptTotal+sleep_a_bit
   		  }
         res=try(download.file(url, mapFile, mode="wb", quiet = TRUE));
-        if (class(res)=="try-error"){
+        if (inherits(res,"try-error")){
           tmp=RCurl::getBinaryURL(url)
           if (tileExt == ".png") png::writePNG(tmp, mapFile)
         }
@@ -167,7 +167,7 @@
       }
       if (returnTiles){
         res=try(readImg(mapFile, native=TRUE))
-        if (class(res)=="try-error"){#download again
+        if (inherits(res,"try-error")){#download again
           download.file(url, mapFile, mode="wb", quiet = TRUE);
         } else tiles[[k]]=res
         

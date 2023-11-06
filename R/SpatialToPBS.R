@@ -8,9 +8,14 @@ SpatialToPBS <- structure(function#converts spatial objects as defined in packag
   ) {
     fun = points
     if (inherits(xy, "Spatial")) {
-      b = sp::bbox(xy)
+      b = sp_bbox(xy)
       if (inherits(xy, "SpatialPoints")) {
-        xy = sp::coordinates(xy)
+        #xy = sp::coordinates(xy)
+        if ("coords" %in% names(attributes(xy))){
+          xy = xy@coords
+        } else {
+          warning("no coordinate slot in xy!")
+        }
       } else if (inherits(xy, "SpatialPolygons")) {
         res = matrix(ncol = 5, nrow = 0, dimnames = list(NULL, c("PID", "SID", "POS", "X", "Y")))
         for (i in 1:length(xy@polygons)) {
