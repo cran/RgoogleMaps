@@ -1,4 +1,4 @@
-a48c683dc7612753b8176821dd6ebfa4 *DESCRIPTION
+0bca8c9d019dddcae238bbf97cd8ce2f *DESCRIPTION
 1640a3da3826e393c1cea5e9dc770f93 *NAMESPACE
 3a9889baf4e575fd6d2edba072db7d46 *NEWS
 89631468828312caf7657e01c20b4afa *R/AddAlpha.R
@@ -19,8 +19,8 @@ b4c1736c35021cc841d9ac3f72a23915 *R/NumTiles.R
 968f697aa7f3d2c9f68ba584ca187018 *R/PlotOnStaticMap.R
 95eba8d2855278f226f246c0b4fd6741 *R/PlotPolysOnStaticMap.R
 dd21f4525460d90b8ebb32e7da3be5ba *R/RGB2GRAY.R
-516a44b4573aa55278458c470aacad50 *R/ReadMapTile.R
-b32a7cd63c2487be7c4d3b4eb7336f9d *R/SpatialToPBS.R
+95e0168320b2e1ef00d90e16b5fe3383 *R/ReadMapTile.R
+502ad2cb7fe88bdba7e373bc52289ca1 *R/SpatialToPBS.R
 cb1db91b47ccc84d934f882e3f78e246 *R/TextOnStaticMap.R
 c9266b92fbee256ffaf5ded75eab9d5f *R/Tile2R.R
 559ff54dedb229d3acb463aad59a62db *R/XY2LatLon.R
@@ -64,7 +64,7 @@ f7b5bf8dc48d5679ed810569ced5b9dd *man/PlotOnMapTiles.Rd
 49f3fd264073830a6dc0afefc1d3417f *man/PlotOnStaticMap.Rd
 a3a05ffcfd57c3f299f6f0493c35fe2a *man/PlotPolysOnStaticMap.Rd
 81ca16589ea7c227d37583f4db7d3c99 *man/RGB2GRAY.Rd
-8df83e01a622f91e71e869e4d584d473 *man/ReadMapTile.Rd
+d9abee4219a0bf01b5756f9a31176068 *man/ReadMapTile.Rd
 d86b245da4b6c30e215d8fef451b42bd *man/SpatialToPBS.Rd
 5165a14dc673a382419cada536284374 *man/TextOnStaticMap.Rd
 d386057d08fcabedee1e25ae6d3c0e38 *man/Tile2R.Rd
